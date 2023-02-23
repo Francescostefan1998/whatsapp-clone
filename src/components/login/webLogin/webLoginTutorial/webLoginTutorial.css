@@ -12,13 +12,47 @@
   padding: 5%;
   background-color: rgb(246, 246, 246);
 }
+.webLoginTutorial-title p {
+  font-size: 30px;
+  margin: 0;
+  text-align: center;
+  font-weight: 200;
+  color: var(--title-color);
+}
+.webLoginTutorial a {
+  text-decoration: none;
+  color: rgb(3, 185, 133);
+}
+.webLoginTutorial a:hover {
+  text-decoration: none;
+}
 
 .webLoginTutorial-video {
   width: 60%;
   overflow: hidden;
+  position: relative;
+  cursor: pointer;
 }
 
 .webLoginTutorial-video img {
   width: 100%;
   object-fit: cover;
+}
+
+.webLoginTutorial-video-play {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: black;
+  opacity: 0.7;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.webLoginTutorial-video-play-icon {
+  color: white;
+  font-size: 40px;
+  margin-top: 29px;
 }
