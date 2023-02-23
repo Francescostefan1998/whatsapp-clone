@@ -11,7 +11,8 @@ const WebLoginQrCode = () => {
           <li>Open WhatsApp on your phone.</li>
           <li>
             Click on <strong>Menue</strong> or <strong>Settings</strong> and
-            select <strong>connected Devices.</strong>{" "}
+            select <br />
+            <strong>connected Devices.</strong>{" "}
           </li>
           <li>
             Click on <strong>Connect Device.</strong>

@@ -1,3 +1,7 @@
+:root {
+  --title-color: rgb(81, 81, 81);
+}
+
 .webLoginQrCode {
   width: 100%;
   padding: 3%;
@@ -21,4 +25,18 @@
 .webLoginQrCode-right-image img {
   width: 100%;
   object-fit: cover;
+}
+.webLoginQrCode-left-title p {
+  font-size: 30px;
+  text-align: left;
+  padding-inline: 3%;
+  font-weight: 200;
+  color: var(--title-color);
+}
+
+.webLoginQrCode-left li {
+  color: var(--title-color);
+  text-align: left;
+  padding-block: 10px;
+  font-size: 18px;
 }
