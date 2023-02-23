@@ -1,5 +1,6 @@
 import "./webLoginBackgroundStyle.css";
-
+import WebLoginQrCode from "../webLoginQrCode/WebLoginQrCode";
+import WebLoginTutorial from "../webLoginTutorial/WebLoginTutorial";
 const WebLoginBackground = () => {
   return (
     <div>
@@ -17,7 +18,10 @@ const WebLoginBackground = () => {
               <h6>WHATSAPP WEB</h6>
             </div>
           </div>
-          <div className="webLoginBackground-middle-interface"></div>
+          <div className="webLoginBackground-middle-interface">
+            <WebLoginQrCode />
+            <WebLoginTutorial />
+          </div>
         </div>
 
         <div className="webLoginBackground-botton"></div>
