@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 68px;
+  height: 70px;
 }
 
 .mainappChatList-list-chats-single-image {
@@ -12,6 +12,7 @@
   border-radius: 50%;
   overflow: hidden;
   margin-left: 15px;
+  margin-right: 5px;
 }
 
 .mainappChatList-list-chats-single-image img {
@@ -23,4 +24,52 @@
   flex-grow: 1;
   border-top: 1px solid rgb(218, 218, 218);
   height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 14px;
+}
+
+.mainappChatList-list-chats-single-informations-left {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: start;
+}
+
+.mainappChatList-list-chats-single-informations-left .name {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.mainappChatList-list-chats-single-informations-left .message {
+  font-size: 14px;
+  font-weight: 200;
+  width: 270px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mainappChatList-list-chats-single-informations-right .time {
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.mainappChatList-list-chats-single-informations-right .messages {
+  font-size: 14px;
+  font-weight: 500;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(2, 228, 2);
+  color: white;
+}
+
+.mainappChatList-list-chats-single-informations-right {
+  text-align: end;
 }

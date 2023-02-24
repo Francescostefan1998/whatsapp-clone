@@ -12,7 +12,17 @@ const MainappSingleChat = ({ small }) => {
             />
           </div>
           <div className="mainappChatList-list-chats-single-informations">
-            other
+            <div className="mainappChatList-list-chats-single-informations-left">
+              <div className="name">John</div>
+              <div className="message">
+                hello man ffffffffffffffffffffffffffffffffffffffffffffffff
+                ddddddddddddddd
+              </div>
+            </div>
+            <div className="mainappChatList-list-chats-single-informations-right">
+              <div className="time">time</div>
+              <div className="messages">3</div>
+            </div>
           </div>
         </>
       )}

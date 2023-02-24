@@ -1,11 +1,11 @@
 :root {
-  --backgroundmain-color: rgb(241, 241, 241);
+  --backgroundmain-color: rgb(209, 209, 209);
 }
 
 .mainappBackground {
   width: 100%;
   height: 100vh;
-  background-color: var(--background-color);
+  background-color: rgb(186, 186, 186);
   position: relative;
 }
 
@@ -23,7 +23,6 @@
   top: 0;
   left: 0;
   margin: 1.2%;
-  background-color: white;
   display: flex;
   background-color: var(--backgroundmain-color);
 }
