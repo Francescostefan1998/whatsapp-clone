@@ -1,4 +1,102 @@
+:root {
+  --backgroundmain-color: rgb(241, 241, 241);
+  --icons-color: rgb(86, 86, 86);
+}
+
 .mainappChatList {
   width: 30%;
+  height: 100%;
   background-color: white;
+  border-right: 1px solid rgb(218, 218, 218);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainappChatList-search {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px;
+  gap: 10px;
+  padding-inline: 14px;
+  border-bottom: 1px solid rgb(218, 218, 218);
+}
+
+.mainappChatList-search-inner {
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  background-color: var(--backgroundmain-color);
+  overflow: hidden;
+  border-radius: 10px;
+  padding: 5px;
+  padding-inline: 14px;
+}
+
+.mainappChatList-search-inner input {
+  outline: none;
+  border: 0px solid transparent;
+  background-color: transparent;
+  margin-left: 10px;
+  width: 80%;
+}
+
+.mainappChatList-search-icon {
+  font-size: 20px;
+  color: var(--icons-color);
+  cursor: pointer;
+}
+
+.mainappChatList-search-icon-filter {
+  font-size: 20px;
+  color: gray;
+  cursor: pointer;
+}
+
+.mainappChatList-list-container {
+  box-sizing: border-box;
+  width: 100%;
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+
+.mainappChatList-list-archived {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 10px;
+
+  padding-inline: 25px;
+}
+
+.mainappChatList-list-archived-icon {
+  font-size: 20px;
+  color: rgb(0, 128, 113);
+}
+
+.mainappChatList-list-footer {
+  position: sticky;
+  bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  padding-inline: 20px;
+  font-size: 14px;
+  margin-inline: 20px;
+  margin-top: 20px;
+  border-top: 1px solid rgb(218, 218, 218);
+}
+
+.mainappChatList-list-footer a {
+  text-decoration: none;
+}
+.mainappChatList-list-footer a:hover {
+  text-decoration: none;
+  cursor: pointer;
 }

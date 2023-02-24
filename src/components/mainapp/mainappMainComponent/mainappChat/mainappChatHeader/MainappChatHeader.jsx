@@ -7,19 +7,24 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 const MainappChatHeader = () => {
   return (
     <div className="mainappChatHeader">
-      <div className="mainappChatHeader-image">header</div>
+      <div className="mainappChatHeader-image">
+        <img
+          src="https://www.boetsch-gemuese.ch/sites/default/files/styles/personenfoto/public/default_images/avatar.png?itok=5X6VGIm2"
+          alt="profile"
+        />
+      </div>
       <div className="mainappChatHeader-icons">
         <div>
-          <BsPeopleFill />
+          <BsPeopleFill className="mainappChatHeader-icons-icon" />
         </div>
         <div>
-          <TbCircleDashed />
+          <TbCircleDashed className="mainappChatHeader-icons-icon" />
         </div>
         <div>
-          <MdMessage />
+          <MdMessage className="mainappChatHeader-icons-icon" />
         </div>
         <div>
-          <BsThreeDotsVertical />
+          <BsThreeDotsVertical className="mainappChatHeader-icons-icon" />
         </div>
       </div>
     </div>
