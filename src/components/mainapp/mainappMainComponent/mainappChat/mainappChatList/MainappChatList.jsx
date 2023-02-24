@@ -3,6 +3,7 @@ import { BiFilter } from "react-icons/bi";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { MdOutlineArchive } from "react-icons/md";
 import { HiLockClosed } from "react-icons/hi";
+import MainappSingleChat from "../mainappSingleChat/MainappSingleChat";
 import MainappChatHeader from "../mainappChatHeader/MainappChatHeader";
 const MainappChatList = () => {
   return (
@@ -28,7 +29,10 @@ const MainappChatList = () => {
           </div>
           <div>Archived</div>
         </div>
-        <div className="mainappChatList-list-chats">{/*map */}</div>
+        <div className="mainappChatList-list-chats">
+          {/*map */}
+          <MainappSingleChat small={"mainappChatList-list-chats-single"} />
+        </div>
         <div className="mainappChatList-list-footer">
           <HiLockClosed />
           Your personal messages are{" "}
