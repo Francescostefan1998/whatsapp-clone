@@ -1,0 +1,97 @@
+:root {
+  --icons-color: rgb(86, 86, 86);
+}
+
+.mainappDisplayConversation {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainappDisplayConversation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(230, 230, 230);
+  width: 100%;
+  position: sticky;
+  top: 0;
+  padding: 8px;
+  padding-inline: 14px;
+  padding-right: 22px;
+}
+.mainappDisplayConversation-header .flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.mainappDisplayConversation-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgb(220, 220, 220);
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  padding: 8px;
+  padding-inline: 14px;
+  padding-right: 22px;
+}
+
+.mainappDisplayConversation-image {
+  height: 44px;
+  width: 44px;
+  overflow: hidden;
+  border-radius: 50%;
+  background-color: beige;
+}
+
+.mainappDisplayConversation-image img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.mainappDisplayConversation-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 28px;
+}
+.mainappDisplayConversation-icons-icon {
+  color: var(--icons-color);
+  cursor: pointer;
+  font-size: 22px;
+  margin-right: 10px;
+}
+
+.mainappDisplayConversation-text {
+  flex-grow: 1;
+  background-image: url("https://i2.wp.com/www.techgrapple.com/wp-content/uploads/2016/07/WhatsApp-Chat-theme-iPhone-stock-744.jpg?fit=744%2C1392&ssl=1");
+  background-size: cover;
+}
+
+.mainappDisplayConversation-input {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  padding-inline: 20px;
+  margin-inline: 15px;
+}
+.mainappDisplayConversation-input input {
+  outline: none;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-color: transparent;
+  border: 0px solid transparent;
+}
