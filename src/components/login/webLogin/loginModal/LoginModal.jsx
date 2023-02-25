@@ -3,29 +3,36 @@ import { CgCloseO } from "react-icons/cg";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import { useDispatch } from "react-redux";
+import { getUserProfile } from "../../../../redux/actions/index.js";
 import { useNavigate } from "react-router-dom";
 import RegisterModal from "../registerModal/RegisterModal";
+import { useSelector } from "react-redux";
 const LoginModal = ({ setShowLogin }) => {
   const [showRegistration, setShowRegistration] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastname] = useState("");
-
   const [error, setError] = useState("");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     console.log("handlesubmit triggered");
 
     try {
-      const { data } = await axios.post("http://localhost:3001/users/login", {
-        email,
-        password,
-      });
+      const { data, _id } = await axios.post(
+        "http://localhost:3001/users/login",
+        {
+          email,
+          password,
+        }
+      );
       toast("Login successfull! 💪", { autoClose: 1000 });
       console.log("login successfull!");
       localStorage.setItem("accessToken", data.accessToken);
+      await dispatch(getUserProfile(data.accessToken));
       navigate("/home");
     } catch (error) {
       setError(error.response.data.message);
