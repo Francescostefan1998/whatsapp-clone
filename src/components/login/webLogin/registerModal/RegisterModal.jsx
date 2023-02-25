@@ -1,6 +1,9 @@
 import "./registerModal.css";
+import { useNavigate } from "react-router-dom";
 
 const RegisterModal = ({ setShowRegistration }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="loginModal-password">
       <div className="password">
@@ -10,7 +13,7 @@ const RegisterModal = ({ setShowRegistration }) => {
         <input type="password" placeholder="Type here your password" />
       </div>
       <div className="loginModal-login" id="registerModal-center">
-        <button className="button">
+        <button className="button" onClick={() => navigate("/home")}>
           <h5>Register</h5>
         </button>
       </div>

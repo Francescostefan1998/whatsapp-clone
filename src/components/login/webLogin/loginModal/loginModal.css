@@ -14,10 +14,9 @@
   padding: 10px;
   padding-inline: 20px;
   padding-bottom: 30px;
-
+  margin-top: 10vh;
   height: fit-content;
   background-color: white;
-  margin-top: 20vh;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
