@@ -47,7 +47,13 @@ const MainappChatList = () => {
         </div>
         <div className="mainappChatList-list-chats">
           {/*map */}
-          <MainappSingleChat small={"mainappChatList-list-chats-single"} />
+          {chats.map((chat, index) => (
+            <MainappSingleChat
+              small={"mainappChatList-list-chats-single"}
+              chat={chat}
+              key={chat._id}
+            />
+          ))}
         </div>
         <div className="mainappChatList-list-footer">
           <HiLockClosed />

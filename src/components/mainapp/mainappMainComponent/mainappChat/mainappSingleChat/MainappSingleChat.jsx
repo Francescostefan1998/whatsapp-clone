@@ -1,6 +1,22 @@
 import "./mainappSingleChat.css";
+import { useEffect } from "react";
+import { useState } from "react";
+const MainappSingleChat = ({ small, chat }) => {
+  const [friend, setFriend] = useState(null);
+  useEffect(() => {
+    if (chat) {
+      fetchUser();
+    } else {
+      return;
+    }
+  }, [chat]);
 
-const MainappSingleChat = ({ small }) => {
+  const fetchUser = async () => {
+    const res = await fetch(`http://localhost:3001/users/${chat.users[1]}`);
+    const user = await res.json();
+    setFriend(user);
+  };
+
   return (
     <div className={small}>
       {small === "mainappChatList-list-chats-single" && (
@@ -13,7 +29,13 @@ const MainappSingleChat = ({ small }) => {
           </div>
           <div className="mainappChatList-list-chats-single-informations">
             <div className="mainappChatList-list-chats-single-informations-left">
-              <div className="name">John</div>
+              {friend !== null ? (
+                <div className="name">
+                  {friend.firstName} {friend.lastName}
+                </div>
+              ) : (
+                <div className="name">John</div>
+              )}
               <div className="message">
                 hello man ffffffffffffffffffffffffffffffffffffffffffffffff
                 ddddddddddddddd
