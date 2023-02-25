@@ -9,7 +9,6 @@ const MainappBackground = () => {
   const { user } = useSelector((state) => state.user);
   return (
     <div className="mainappBackground">
-      {user && <div>{user.firstName}</div>}
       <div className="mainappBackground-top"></div>
       <div className="mainappBackground-middle">
         <MainappChatList />
