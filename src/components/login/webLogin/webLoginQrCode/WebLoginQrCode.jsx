@@ -1,6 +1,8 @@
 import "./webLoginQrCode.css";
-
+import { useState } from "react";
+import LoginModal from "../loginModal/LoginModal";
 const WebLoginQrCode = () => {
+  const [showLogin, setShowLogin] = useState(false);
   return (
     <div className="webLoginQrCode">
       <div className="webLoginQrCode-left">
@@ -26,6 +28,20 @@ const WebLoginQrCode = () => {
             src="https://th.bing.com/th/id/R.650dacdbb0a7d9a50fb54d5339e20c23?rik=D0kfX35vdoXJkA&riu=http%3a%2f%2fkaizenexito.com%2fwp-content%2fuploads%2f2015%2f12%2fCodigo-QR.png&ehk=IOJc13vToCABDPmeP9L7yUbhJzBOK3%2bwfxKuaENZ7N4%3d&risl=&pid=ImgRaw&r=0"
             alt="qr-code"
           />
+          {showLogin && <LoginModal setShowLogin={setShowLogin} />}
+
+          <div className="display-none">
+            <div className="login">
+              <div
+                className="login-inside"
+                onClick={() => {
+                  showLogin === true ? setShowLogin(false) : setShowLogin(true);
+                }}
+              >
+                Login
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
