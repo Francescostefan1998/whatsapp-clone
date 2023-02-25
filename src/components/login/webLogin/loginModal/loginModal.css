@@ -1,0 +1,94 @@
+.loginModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+}
+.loginModal-main {
+  width: 30%;
+  padding: 10px;
+  padding-inline: 20px;
+  padding-bottom: 30px;
+
+  height: fit-content;
+  background-color: white;
+  margin-top: 20vh;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.loginModal-close {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  font-size: 20px;
+}
+.loginModal-close .close {
+  cursor: pointer;
+}
+
+.loginModal .input {
+  width: 100%;
+  background-color: rgb(227, 227, 227);
+  border: 3px solid rgb(227, 227, 227);
+  padding: 4px;
+  padding-inline: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.loginModal .input:hover {
+  border: 3px solid gray;
+}
+
+.loginModal .input input {
+  outline: none;
+  border: 0px solid transparent;
+  background-color: transparent;
+  width: 100%;
+}
+.loginModal-email {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+.loginModal-password {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+.loginModal-login .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(54, 129, 242);
+  color: white;
+  border: 3px solid rgb(54, 129, 242);
+  border-radius: 6px;
+  padding: 4px;
+  padding-inline: 8px;
+  overflow: hidden;
+}
+.loginModal-login .button:hover {
+  background-color: rgb(0, 102, 255);
+  border: 3px solid rgb(0, 102, 255);
+}
+.loginModal-login .button h5 {
+  margin: 0;
+  margin-bottom: 2px;
+}
+
+.loginModal-register {
+  color: blue;
+  cursor: pointer;
+}
