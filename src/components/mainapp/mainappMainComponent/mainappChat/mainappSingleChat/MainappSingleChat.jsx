@@ -1,8 +1,12 @@
 import "./mainappSingleChat.css";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getSingleChat } from "../../../../../redux/actions";
 const MainappSingleChat = ({ small, chat }) => {
   const [friend, setFriend] = useState(null);
+  const dispatch = useDispatch();
   useEffect(() => {
     if (chat) {
       fetchUser();
@@ -18,7 +22,7 @@ const MainappSingleChat = ({ small, chat }) => {
   };
 
   return (
-    <div className={small}>
+    <div className={small} onClick={() => dispatch(getSingleChat(chat._id))}>
       {small === "mainappChatList-list-chats-single" && (
         <>
           <div className="mainappChatList-list-chats-single-image">

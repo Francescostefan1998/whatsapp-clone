@@ -1,5 +1,4 @@
 export const getUserProfile = (token) => {
-  console.log();
   return async (dispatch, getState) => {
     const options = await {
       headers: {
@@ -9,7 +8,6 @@ export const getUserProfile = (token) => {
     console.log(token);
     const res = await fetch(`http://localhost:3001/users/me`, options);
     const userData = await res.json();
-    console.log(userData);
     dispatch({
       type: "GET_USER_PROFILE",
       payload: userData,
@@ -18,9 +16,7 @@ export const getUserProfile = (token) => {
 };
 
 export const getUserChats = (chatId) => {
-  console.log();
   return async (dispatch, getState) => {
-    console.log(chatId);
     let chats = [];
     for (let i = 0; i < chatId.length; i++) {
       const res = await fetch(`http://localhost:3001/chats/${chatId[i]}`);
@@ -32,6 +28,19 @@ export const getUserChats = (chatId) => {
     dispatch({
       type: "GET_USER_CHATS",
       payload: chats,
+    });
+  };
+};
+
+export const getSingleChat = (chatId) => {
+  console.log(chatId);
+  return async (dispatch, getState) => {
+    const res = await fetch(`http://localhost:3001/chats/${chatId}`);
+    const chat = await res.json();
+
+    dispatch({
+      type: "GET_SINGLE_CHAT",
+      payload: chat,
     });
   };
 };
