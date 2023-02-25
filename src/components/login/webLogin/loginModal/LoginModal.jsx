@@ -1,6 +1,9 @@
 import "./loginModal.css";
 import { CgCloseO } from "react-icons/cg";
+import { useState } from "react";
+import RegisterModal from "../registerModal/RegisterModal";
 const LoginModal = ({ setShowLogin }) => {
+  const [showRegistration, setShowRegistration] = useState(false);
   return (
     <div className="loginModal">
       <div className="loginModal-main">
@@ -23,12 +26,25 @@ const LoginModal = ({ setShowLogin }) => {
             <input type="password" placeholder="Type here your password" />
           </div>
         </div>
-        <div className="loginModal-login">
-          <button className="button">
-            <h5>Login</h5>
-          </button>
-        </div>
-        <div className="loginModal-register">Register</div>
+        {!showRegistration && (
+          <div className="loginModal-login">
+            <button className="button">
+              <h5>Login</h5>
+            </button>
+          </div>
+        )}
+        {!showRegistration && (
+          <div
+            className="loginModal-register"
+            onClick={() => setShowRegistration(true)}
+          >
+            Register
+          </div>
+        )}
+
+        {showRegistration && (
+          <RegisterModal setShowRegistration={setShowRegistration} />
+        )}
       </div>
     </div>
   );
