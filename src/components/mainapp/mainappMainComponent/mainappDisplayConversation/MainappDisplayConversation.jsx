@@ -2,10 +2,29 @@ import "./mainappDisplayConversation.css";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { BsEmojiSmile } from "react-icons/bs";
-
+import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { BsLink45Deg } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
-const MainappDisplayConversation = () => {
+const MainappDisplayConversation = ({ chat }) => {
+  const [friend, setFriend] = useState(null);
+  console.log(friend);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (chat) {
+      fetchUser();
+    } else {
+      return;
+    }
+  }, [chat]);
+
+  const fetchUser = async () => {
+    const res = await fetch(`http://localhost:3001/users/${chat.users[1]}`);
+    const user = await res.json();
+    setFriend(user);
+  };
+
   return (
     <div className="mainappDisplayConversation">
       <div className="mainappDisplayConversation-header">
@@ -16,7 +35,13 @@ const MainappDisplayConversation = () => {
               alt="picture"
             />
           </div>
-          <div>Paul</div>
+          {friend !== null ? (
+            <div>
+              {friend.firstName} {friend.lastName}
+            </div>
+          ) : (
+            <div>Paul</div>
+          )}
         </div>
         <div className="flex">
           <BiSearchAlt2 className="mainappDisplayConversation-icons-icon" />

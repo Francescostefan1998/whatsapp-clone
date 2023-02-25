@@ -3,9 +3,25 @@ import { BiFilter } from "react-icons/bi";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { MdOutlineArchive } from "react-icons/md";
 import { HiLockClosed } from "react-icons/hi";
+import { useSelector } from "react-redux";
 import MainappSingleChat from "../mainappSingleChat/MainappSingleChat";
 import MainappChatHeader from "../mainappChatHeader/MainappChatHeader";
+import { getUserChats } from "../../../../../redux/actions";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 const MainappChatList = () => {
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+      dispatch(getUserChats(user.chats));
+    } else {
+      return;
+    }
+  }, []);
+  const { chats } = useSelector((state) => state.chats);
   return (
     <div className="mainappChatList">
       <div>
@@ -31,7 +47,13 @@ const MainappChatList = () => {
         </div>
         <div className="mainappChatList-list-chats">
           {/*map */}
-          <MainappSingleChat small={"mainappChatList-list-chats-single"} />
+          {chats.map((chat, index) => (
+            <MainappSingleChat
+              small={"mainappChatList-list-chats-single"}
+              chat={chat}
+              key={chat._id}
+            />
+          ))}
         </div>
         <div className="mainappChatList-list-footer">
           <HiLockClosed />
