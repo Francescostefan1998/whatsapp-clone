@@ -30,7 +30,12 @@ const MainappChatList = () => {
   const { chats } = useSelector((state) => state.chats);
   return (
     <div className="mainappChatList">
-      {showProfile && <ShowProfileInfo update={"update"} />}
+      {showProfile && (
+        <ShowProfileInfo
+          update={"showProfileInfo"}
+          closeProfileSection={setShowProfile}
+        />
+      )}
       <div>
         <MainappChatHeader setShowProfile={setShowProfile} />
         <div className="mainappChatList-search">

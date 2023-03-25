@@ -1,17 +1,191 @@
 .showProfileInfo {
   position: absolute;
-  width: 0%;
-  height: 101%;
+  width: 101%;
+  height: 100%;
   top: -1px;
-  left: -1px;
-  transform-origin: left;
-  transform: scaleX(0);
+  left: -102%;
+  transform: translateX(100%);
   transition: transform 0.5s;
+  background-color: rgb(241, 241, 241);
+  z-index: 4;
 }
-
+.showProfileclose {
+  position: absolute;
+  width: 101%;
+  height: 100%;
+  top: -1px;
+  left: -102%;
+  transform: translateX(0%);
+  transition: transform 0.2s;
+  background-color: aqua;
+  z-index: 4;
+}
+.showProfileInfoHeader {
+  height: 15.25vh;
+  width: 100%;
+  background-color: rgb(10, 130, 98);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.showProfileInfoHeader-back {
+  width: 100%;
+  display: flex;
+  color: white;
+  font-size: 19px;
+  font-weight: 500;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 23px;
+  padding: 16px;
+  padding-inline: 32px;
+}
+.showProfileInfoHeader-back-icon {
+  font-size: 24px;
+  cursor: pointer;
+}
 .showProfileInfo.show {
   transform: scaleX(1);
   width: 100%;
-  background-color: aqua;
   z-index: 1;
+}
+
+.expand-profile-picture {
+  margin-top: 4vh;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 0px;
+  height: 0px;
+  transform: scale(0);
+  transition: all 0.4s 0.2s;
+}
+
+.expand-profile-picture.expand {
+  transform: scale(1);
+  width: 240px;
+  height: 240px;
+}
+.expand-profile-picture img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.class-for-the-other-profile-informations {
+  height: 0px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.class-for-the-other-profile-informations.expand {
+  height: fit-content;
+  transform: translateY(10%);
+  transition: transform 0.3s;
+}
+.class-for-the-other-profile-section {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 12vh;
+  padding: 2vh;
+  padding-inline: 5vh;
+}
+.class-for-the-other-profile-section.name {
+  background-color: white;
+}
+.class-for-the-other-profile-section.about {
+  background-color: white;
+}
+.class-for-the-other-profile-section-inside {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.class-for-the-other-profile-section.notification {
+  text-align: left;
+  color: rgb(108, 108, 108);
+  font-size: 14px;
+}
+.class-for-the-other-profile-section-inside.green {
+  color: rgb(10, 130, 98);
+  font-size: 14px;
+}
+
+.class-for-the-other-profile-section-inside.black {
+  font-size: 18px;
+}
+.class-for-the-other-profile-section-inside .icon {
+  color: rgb(108, 108, 108);
+  cursor: pointer;
+}
+.edit-picture-profile-appear-on-hover {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(75, 75, 75, 0.6);
+  top: 0px;
+  left: 0px;
+  color: white;
+  cursor: pointer;
+}
+
+.expand-profile-picture:hover .edit-picture-profile-appear-on-hover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+}
+
+.edit-picture-profile-appear-on-hover div:nth-child(1) {
+  font-size: 24px;
+}
+
+.edit-picture-profile-appear-on-hover div:nth-child(2) {
+  line-height: 2.4vh;
+  font-size: 14px;
+}
+
+.class-for-the-other-profile-section-inside input {
+  text-align: left;
+  outline: none;
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  padding: 0;
+}
+
+.class-for-the-other-profile-section-inside.borderbottom {
+  border-bottom: 2px solid rgb(10, 130, 98);
+}
+
+.class-for-the-other-profile-section-inside {
+  padding-block: 0.5vh;
+}
+
+.class-for-the-other-profile-section-inside .appear-on-click {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-2,
+.icon-3,
+.icon-4,
+.icon-5 {
+  font-size: 1px;
+  color: rgb(108, 108, 108);
+  transition: font-size 0.5s 0.2s; /* Add transition for font-size */
+}
+
+.icon-2.expand,
+.icon-3.expand,
+.icon-4.expand,
+.icon-5.expand {
+  font-size: 14px;
 }
