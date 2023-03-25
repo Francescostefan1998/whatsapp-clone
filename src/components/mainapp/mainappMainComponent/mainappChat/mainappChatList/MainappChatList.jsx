@@ -10,6 +10,7 @@ import { getUserChats } from "../../../../../redux/actions";
 import { useDispatch } from "react-redux";
 import { BsFillBellSlashFill } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
+import { IoIosArrowForward } from "react-icons/io";
 import { useEffect, useState } from "react";
 const MainappChatList = () => {
   const { user } = useSelector((state) => state.user);
@@ -49,7 +50,10 @@ const MainappChatList = () => {
           </div>
           <div className="mainpage-allert-message-middle">
             <div className="name">Get notified of new messages</div>
-            <div className="message">Turn on desktop notifications</div>
+            <div className="message">
+              Turn on desktop notifications
+              <IoIosArrowForward />
+            </div>
           </div>
           <div className="mainpage-allert-message-right">
             <IoCloseSharp
