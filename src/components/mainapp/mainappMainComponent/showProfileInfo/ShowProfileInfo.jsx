@@ -1,10 +1,20 @@
 import { useState, useEffect } from "react";
 import "./showProfileInfo.css";
 import { RiPencilFill } from "react-icons/ri";
+import { BsCameraFill } from "react-icons/bs";
+import { AiOutlineCheck } from "react-icons/ai";
+import { FaRegSmile } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
 const ShowProfileInfo = ({ update, closeProfileSection }) => {
   const [renderCount, setRenderCount] = useState(0);
   const [expand, setExpand] = useState("");
+  const [editName, setEditName] = useState(false);
+  const [editAbout, setEditAbout] = useState(false);
+  const [icon3, setIcon3] = useState("icon-3");
+  const [icon2, setIcon2] = useState("icon-2");
+  const [icon4, setIcon4] = useState("icon-4");
+  const [icon5, setIcon5] = useState("icon-5");
+
   const [pictureClass, setClassForThePicture] = useState(
     "expand-profile-picture"
   );
@@ -38,6 +48,14 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
         </div>
       </div>
       <div className={pictureClass}>
+        <div className="edit-picture-profile-appear-on-hover">
+          <div>
+            <BsCameraFill />
+          </div>
+          <div>
+            CHANGE <br></br>PROFILE PHOTO
+          </div>
+        </div>
         <img
           src="https://pluspng.com/img-png/png-user-icon-icons-logos-emojis-users-2400.png"
           alt="pictureProfile"
@@ -45,30 +63,92 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
       </div>
       <div className={classForTheOther}>
         <div className="class-for-the-other-profile-section name">
-          <div className="class-for-the-other-profile-section-inside">
+          <div className="class-for-the-other-profile-section-inside green">
             Your name
           </div>
-          <div className="class-for-the-other-profile-section-inside">
-            <div>Francesco Stefan</div>
-            <div>
-              <RiPencilFill />
+          {!editName && (
+            <div className="class-for-the-other-profile-section-inside black">
+              <div>Francesco Stefan</div>
+              <div>
+                <RiPencilFill
+                  className="icon"
+                  onClick={(e) => {
+                    setIcon3("icon-3 expand");
+                    setIcon2("icon-2 expand");
+
+                    setEditName(true);
+                  }}
+                />
+              </div>
             </div>
-          </div>
+          )}
+          {editName && (
+            <div className="class-for-the-other-profile-section-inside black borderbottom">
+              <div>
+                <input type="text" value={"Francesco Stefan"} />
+              </div>
+              <div className="appear-on-click">
+                <div className={icon3}>9</div>
+                <FaRegSmile className={icon2} />
+                <AiOutlineCheck
+                  className="icon"
+                  onClick={(e) => {
+                    setIcon3("icon-2");
+                    setIcon2("icon-3");
+
+                    setEditName(false);
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
+
         <div className="class-for-the-other-profile-section notification">
           This is not your username or pin. This name will be visible to your
           WhatsApp contacts.
         </div>
+
         <div className="class-for-the-other-profile-section about">
-          <div className="class-for-the-other-profile-section-inside">
+          <div className="class-for-the-other-profile-section-inside green">
             About
           </div>
-          <div className="class-for-the-other-profile-section-inside">
-            <div>Hey there! I am using WhatsApp.</div>
-            <div>
-              <RiPencilFill />
+          {!editAbout && (
+            <div className="class-for-the-other-profile-section-inside black">
+              <div>Hey there! I am using WhatsApp.</div>
+              <div>
+                <RiPencilFill
+                  className="icon"
+                  onClick={(e) => {
+                    setIcon4("icon-4 expand");
+                    setIcon5("icon-5 expand");
+
+                    setEditAbout(true);
+                  }}
+                />
+              </div>
             </div>
-          </div>
+          )}
+          {editAbout && (
+            <div className="class-for-the-other-profile-section-inside black borderbottom">
+              <div>
+                <input type="text" value={"Hey there, I am using WhatsApp"} />
+              </div>
+              <div className="appear-on-click">
+                <div className={icon4}>8</div>
+                <FaRegSmile className={icon5} />
+                <AiOutlineCheck
+                  className="icon"
+                  onClick={(e) => {
+                    setIcon4("icon-5");
+                    setIcon5("icon-4");
+
+                    setEditAbout(false);
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div>hello</div>
