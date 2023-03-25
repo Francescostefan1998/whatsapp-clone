@@ -16,7 +16,6 @@
 }
 
 .mainappBackground-middle {
-  border: 1px solid rgb(218, 218, 218);
   position: absolute;
   width: 96%;
   height: 94%;
@@ -24,5 +23,6 @@
   left: 0;
   margin: 1.2%;
   display: flex;
+  overflow: hidden;
   background-color: var(--backgroundmain-color);
 }

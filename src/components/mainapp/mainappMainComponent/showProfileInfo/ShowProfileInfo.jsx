@@ -1,32 +1,76 @@
 import { useState, useEffect } from "react";
 import "./showProfileInfo.css";
-
-const ShowProfileInfo = ({ update }) => {
+import { RiPencilFill } from "react-icons/ri";
+import { FiArrowLeft } from "react-icons/fi";
+const ShowProfileInfo = ({ update, closeProfileSection }) => {
   const [renderCount, setRenderCount] = useState(0);
-
+  const [expand, setExpand] = useState("");
+  const [pictureClass, setClassForThePicture] = useState(
+    "expand-profile-picture"
+  );
+  const [classForTheOther, setClassForTheOther] = useState(
+    "class-for-the-other-profile-informations"
+  );
   useEffect(() => {
-    // Add the "show" class to trigger the animation
-    const profileInfoElement = document.querySelector(".showProfileInfo");
-    profileInfoElement.classList.add("show");
-
-    // Remove the "show" class after the animation completes
-    const animationEndHandler = () => {
-      profileInfoElement.classList.remove("show");
-      setRenderCount(renderCount + 1); // Increment the render count
-    };
-    profileInfoElement.addEventListener("animationend", animationEndHandler);
-
-    return () => {
-      // Clean up the event listener
-      profileInfoElement.removeEventListener(
-        "animationend",
-        animationEndHandler
-      );
-    };
-  }, [renderCount, update]);
-
+    setExpand(update);
+    setClassForThePicture("expand-profile-picture expand");
+    setTimeout(
+      () =>
+        setClassForTheOther("class-for-the-other-profile-informations expand"),
+      500
+    );
+  }, []);
+  const setExpandPrufile = (query) => {
+    setExpand(query);
+    setTimeout(() => closeProfileSection(false), 200);
+    setTimeout(() => setClassForThePicture(""), 200);
+  };
   return (
-    <div className="showProfileInfo">
+    <div className={expand}>
+      <div className="showProfileInfoHeader">
+        <div></div>
+        <div className="showProfileInfoHeader-back">
+          <FiArrowLeft
+            className="showProfileInfoHeader-back-icon"
+            onClick={(e) => setExpandPrufile("showProfileclose")}
+          />
+          <div>Profile</div>
+        </div>
+      </div>
+      <div className={pictureClass}>
+        <img
+          src="https://pluspng.com/img-png/png-user-icon-icons-logos-emojis-users-2400.png"
+          alt="pictureProfile"
+        />
+      </div>
+      <div className={classForTheOther}>
+        <div className="class-for-the-other-profile-section name">
+          <div className="class-for-the-other-profile-section-inside">
+            Your name
+          </div>
+          <div className="class-for-the-other-profile-section-inside">
+            <div>Francesco Stefan</div>
+            <div>
+              <RiPencilFill />
+            </div>
+          </div>
+        </div>
+        <div className="class-for-the-other-profile-section notification">
+          This is not your username or pin. This name will be visible to your
+          WhatsApp contacts.
+        </div>
+        <div className="class-for-the-other-profile-section about">
+          <div className="class-for-the-other-profile-section-inside">
+            About
+          </div>
+          <div className="class-for-the-other-profile-section-inside">
+            <div>Hey there! I am using WhatsApp.</div>
+            <div>
+              <RiPencilFill />
+            </div>
+          </div>
+        </div>
+      </div>
       <div>hello</div>
     </div>
   );
