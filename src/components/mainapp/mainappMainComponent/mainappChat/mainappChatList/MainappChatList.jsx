@@ -10,11 +10,14 @@ import { getUserChats } from "../../../../../redux/actions";
 import { useDispatch } from "react-redux";
 import { BsFillBellSlashFill } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
+import ShowProfileInfo from "../../showProfileInfo/ShowProfileInfo";
 import { IoIosArrowForward } from "react-icons/io";
 import { useEffect, useState } from "react";
 const MainappChatList = () => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [showProfile, setShowProfile] = useState(false);
+
   const [closeAlert, setCloseAlert] = useState(true);
   useEffect(() => {
     if (user) {
@@ -27,8 +30,9 @@ const MainappChatList = () => {
   const { chats } = useSelector((state) => state.chats);
   return (
     <div className="mainappChatList">
+      {showProfile && <ShowProfileInfo update={"update"} />}
       <div>
-        <MainappChatHeader />
+        <MainappChatHeader setShowProfile={setShowProfile} />
         <div className="mainappChatList-search">
           <div className="mainappChatList-search-inner">
             <div>

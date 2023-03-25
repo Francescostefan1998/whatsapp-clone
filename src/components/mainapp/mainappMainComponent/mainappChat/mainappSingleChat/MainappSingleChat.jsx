@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { IoIosArrowDown } from "react-icons/io";
 import { getSingleChat } from "../../../../../redux/actions";
 const MainappSingleChat = ({ small, chat }) => {
   const [friend, setFriend] = useState(null);
@@ -48,6 +49,9 @@ const MainappSingleChat = ({ small, chat }) => {
             <div className="mainappChatList-list-chats-single-informations-right">
               <div className="time">time</div>
               <div className="messages">3</div>
+              <div className="arrow-expand">
+                <IoIosArrowDown />
+              </div>
             </div>
           </div>
         </>

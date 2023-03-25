@@ -68,8 +68,28 @@
   justify-content: center;
   background-color: rgb(2, 228, 2);
   color: white;
+  opacity: 1;
+  transition: opacity 0.2s;
 }
 
 .mainappChatList-list-chats-single-informations-right {
   text-align: end;
+  position: relative;
+}
+.mainappChatList-list-chats-single:hover .messages {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.mainappChatList-list-chats-single:hover .arrow-expand {
+  transform: translateX(0px);
+
+  transition: transform 0.3s;
+}
+.mainappChatList-list-chats-single-informations-right .arrow-expand {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-size: 20px;
+  transform: translateX(50px);
+  transition: transform 0.2s;
 }
