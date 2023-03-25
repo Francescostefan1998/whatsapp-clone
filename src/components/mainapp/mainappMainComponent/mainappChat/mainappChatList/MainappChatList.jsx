@@ -8,11 +8,17 @@ import MainappSingleChat from "../mainappSingleChat/MainappSingleChat";
 import MainappChatHeader from "../mainappChatHeader/MainappChatHeader";
 import { getUserChats } from "../../../../../redux/actions";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { BsFillBellSlashFill } from "react-icons/bs";
+import { IoCloseSharp } from "react-icons/io5";
+import ShowProfileInfo from "../../showProfileInfo/ShowProfileInfo";
+import { IoIosArrowForward } from "react-icons/io";
+import { useEffect, useState } from "react";
 const MainappChatList = () => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [showProfile, setShowProfile] = useState(false);
 
+  const [closeAlert, setCloseAlert] = useState(true);
   useEffect(() => {
     if (user) {
       console.log(user);
@@ -20,12 +26,13 @@ const MainappChatList = () => {
     } else {
       return;
     }
-  }, []);
+  }, [closeAlert]);
   const { chats } = useSelector((state) => state.chats);
   return (
     <div className="mainappChatList">
+      {showProfile && <ShowProfileInfo update={"update"} />}
       <div>
-        <MainappChatHeader />
+        <MainappChatHeader setShowProfile={setShowProfile} />
         <div className="mainappChatList-search">
           <div className="mainappChatList-search-inner">
             <div>
@@ -38,6 +45,28 @@ const MainappChatList = () => {
           </div>
         </div>
       </div>
+      {closeAlert && (
+        <div className="mainpage-allert-message">
+          <div className="mainpage-allert-message-left">
+            <div className="bell">
+              <BsFillBellSlashFill />
+            </div>
+          </div>
+          <div className="mainpage-allert-message-middle">
+            <div className="name">Get notified of new messages</div>
+            <div className="message">
+              Turn on desktop notifications
+              <IoIosArrowForward />
+            </div>
+          </div>
+          <div className="mainpage-allert-message-right">
+            <IoCloseSharp
+              onClick={(e) => setCloseAlert(false)}
+              className="alert-close-message-chatlist"
+            />
+          </div>
+        </div>
+      )}
       <div className="mainappChatList-list-container">
         <div className="mainappChatList-list-archived">
           <div>
