@@ -45,11 +45,14 @@ const MainappChatList = () => {
       console.log(newMessage);
       setChatHistory([...chatHistory, newMessage.message]);
     });
+  }, []);
+  useEffect(() => {
     submitUsername();
   }, []);
-
   const submitUsername = () => {
-    socket.emit("setUsername", user.name);
+    if (user) {
+      socket.emit("setUsername", user);
+    }
   };
   const sendMessage = () => {
     const newMessage = {
@@ -129,7 +132,7 @@ const MainappChatList = () => {
               key={chat._id}
             />
           ))}
-          {onlineusers.length === 0 &&
+          {/*  {onlineusers.length === 0 &&
             (<ListGroup.Item>Log in to check who is online</ListGroup.Item>)()}
           <ListGroup>
             {onlineusers.map((user) => (
@@ -140,7 +143,7 @@ const MainappChatList = () => {
             {chatHistory.map((message, index) => (
               <ListGroup.Item key={index}>{message.sender}</ListGroup.Item>
             ))}
-          </ListGroup>
+          </ListGroup>*/}
         </div>
         <div className="mainappChatList-list-footer">
           <HiLockClosed />
