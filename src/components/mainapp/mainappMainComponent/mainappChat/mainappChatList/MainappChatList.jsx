@@ -24,19 +24,24 @@ const MainappChatList = () => {
   const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
   const [login, setLogIn] = useState(false);
+  const [userNameTry, setUserNameTry] = useState("");
   const [onlineusers, setOnlineUsers] = useState([]);
   const [closeAlert, setCloseAlert] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
-
+  console.log(onlineusers);
   useEffect(() => {
     socket.on("welcome", (welcomeMessage) => {
       console.log(welcomeMessage);
       socket.on("loggedIn", (onlineUsersList) => {
         console.log("logged in", onlineUsersList);
+        console.log(onlineUsersList);
+
         setLogIn(true);
         setOnlineUsers(onlineUsersList);
       });
-      socket.io("updateOnlineUsers", (onlineUsersList) => {
+      console.log(onlineusers);
+
+      socket.on("updateOnlineUsers", (onlineUsersList) => {
         console.log("updateOnlineUsers a new user connectef");
         setOnlineUsers(onlineUsersList);
       });
@@ -45,13 +50,11 @@ const MainappChatList = () => {
       console.log(newMessage);
       setChatHistory([...chatHistory, newMessage.message]);
     });
-  }, []);
-  useEffect(() => {
-    submitUsername();
-  }, []);
-  const submitUsername = () => {
-    if (user) {
-      socket.emit("setUsername", user);
+  });
+  const submitUsername = (username) => {
+    if (username) {
+      socket.emit("setUsername", username);
+      console.log("socket after");
     }
   };
   const sendMessage = () => {
@@ -132,18 +135,27 @@ const MainappChatList = () => {
               key={chat._id}
             />
           ))}
-          {/*  {onlineusers.length === 0 &&
-            (<ListGroup.Item>Log in to check who is online</ListGroup.Item>)()}
-          <ListGroup>
-            {onlineusers.map((user) => (
-              <ListGroup.Item key={user.socketId}>{"k"}</ListGroup.Item>
-            ))}
-          </ListGroup>
-          <ListGroup>
-            {chatHistory.map((message, index) => (
-              <ListGroup.Item key={index}>{message.sender}</ListGroup.Item>
-            ))}
-          </ListGroup>*/}
+          <div>
+            <input
+              type="text"
+              onChange={(e) => setUserNameTry(e.target.value)}
+            />
+          </div>
+          <div onClick={() => submitUsername(userNameTry)}>connect</div>
+
+          {/*  {onlineusers &&
+            onlineusers.length === 0 &&
+            (<div>Log in to check who is online</div>)()}
+           <div>
+            {onlineusers && 
+              onlineusers.map((user) => <div key={user.socketId}>{"k"}</div>)}
+          </div>
+          <div>
+            {chatHistory &&
+              chatHistory.map((message, index) => (
+                <div key={index}>{message.sender}</div>
+              ))}
+          </div>*/}
         </div>
         <div className="mainappChatList-list-footer">
           <HiLockClosed />
