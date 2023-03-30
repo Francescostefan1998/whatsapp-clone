@@ -24,6 +24,7 @@ const MainappChatList = () => {
   const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
   const [login, setLogIn] = useState(false);
+  const [userNameTry, setUserNameTry] = useState("");
   const [onlineusers, setOnlineUsers] = useState([]);
   const [closeAlert, setCloseAlert] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
@@ -40,7 +41,7 @@ const MainappChatList = () => {
       });
       console.log(onlineusers);
 
-      socket.io("updateOnlineUsers", (onlineUsersList) => {
+      socket.on("updateOnlineUsers", (onlineUsersList) => {
         console.log("updateOnlineUsers a new user connectef");
         setOnlineUsers(onlineUsersList);
       });
@@ -49,10 +50,10 @@ const MainappChatList = () => {
       console.log(newMessage);
       setChatHistory([...chatHistory, newMessage.message]);
     });
-  }, []);
-  const submitUsername = () => {
-    if (user) {
-      socket.emit("setUsername", user);
+  });
+  const submitUsername = (username) => {
+    if (username) {
+      socket.emit("setUsername", username);
       console.log("socket after");
     }
   };
@@ -134,7 +135,14 @@ const MainappChatList = () => {
               key={chat._id}
             />
           ))}
-          <div onClick={() => submitUsername()}>connect</div>
+          <div>
+            <input
+              type="text"
+              onChange={(e) => setUserNameTry(e.target.value)}
+            />
+          </div>
+          <div onClick={() => submitUsername(userNameTry)}>connect</div>
+
           {/*  {onlineusers &&
             onlineusers.length === 0 &&
             (<div>Log in to check who is online</div>)()}
