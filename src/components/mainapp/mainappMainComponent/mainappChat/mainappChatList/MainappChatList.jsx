@@ -135,18 +135,19 @@ const MainappChatList = () => {
             />
           ))}
           <div onClick={() => submitUsername()}>connect</div>
-          {/*  {onlineusers.length === 0 &&
-            (<ListGroup.Item>Log in to check who is online</ListGroup.Item>)()}
-          <ListGroup>
-            {onlineusers.map((user) => (
-              <ListGroup.Item key={user.socketId}>{"k"}</ListGroup.Item>
-            ))}
-          </ListGroup>
-          <ListGroup>
-            {chatHistory.map((message, index) => (
-              <ListGroup.Item key={index}>{message.sender}</ListGroup.Item>
-            ))}
-          </ListGroup>*/}
+          {/*  {onlineusers &&
+            onlineusers.length === 0 &&
+            (<div>Log in to check who is online</div>)()}
+           <div>
+            {onlineusers && 
+              onlineusers.map((user) => <div key={user.socketId}>{"k"}</div>)}
+          </div>
+          <div>
+            {chatHistory &&
+              chatHistory.map((message, index) => (
+                <div key={index}>{message.sender}</div>
+              ))}
+          </div>*/}
         </div>
         <div className="mainappChatList-list-footer">
           <HiLockClosed />
