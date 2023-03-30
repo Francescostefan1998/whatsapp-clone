@@ -27,15 +27,19 @@ const MainappChatList = () => {
   const [onlineusers, setOnlineUsers] = useState([]);
   const [closeAlert, setCloseAlert] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
-
+  console.log(onlineusers);
   useEffect(() => {
     socket.on("welcome", (welcomeMessage) => {
       console.log(welcomeMessage);
       socket.on("loggedIn", (onlineUsersList) => {
         console.log("logged in", onlineUsersList);
+        console.log(onlineUsersList);
+
         setLogIn(true);
         setOnlineUsers(onlineUsersList);
       });
+      console.log(onlineusers);
+
       socket.io("updateOnlineUsers", (onlineUsersList) => {
         console.log("updateOnlineUsers a new user connectef");
         setOnlineUsers(onlineUsersList);
@@ -46,12 +50,10 @@ const MainappChatList = () => {
       setChatHistory([...chatHistory, newMessage.message]);
     });
   }, []);
-  useEffect(() => {
-    submitUsername();
-  }, []);
   const submitUsername = () => {
     if (user) {
       socket.emit("setUsername", user);
+      console.log("socket after");
     }
   };
   const sendMessage = () => {
@@ -132,6 +134,7 @@ const MainappChatList = () => {
               key={chat._id}
             />
           ))}
+          <div onClick={() => submitUsername()}>connect</div>
           {/*  {onlineusers.length === 0 &&
             (<ListGroup.Item>Log in to check who is online</ListGroup.Item>)()}
           <ListGroup>
