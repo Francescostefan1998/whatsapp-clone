@@ -24,10 +24,12 @@ const MainappChatList = () => {
   const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
   const [login, setLogIn] = useState(false);
+  const [message, setMessage] = useState("");
   const [userNameTry, setUserNameTry] = useState("");
   const [onlineusers, setOnlineUsers] = useState([]);
   const [closeAlert, setCloseAlert] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
+  console.log(chatHistory);
   console.log(onlineusers);
   useEffect(() => {
     socket.on("welcome", (welcomeMessage) => {
@@ -53,14 +55,14 @@ const MainappChatList = () => {
   });
   const submitUsername = (username) => {
     if (username) {
-      socket.emit("setUsername", username);
+      socket.emit("setUsername", { username });
       console.log("socket after");
     }
   };
-  const sendMessage = () => {
+  const sendMessage = (messag, username) => {
     const newMessage = {
-      sender: user.name,
-      text: "j",
+      sender: username,
+      text: messag,
       ceatedAt: new Date().toLocaleString("en-US"),
     };
     socket.emit("sendMessage", { message: newMessage });
@@ -139,23 +141,41 @@ const MainappChatList = () => {
             <input
               type="text"
               onChange={(e) => setUserNameTry(e.target.value)}
+              disabled={login}
             />
           </div>
-          <div onClick={() => submitUsername(userNameTry)}>connect</div>
-
-          {/*  {onlineusers &&
-            onlineusers.length === 0 &&
-            (<div>Log in to check who is online</div>)()}
-           <div>
-            {onlineusers && 
-              onlineusers.map((user) => <div key={user.socketId}>{"k"}</div>)}
+          <div onClick={() => submitUsername(userNameTry)} disabled={login}>
+            connect
           </div>
-          <div>
-            {chatHistory &&
-              chatHistory.map((message, index) => (
-                <div key={index}>{message.sender}</div>
-              ))}
-          </div>*/}
+          {login && (
+            <div>
+              {onlineusers && onlineusers.length === 0 && (
+                <div>Log in to check who is online</div>
+              )}
+              <div>
+                {onlineusers &&
+                  onlineusers.map((user) => (
+                    <div key={user.socketId}>{user.username}</div>
+                  ))}
+              </div>
+              <div className="mt-4">
+                {chatHistory &&
+                  chatHistory.map((message, index) => (
+                    <div key={message.createdAt}>
+                      {message.sender}: {message.text}
+                    </div>
+                  ))}
+              </div>
+              <input
+                type="text"
+                placeholder="write message"
+                onChange={(e) => setMessage(e.target.value)}
+              />
+              <button onClick={() => sendMessage(message, userNameTry)}>
+                send message
+              </button>
+            </div>
+          )}
         </div>
         <div className="mainappChatList-list-footer">
           <HiLockClosed />
