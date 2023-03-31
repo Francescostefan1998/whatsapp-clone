@@ -20,15 +20,26 @@ import { ListGroupItem } from "react-bootstrap";
 const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
 const MainappChatList = () => {
-  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
   const [login, setLogIn] = useState(false);
+  const [user, setMyUser] = useState(null);
+  const [message, setMessage] = useState("");
   const [userNameTry, setUserNameTry] = useState("");
   const [onlineusers, setOnlineUsers] = useState([]);
   const [closeAlert, setCloseAlert] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
+  console.log(chatHistory);
   console.log(onlineusers);
+  const fetchAndGetTheChatList = async (userId) => {
+    try {
+      const res = await fetch(`http://localhost:3001/users/${userId}`);
+      const data = await res.json();
+      setMyUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     socket.on("welcome", (welcomeMessage) => {
       console.log(welcomeMessage);
@@ -50,31 +61,29 @@ const MainappChatList = () => {
       console.log(newMessage);
       setChatHistory([...chatHistory, newMessage.message]);
     });
-  });
+  }, [chatHistory]);
   const submitUsername = (username) => {
     if (username) {
-      socket.emit("setUsername", username);
+      socket.emit("setUsername", { username });
       console.log("socket after");
     }
   };
-  const sendMessage = () => {
+  const sendMessage = (messag, username) => {
     const newMessage = {
-      sender: user.name,
-      text: "j",
+      sender: username,
+      text: messag,
       ceatedAt: new Date().toLocaleString("en-US"),
     };
     socket.emit("sendMessage", { message: newMessage });
     setChatHistory([...chatHistory, newMessage]);
   };
   useEffect(() => {
-    if (user) {
-      console.log(user);
-      dispatch(getUserChats(user.chats));
+    if (localStorage.getItem("userId")) {
+      fetchAndGetTheChatList(localStorage.getItem("userId"));
     } else {
       return;
     }
   }, [closeAlert]);
-  const { chats } = useSelector((state) => state.chats);
   return (
     <div className="mainappChatList">
       {showProfile && (
@@ -128,34 +137,53 @@ const MainappChatList = () => {
         </div>
         <div className="mainappChatList-list-chats">
           {/*map */}
-          {chats.map((chat, index) => (
-            <MainappSingleChat
-              small={"mainappChatList-list-chats-single"}
-              chat={chat}
-              key={chat._id}
-            />
-          ))}
+          {user &&
+            user.chats.map((chat, index) => (
+              <MainappSingleChat
+                small={"mainappChatList-list-chats-single"}
+                chat={chat}
+                key={chat._id}
+              />
+            ))}
           <div>
             <input
               type="text"
               onChange={(e) => setUserNameTry(e.target.value)}
+              disabled={login}
             />
           </div>
-          <div onClick={() => submitUsername(userNameTry)}>connect</div>
-
-          {/*  {onlineusers &&
-            onlineusers.length === 0 &&
-            (<div>Log in to check who is online</div>)()}
-           <div>
-            {onlineusers && 
-              onlineusers.map((user) => <div key={user.socketId}>{"k"}</div>)}
+          <div onClick={() => submitUsername(userNameTry)} disabled={login}>
+            connect
           </div>
-          <div>
-            {chatHistory &&
-              chatHistory.map((message, index) => (
-                <div key={index}>{message.sender}</div>
-              ))}
-          </div>*/}
+          {login && (
+            <div>
+              {onlineusers && onlineusers.length === 0 && (
+                <div>Log in to check who is online</div>
+              )}
+              <div>
+                {onlineusers &&
+                  onlineusers.map((user) => (
+                    <div key={user.socketId}>{user.username}</div>
+                  ))}
+              </div>
+              <div className="mt-4">
+                {chatHistory &&
+                  chatHistory.map((message, index) => (
+                    <div key={message.createdAt}>
+                      {message.sender}: {message.text}
+                    </div>
+                  ))}
+              </div>
+              <input
+                type="text"
+                placeholder="write message"
+                onChange={(e) => setMessage(e.target.value)}
+              />
+              <button onClick={() => sendMessage(message, userNameTry)}>
+                send message
+              </button>
+            </div>
+          )}
         </div>
         <div className="mainappChatList-list-footer">
           <HiLockClosed />
