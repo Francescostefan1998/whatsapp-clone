@@ -1,27 +1,68 @@
 import "./mainappSingleChat.css";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { IoIosArrowDown } from "react-icons/io";
+import { BsCheckAll } from "react-icons/bs";
 import { getSingleChat } from "../../../../../redux/actions";
+
 const MainappSingleChat = ({ small, chat }) => {
   const [friend, setFriend] = useState(null);
+  const [chatBody, setChatBody] = useState(null);
+  const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (chat) {
-      fetchUser();
+      console.log(chat);
+      fetchSingleChat(chat);
     } else {
       return;
     }
   }, [chat]);
 
-  const fetchUser = async () => {
-    const res = await fetch(`http://localhost:3001/users/${chat.users[1]}`);
-    const user = await res.json();
-    setFriend(user);
+  const fetchSingleChat = async (chatId) => {
+    try {
+      const res = await fetch(`http://localhost:3001/chats/${chatId}`);
+      const data = await res.json();
+      setChatBody(data);
+      if (data) {
+        fetchFriendBody(data);
+        fetchMessages(data.messages);
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchFriendBody = async (data) => {
+    const friendId = await data.users.filter(
+      (user) => user !== localStorage.getItem("userId")
+    );
+    try {
+      const res = await fetch(`http://localhost:3001/users/${friendId[0]}`);
+      const data = await res.json();
+      setFriend(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  const fetchMessages = async (mydata) => {
+    try {
+      const messagesData = await Promise.all(
+        mydata.map(async (messageId) => {
+          const res = await fetch(
+            `http://localhost:3001/messages/${messageId}`
+          );
+          return await res.json();
+        })
+      );
+      setArrayOfMessagesBody(messagesData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className={small} onClick={() => dispatch(getSingleChat(chat._id))}>
       {small === "mainappChatList-list-chats-single" && (
@@ -41,10 +82,23 @@ const MainappSingleChat = ({ small, chat }) => {
               ) : (
                 <div className="name">John</div>
               )}
-              <div className="message">
-                hello man ffffffffffffffffffffffffffffffffffffffffffffffff
-                ddddddddddddddd
-              </div>
+              {arrayOfMessagesBody.length >= 1 && (
+                <div className="message">
+                  {arrayOfMessagesBody[arrayOfMessagesBody.length - 1]
+                    .sender !== localStorage.getItem("userId") ? (
+                    ""
+                  ) : (
+                    <BsCheckAll />
+                  )}
+                  {arrayOfMessagesBody[arrayOfMessagesBody.length - 1].text}
+                </div>
+              )}
+              {arrayOfMessagesBody.length <= 0 && (
+                <div className="message">
+                  hello man ffffffffffffffffffffffffffffffffffffffffffffffff
+                  ddddddddddddddd
+                </div>
+              )}
             </div>
             <div className="mainappChatList-list-chats-single-informations-right">
               <div className="time">time</div>
