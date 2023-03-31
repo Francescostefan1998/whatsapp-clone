@@ -20,10 +20,10 @@ import { ListGroupItem } from "react-bootstrap";
 const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
 const MainappChatList = () => {
-  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
   const [login, setLogIn] = useState(false);
+  const [user, setMyUser] = useState(null);
   const [message, setMessage] = useState("");
   const [userNameTry, setUserNameTry] = useState("");
   const [onlineusers, setOnlineUsers] = useState([]);
@@ -31,6 +31,15 @@ const MainappChatList = () => {
   const [chatHistory, setChatHistory] = useState([]);
   console.log(chatHistory);
   console.log(onlineusers);
+  const fetchAndGetTheChatList = async (userId) => {
+    try {
+      const res = await fetch(`http://localhost:3001/users/${userId}`);
+      const data = await res.json();
+      setMyUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     socket.on("welcome", (welcomeMessage) => {
       console.log(welcomeMessage);
@@ -52,7 +61,7 @@ const MainappChatList = () => {
       console.log(newMessage);
       setChatHistory([...chatHistory, newMessage.message]);
     });
-  });
+  }, [chatHistory]);
   const submitUsername = (username) => {
     if (username) {
       socket.emit("setUsername", { username });
@@ -69,14 +78,12 @@ const MainappChatList = () => {
     setChatHistory([...chatHistory, newMessage]);
   };
   useEffect(() => {
-    if (user) {
-      console.log(user);
-      dispatch(getUserChats(user.chats));
+    if (localStorage.getItem("userId")) {
+      fetchAndGetTheChatList(localStorage.getItem("userId"));
     } else {
       return;
     }
   }, [closeAlert]);
-  const { chats } = useSelector((state) => state.chats);
   return (
     <div className="mainappChatList">
       {showProfile && (
@@ -130,13 +137,14 @@ const MainappChatList = () => {
         </div>
         <div className="mainappChatList-list-chats">
           {/*map */}
-          {chats.map((chat, index) => (
-            <MainappSingleChat
-              small={"mainappChatList-list-chats-single"}
-              chat={chat}
-              key={chat._id}
-            />
-          ))}
+          {user &&
+            user.chats.map((chat, index) => (
+              <MainappSingleChat
+                small={"mainappChatList-list-chats-single"}
+                chat={chat}
+                key={chat._id}
+              />
+            ))}
           <div>
             <input
               type="text"

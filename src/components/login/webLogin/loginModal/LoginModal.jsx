@@ -32,6 +32,8 @@ const LoginModal = ({ setShowLogin }) => {
       toast("Login successfull! 💪", { autoClose: 1000 });
       console.log("login successfull!");
       localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("userId", data._id);
+
       await dispatch(getUserProfile(data.accessToken));
       navigate("/home");
     } catch (error) {
