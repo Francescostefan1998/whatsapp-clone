@@ -19,7 +19,7 @@ import { ListGroupItem } from "react-bootstrap";
 
 const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
-const MainappChatList = () => {
+const MainappChatList = ({ fetchChatSelected }) => {
   const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
   const [login, setLogIn] = useState(false);
@@ -36,6 +36,7 @@ const MainappChatList = () => {
       const res = await fetch(`http://localhost:3001/users/${userId}`);
       const data = await res.json();
       setMyUser(data);
+      submitUsername(data.firstName);
     } catch (error) {
       console.log(error);
     }
@@ -140,6 +141,7 @@ const MainappChatList = () => {
           {user &&
             user.chats.map((chat, index) => (
               <MainappSingleChat
+                fetchChatSelected={fetchChatSelected}
                 small={"mainappChatList-list-chats-single"}
                 chat={chat}
                 key={chat._id}
