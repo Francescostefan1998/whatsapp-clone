@@ -5,7 +5,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { BsCheckAll } from "react-icons/bs";
 import { getSingleChat } from "../../../../../redux/actions";
 
-const MainappSingleChat = ({ small, chat }) => {
+const MainappSingleChat = ({ small, chat, fetchChatSelected }) => {
   const [friend, setFriend] = useState(null);
   const [chatBody, setChatBody] = useState(null);
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
@@ -64,7 +64,13 @@ const MainappSingleChat = ({ small, chat }) => {
     }
   };
   return (
-    <div className={small} onClick={() => dispatch(getSingleChat(chat._id))}>
+    <div
+      className={small}
+      onClick={() => {
+        dispatch(getSingleChat(chat));
+        fetchChatSelected(chat);
+      }}
+    >
       {small === "mainappChatList-list-chats-single" && (
         <>
           <div className="mainappChatList-list-chats-single-image">

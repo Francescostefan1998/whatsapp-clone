@@ -9,16 +9,32 @@ import { BsLink45Deg } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
 const MainappDisplayConversation = ({ chat }) => {
   const [friend, setFriend] = useState(null);
+  const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
+  console.log(arrayOfMessagesBody);
   console.log(friend);
   const dispatch = useDispatch();
+  useEffect(() => {}, [arrayOfMessagesBody]);
   useEffect(() => {
     if (chat) {
       fetchUser();
+      fetchAllMessages();
     } else {
       return;
     }
   }, [chat]);
-
+  const fetchAllMessages = async () => {
+    for (let i = 0; i < chat.messages.length; i++) {
+      try {
+        const res = await fetch(
+          `http://localhost:3001/messages/${chat.messages[i]}`
+        );
+        const data = await res.json();
+        setArrayOfMessagesBody([...arrayOfMessagesBody, data]);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   const fetchUser = async () => {
     const res = await fetch(`http://localhost:3001/users/${chat.users[1]}`);
     const user = await res.json();
@@ -48,7 +64,15 @@ const MainappDisplayConversation = ({ chat }) => {
           <BsThreeDotsVertical className="mainappDisplayConversation-icons-icon" />
         </div>
       </div>
-      <div className="mainappDisplayConversation-text">ek</div>
+      <div className="mainappDisplayConversation-text">
+        ek
+        {chat &&
+          arrayOfMessagesBody &&
+          arrayOfMessagesBody.length >= 1 &&
+          arrayOfMessagesBody.map((message, index) => {
+            <div key={message._id}>{message.text}</div>;
+          })}
+      </div>
       <div className="mainappDisplayConversation-footer">
         <div>
           <BsEmojiSmile className="mainappDisplayConversation-icons-icon ml-2" />
