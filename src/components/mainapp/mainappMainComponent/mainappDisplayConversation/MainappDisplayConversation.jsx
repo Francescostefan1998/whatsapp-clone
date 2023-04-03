@@ -8,7 +8,12 @@ import { useDispatch } from "react-redux";
 import { BsLink45Deg } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
 import SingleMessageDisplayed from "./singleMessageDisplayed/SingleMessageDisplayed";
-const MainappDisplayConversation = ({ chat }) => {
+const MainappDisplayConversation = ({
+  chat,
+  listOfUsers,
+  callHandleInputFocus,
+  callHandleInputBlur,
+}) => {
   const [friend, setFriend] = useState(null);
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
   const [updateState, setUpdateState] = useState(null);
@@ -18,6 +23,9 @@ const MainappDisplayConversation = ({ chat }) => {
   useEffect(() => {
     setUpdateState(arrayOfMessagesBody[0]);
   }, [arrayOfMessagesBody]);
+  useEffect(() => {
+    console.log(listOfUsers);
+  }, [listOfUsers]);
   useEffect(() => {
     if (chat) {
       fetchUser();
@@ -59,7 +67,14 @@ const MainappDisplayConversation = ({ chat }) => {
           </div>
           {friend !== null ? (
             <div>
-              {friend.firstName} {friend.lastName}
+              {friend.firstName} {friend.lastName} <br />
+              {listOfUsers &&
+              listOfUsers.find(
+                (user, i) =>
+                  user.username === friend.firstName + friend.lastName
+              )
+                ? "online"
+                : "offline"}
             </div>
           ) : (
             <div>Paul</div>
@@ -85,7 +100,12 @@ const MainappDisplayConversation = ({ chat }) => {
           <BsLink45Deg className="mainappDisplayConversation-icons-icon ml-2" />
         </div>
         <div className="mainappDisplayConversation-input">
-          <input type="text" placeholder="Type a message" />
+          <input
+            type="text"
+            placeholder="Type a message"
+            onFocus={callHandleInputFocus}
+            onBlur={callHandleInputBlur}
+          />
         </div>
         <div>
           <FaMicrophone className="mainappDisplayConversation-icons-icon ml-2" />
