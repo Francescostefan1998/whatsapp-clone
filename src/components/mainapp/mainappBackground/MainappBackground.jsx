@@ -8,14 +8,11 @@ import { useEffect } from "react";
 const MainappBackground = () => {
   const [selectedChat, setChat] = useState(null);
   const [listOfUsers, grabListOfUsers] = useState([]);
-  const [myUserIsTyping, setMyUserIsTyping] = useState(false);
+  const [myUserIsTyping, setMyUserIsTyping] = useState("");
+
   const mainappChatListRef = useRef();
-  const handleMyUserIsTyping = () => {
-    if (myUserIsTyping) {
-      setMyUserIsTyping(false);
-    } else {
-      setMyUserIsTyping(true);
-    }
+  const handleMyUserIsTyping = (typingBody) => {
+    setMyUserIsTyping(typingBody);
   };
   const callHandleInputFocus = () => {
     mainappChatListRef.current.handleInputFocus();
@@ -49,6 +46,7 @@ const MainappBackground = () => {
           fetchChatSelected={fetchChatSelected}
           grabListOfUsers={grabListOfUsers}
           ref={mainappChatListRef}
+          handleMyUserIsTyping={handleMyUserIsTyping}
         />
         {selectedChat === null ? (
           <MainappEmptySpace />
@@ -58,6 +56,7 @@ const MainappBackground = () => {
             listOfUsers={listOfUsers}
             callHandleInputFocus={callHandleInputFocus}
             callHandleInputBlur={callHandleInputBlur}
+            myUserIsTyping={myUserIsTyping}
           />
         )}
       </div>

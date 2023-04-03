@@ -13,6 +13,7 @@ const MainappDisplayConversation = ({
   listOfUsers,
   callHandleInputFocus,
   callHandleInputBlur,
+  myUserIsTyping,
 }) => {
   const [friend, setFriend] = useState(null);
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
@@ -23,6 +24,7 @@ const MainappDisplayConversation = ({
   useEffect(() => {
     setUpdateState(arrayOfMessagesBody[0]);
   }, [arrayOfMessagesBody]);
+  useEffect(() => {}, [myUserIsTyping]);
   useEffect(() => {
     console.log(listOfUsers);
   }, [listOfUsers]);
@@ -72,7 +74,13 @@ const MainappDisplayConversation = ({
               listOfUsers.find(
                 (user, i) =>
                   user.username === friend.firstName + friend.lastName
-              )
+              ) &&
+              myUserIsTyping === friend.firstName + friend.lastName
+                ? "is typing.."
+                : listOfUsers.find(
+                    (user, i) =>
+                      user.username === friend.firstName + friend.lastName
+                  )
                 ? "online"
                 : "offline"}
             </div>

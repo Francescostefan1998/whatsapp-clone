@@ -20,7 +20,10 @@ import { ListGroupItem } from "react-bootstrap";
 
 const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
-const MainappChatList = ({ fetchChatSelected, grabListOfUsers }, ref) => {
+const MainappChatList = (
+  { fetchChatSelected, grabListOfUsers, handleMyUserIsTyping },
+  ref
+) => {
   console.log(ref);
   const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
@@ -68,10 +71,12 @@ const MainappChatList = ({ fetchChatSelected, grabListOfUsers }, ref) => {
     });
     socket.on("userTyping", (username) => {
       console.log(username + " is typing...");
+      handleMyUserIsTyping(username);
     });
 
     socket.on("userStoppedTyping", (username) => {
       console.log(username + " stopped typing.");
+      handleMyUserIsTyping(" stopped typing.");
     });
     socket.on("newMessage", (newMessage) => {
       console.log(newMessage);
