@@ -5,7 +5,7 @@ import { MdMessage } from "react-icons/md";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useState } from "react";
 
-const MainappChatHeader = ({ setShowProfile }) => {
+const MainappChatHeader = ({ setShowProfile, setShowFindFriends }) => {
   return (
     <div className="mainappChatHeader">
       <div
@@ -25,7 +25,10 @@ const MainappChatHeader = ({ setShowProfile }) => {
           <TbCircleDashed className="mainappChatHeader-icons-icon" />
         </div>
         <div>
-          <MdMessage className="mainappChatHeader-icons-icon" />
+          <MdMessage
+            className="mainappChatHeader-icons-icon"
+            onClick={() => setShowFindFriends(true)}
+          />
         </div>
         <div>
           <BsThreeDotsVertical className="mainappChatHeader-icons-icon" />

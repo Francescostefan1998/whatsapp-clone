@@ -17,7 +17,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { ListGroupItem } from "react-bootstrap";
-
+import ShowFindFriends from "../../showFindFriends/ShowFindFriends";
 const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
 const MainappChatList = (
@@ -27,6 +27,7 @@ const MainappChatList = (
   console.log(ref);
   const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
+  const [showFindFriends, setShowFindFriends] = useState(false);
   const [login, setLogIn] = useState(false);
   const [user, setMyUser] = useState(null);
   const [message, setMessage] = useState("");
@@ -112,6 +113,7 @@ const MainappChatList = (
       return;
     }
   }, [closeAlert]);
+  useEffect(() => {}, [showFindFriends]);
   return (
     <div className="mainappChatList">
       {showProfile && (
@@ -120,8 +122,17 @@ const MainappChatList = (
           closeProfileSection={setShowProfile}
         />
       )}
+      {showFindFriends && (
+        <ShowFindFriends
+          update={"showProfileInfo"}
+          closeFindFriendsSection={setShowFindFriends}
+        />
+      )}
       <div>
-        <MainappChatHeader setShowProfile={setShowProfile} />
+        <MainappChatHeader
+          setShowProfile={setShowProfile}
+          setShowFindFriends={setShowFindFriends}
+        />
         <div className="mainappChatList-search">
           <div className="mainappChatList-search-inner">
             <div>
