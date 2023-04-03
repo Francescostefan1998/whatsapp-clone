@@ -1,3 +1,11 @@
+:root {
+  --backgroundmain-color: rgb(241, 241, 241);
+  --icons-color: rgb(86, 86, 86);
+  --line-color: rgb(179, 179, 179);
+
+  --gree-icon: rgb(7, 211, 123);
+}
+
 .showProfileInfo {
   position: absolute;
   width: 101%;
@@ -6,7 +14,7 @@
   left: -102%;
   transform: translateX(100%);
   transition: transform 0.5s;
-  background-color: rgb(241, 241, 241);
+  background-color: white;
   z-index: 4;
 }
 .showProfileclose {
@@ -50,142 +58,92 @@
   z-index: 1;
 }
 
-.expand-profile-picture {
-  margin-top: 4vh;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 50%;
-  overflow: hidden;
-  width: 0px;
-  height: 0px;
-  transform: scale(0);
-  transition: all 0.4s 0.2s;
-}
-
-.expand-profile-picture.expand {
-  transform: scale(1);
-  width: 240px;
-  height: 240px;
-}
-.expand-profile-picture img {
+.showFriiends-search-bar {
+  height: 52px;
   width: 100%;
-  object-fit: cover;
-}
-
-.class-for-the-other-profile-informations {
-  height: 0px;
-  width: 100%;
-  overflow: hidden;
-}
-
-.class-for-the-other-profile-informations.expand {
-  height: fit-content;
-  transform: translateY(10%);
-  transition: transform 0.3s;
-}
-.class-for-the-other-profile-section {
+  background-color: transparent;
   display: flex;
-  width: 100%;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 12vh;
-  padding: 2vh;
-  padding-inline: 5vh;
-}
-.class-for-the-other-profile-section.name {
-  background-color: white;
-}
-.class-for-the-other-profile-section.about {
-  background-color: white;
-}
-.class-for-the-other-profile-section-inside {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  text-align: left;
+  align-items: center;
+  padding: 8px;
+  padding-inline: 16px;
 }
 
-.class-for-the-other-profile-section.notification {
-  text-align: left;
-  color: rgb(108, 108, 108);
-  font-size: 14px;
-}
-.class-for-the-other-profile-section-inside.green {
-  color: rgb(10, 130, 98);
-  font-size: 14px;
-}
-
-.class-for-the-other-profile-section-inside.black {
-  font-size: 18px;
-}
-.class-for-the-other-profile-section-inside .icon {
-  color: rgb(108, 108, 108);
-  cursor: pointer;
-}
-.edit-picture-profile-appear-on-hover {
-  display: none;
-  position: absolute;
+.showFriiends-search-bar-inside {
   width: 100%;
   height: 100%;
-  background-color: rgba(75, 75, 75, 0.6);
-  top: 0px;
-  left: 0px;
-  color: white;
-  cursor: pointer;
-}
-
-.expand-profile-picture:hover .edit-picture-profile-appear-on-hover {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
+  border-radius: 10px;
+
   align-items: center;
+  padding-inline: 16px;
+  background-color: var(--backgroundmain-color);
 }
 
-.edit-picture-profile-appear-on-hover div:nth-child(1) {
-  font-size: 24px;
-}
-
-.edit-picture-profile-appear-on-hover div:nth-child(2) {
-  line-height: 2.4vh;
-  font-size: 14px;
-}
-
-.class-for-the-other-profile-section-inside input {
-  text-align: left;
-  outline: none;
-  background-color: transparent;
+.showFriiends-search-bar-inside input {
   border: none;
+  background-color: transparent;
+  outline: none;
+  flex-grow: 1;
+}
+
+.showProfileInfoHeader-back-icon.green {
+  color: var(--gree-icon);
+}
+.find-friends-new-create-group {
   width: 100%;
-  padding: 0;
+}
+.find-friends-new-create-group > div {
+  display: flex;
+  width: 100%;
+  height: 9.4vh;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-left: 16px;
+}
+.find-friends-new-group-image {
+  height: 7vh !important;
+  width: 7vh !important;
+  padding-left: 0px !important;
+  border-radius: 3.5vh;
+  overflow: hidden;
+  background-color: var(--gree-icon);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
 }
 
-.class-for-the-other-profile-section-inside.borderbottom {
-  border-bottom: 2px solid rgb(10, 130, 98);
-}
-
-.class-for-the-other-profile-section-inside {
-  padding-block: 0.5vh;
-}
-
-.class-for-the-other-profile-section-inside .appear-on-click {
+.find-friends-new-group-text-with-border-top {
+  height: 100%;
+  flex-grow: 1;
   display: flex;
   align-items: center;
-  gap: 10px;
+  border-top: 1px solid var(--line-color);
+}
+.find-friends-new-create-group-title {
+  margin-left: 4vh;
+  color: rgb(10, 165, 165);
+}
+.find-friends-new-create-group {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 518px; /* Adjust the height as needed */
 }
 
-.icon-2,
-.icon-3,
-.icon-4,
-.icon-5 {
-  font-size: 1px;
-  color: rgb(108, 108, 108);
-  transition: font-size 0.5s 0.2s; /* Add transition for font-size */
+/* Scrollbar styles */
+.find-friends-new-create-group::-webkit-scrollbar {
+  width: 8px;
+  background-color: #f5f5f5;
 }
 
-.icon-2.expand,
-.icon-3.expand,
-.icon-4.expand,
-.icon-5.expand {
-  font-size: 14px;
+.find-friends-new-create-group::-webkit-scrollbar-thumb {
+  background-color: #a9a9a9;
+  border-radius: 10px;
+}
+
+.find-friends-new-create-group::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+  border-radius: 10px;
 }

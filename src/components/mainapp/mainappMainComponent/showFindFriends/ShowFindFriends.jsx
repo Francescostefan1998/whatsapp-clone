@@ -5,25 +5,46 @@ import { BsCameraFill } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
 import { FaRegSmile } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
+import { HiUserGroup } from "react-icons/hi";
+import { MdGroup } from "react-icons/md";
 const ShowFindFriends = ({ update, closeFindFriendsSection }) => {
   const [renderCount, setRenderCount] = useState(0);
   const [expand, setExpand] = useState("");
   const [editName, setEditName] = useState(false);
   const [editAbout, setEditAbout] = useState(false);
-  const [icon3, setIcon3] = useState("icon-3");
-  const [icon2, setIcon2] = useState("icon-2");
-  const [icon4, setIcon4] = useState("icon-4");
-  const [icon5, setIcon5] = useState("icon-5");
-
+  const [listOfconstact, setListOfContact] = useState([]);
+  const [mySelfProfile, setMySelfProfile] = useState(null);
   const [pictureClass, setClassForThePicture] = useState(
     "expand-profile-picture"
   );
   const [classForTheOther, setClassForTheOther] = useState(
     "class-for-the-other-profile-informations"
   );
+  const fetchAllUsers = async () => {
+    try {
+      const res = await fetch("http://localhost:3001/users");
+      const data = await res.json();
+      setListOfContact(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchMyself = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/users/${localStorage.getItem("userId")}`
+      );
+      const data = await res.json();
+      setMySelfProfile(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     setExpand(update);
     setClassForThePicture("expand-profile-picture expand");
+    fetchAllUsers();
+    fetchMyself();
     setTimeout(
       () =>
         setClassForTheOther("class-for-the-other-profile-informations expand"),
@@ -44,114 +65,63 @@ const ShowFindFriends = ({ update, closeFindFriendsSection }) => {
             className="showProfileInfoHeader-back-icon"
             onClick={(e) => setExpandPrufile("showProfileclose")}
           />
-          <div>Profile</div>
+          <div>New chat</div>
         </div>
       </div>
-      <div className={pictureClass}>
-        <div className="edit-picture-profile-appear-on-hover">
-          <div>
-            <BsCameraFill />
-          </div>
-          <div>
-            CHANGE <br></br>PROFILE PHOTO
-          </div>
-        </div>
-        <img
-          src="https://pluspng.com/img-png/png-user-icon-icons-logos-emojis-users-2400.png"
-          alt="pictureProfile"
-        />
-      </div>
-      <div className={classForTheOther}>
-        <div className="class-for-the-other-profile-section name">
-          <div className="class-for-the-other-profile-section-inside green">
-            Your name
-          </div>
-          {!editName && (
-            <div className="class-for-the-other-profile-section-inside black">
-              <div>Francesco Stefan</div>
-              <div>
-                <RiPencilFill
-                  className="icon"
-                  onClick={(e) => {
-                    setIcon3("icon-3 expand");
-                    setIcon2("icon-2 expand");
-
-                    setEditName(true);
-                  }}
-                />
-              </div>
-            </div>
-          )}
-          {editName && (
-            <div className="class-for-the-other-profile-section-inside black borderbottom">
-              <div>
-                <input type="text" value={"Francesco Stefan"} />
-              </div>
-              <div className="appear-on-click">
-                <div className={icon3}>9</div>
-                <FaRegSmile className={icon2} />
-                <AiOutlineCheck
-                  className="icon"
-                  onClick={(e) => {
-                    setIcon3("icon-2");
-                    setIcon2("icon-3");
-
-                    setEditName(false);
-                  }}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="class-for-the-other-profile-section notification">
-          This is not your username or pin. This name will be visible to your
-          WhatsApp contacts.
-        </div>
-
-        <div className="class-for-the-other-profile-section about">
-          <div className="class-for-the-other-profile-section-inside green">
-            About
-          </div>
-          {!editAbout && (
-            <div className="class-for-the-other-profile-section-inside black">
-              <div>Hey there! I am using WhatsApp.</div>
-              <div>
-                <RiPencilFill
-                  className="icon"
-                  onClick={(e) => {
-                    setIcon4("icon-4 expand");
-                    setIcon5("icon-5 expand");
-
-                    setEditAbout(true);
-                  }}
-                />
-              </div>
-            </div>
-          )}
-          {editAbout && (
-            <div className="class-for-the-other-profile-section-inside black borderbottom">
-              <div>
-                <input type="text" value={"Hey there, I am using WhatsApp"} />
-              </div>
-              <div className="appear-on-click">
-                <div className={icon4}>8</div>
-                <FaRegSmile className={icon5} />
-                <AiOutlineCheck
-                  className="icon"
-                  onClick={(e) => {
-                    setIcon4("icon-5");
-                    setIcon5("icon-4");
-
-                    setEditAbout(false);
-                  }}
-                />
-              </div>
-            </div>
-          )}
+      <div className="showFriiends-search-bar">
+        <div className="showFriiends-search-bar-inside">
+          <FiArrowLeft className="showProfileInfoHeader-back-icon green" />
+          <input type="text" />
         </div>
       </div>
-      <div>hello</div>
+      <div className="find-friends-new-create-group">
+        <div>
+          <div className="find-friends-new-group-image">
+            <MdGroup />
+          </div>
+          <div className="find-friends-new-group-text-with-border-top">
+            New group
+          </div>
+        </div>
+        <div>
+          <div className="find-friends-new-group-image">
+            <HiUserGroup />
+          </div>
+          <div className="find-friends-new-group-text-with-border-top">
+            New community
+          </div>
+        </div>
+
+        <div className="find-friends-new-create-group-title">
+          WHATSAPP CONTACT
+        </div>
+        <div>
+          <div className="find-friends-new-group-image">
+            <HiUserGroup />
+          </div>
+          <div className="find-friends-new-group-text-with-border-top">
+            {mySelfProfile
+              ? mySelfProfile.firstName + " " + mySelfProfile.lastName
+              : "New community"}
+          </div>
+        </div>
+        <div className="find-friends-new-create-group-title">TO</div>
+        {listOfconstact &&
+          listOfconstact.map((contact, i) =>
+            contact._id !== localStorage.getItem("userId") ? (
+              <div key={contact._id}>
+                <div className="find-friends-new-group-image">
+                  <HiUserGroup />
+                </div>
+                <div className="find-friends-new-group-text-with-border-top">
+                  {contact.firstName + " " + contact.lastName}
+                </div>
+              </div>
+            ) : (
+              ""
+            )
+          )}
+      </div>
     </div>
   );
 };
