@@ -9,6 +9,7 @@ import MainappSingleChat from "../mainappSingleChat/MainappSingleChat";
 import MainappChatHeader from "../mainappChatHeader/MainappChatHeader";
 import { getUserChats } from "../../../../../redux/actions";
 import { useDispatch } from "react-redux";
+import { forwardRef, useImperativeHandle } from "react";
 import { BsFillBellSlashFill } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
 import ShowProfileInfo from "../../showProfileInfo/ShowProfileInfo";
@@ -16,12 +17,17 @@ import { IoIosArrowForward } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { ListGroupItem } from "react-bootstrap";
-
+import ShowFindFriends from "../../showFindFriends/ShowFindFriends";
 const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
-const MainappChatList = ({ fetchChatSelected }) => {
+const MainappChatList = (
+  { fetchChatSelected, grabListOfUsers, handleMyUserIsTyping },
+  ref
+) => {
+  console.log(ref);
   const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
+  const [showFindFriends, setShowFindFriends] = useState(false);
   const [login, setLogIn] = useState(false);
   const [user, setMyUser] = useState(null);
   const [message, setMessage] = useState("");
@@ -36,11 +42,15 @@ const MainappChatList = ({ fetchChatSelected }) => {
       const res = await fetch(`http://localhost:3001/users/${userId}`);
       const data = await res.json();
       setMyUser(data);
-      submitUsername(data.firstName);
+      submitUsername(data.firstName + data.lastName);
     } catch (error) {
       console.log(error);
     }
   };
+  useImperativeHandle(ref, () => ({
+    handleInputFocus,
+    handleInputBlur,
+  }));
   useEffect(() => {
     socket.on("welcome", (welcomeMessage) => {
       console.log(welcomeMessage);
@@ -50,13 +60,24 @@ const MainappChatList = ({ fetchChatSelected }) => {
 
         setLogIn(true);
         setOnlineUsers(onlineUsersList);
+        grabListOfUsers(onlineUsersList);
       });
       console.log(onlineusers);
 
       socket.on("updateOnlineUsers", (onlineUsersList) => {
         console.log("updateOnlineUsers a new user connectef");
         setOnlineUsers(onlineUsersList);
+        grabListOfUsers(onlineUsersList);
       });
+    });
+    socket.on("userTyping", (username) => {
+      console.log(username + " is typing...");
+      handleMyUserIsTyping(username);
+    });
+
+    socket.on("userStoppedTyping", (username) => {
+      console.log(username + " stopped typing.");
+      handleMyUserIsTyping(" stopped typing.");
     });
     socket.on("newMessage", (newMessage) => {
       console.log(newMessage);
@@ -68,6 +89,13 @@ const MainappChatList = ({ fetchChatSelected }) => {
       socket.emit("setUsername", { username });
       console.log("socket after");
     }
+  };
+  const handleInputFocus = () => {
+    socket.emit("startTyping");
+  };
+
+  const handleInputBlur = () => {
+    socket.emit("stopTyping");
   };
   const sendMessage = (messag, username) => {
     const newMessage = {
@@ -85,6 +113,7 @@ const MainappChatList = ({ fetchChatSelected }) => {
       return;
     }
   }, [closeAlert]);
+  useEffect(() => {}, [showFindFriends]);
   return (
     <div className="mainappChatList">
       {showProfile && (
@@ -93,8 +122,17 @@ const MainappChatList = ({ fetchChatSelected }) => {
           closeProfileSection={setShowProfile}
         />
       )}
+      {showFindFriends && (
+        <ShowFindFriends
+          update={"showProfileInfo"}
+          closeFindFriendsSection={setShowFindFriends}
+        />
+      )}
       <div>
-        <MainappChatHeader setShowProfile={setShowProfile} />
+        <MainappChatHeader
+          setShowProfile={setShowProfile}
+          setShowFindFriends={setShowFindFriends}
+        />
         <div className="mainappChatList-search">
           <div className="mainappChatList-search-inner">
             <div>
@@ -200,4 +238,4 @@ const MainappChatList = ({ fetchChatSelected }) => {
   );
 };
 
-export default MainappChatList;
+export default forwardRef(MainappChatList);
