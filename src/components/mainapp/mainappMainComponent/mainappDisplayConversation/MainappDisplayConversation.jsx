@@ -14,10 +14,13 @@ const MainappDisplayConversation = ({
   callHandleInputFocus,
   callHandleInputBlur,
   myUserIsTyping,
+  chatHistory,
+  callHandleSetTheMessage,
 }) => {
   const [friend, setFriend] = useState(null);
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
   const [updateState, setUpdateState] = useState(null);
+  const [message, setMessage] = useState("");
   console.log(arrayOfMessagesBody);
   console.log(friend);
   const dispatch = useDispatch();
@@ -36,6 +39,7 @@ const MainappDisplayConversation = ({
       return;
     }
   }, [chat]);
+  useEffect(() => {}, [message]);
   const fetchAllMessages = async () => {
     let myArray = [];
     for (let i = 0; i < chat.messages.length; i++) {
@@ -51,12 +55,23 @@ const MainappDisplayConversation = ({
     }
     setArrayOfMessagesBody(myArray);
   };
+  const handleKeydown = (e) => {
+    if (e.key === "Enter") {
+      callHandleSetTheMessage(message);
+    }
+  };
   const fetchUser = async () => {
-    const res = await fetch(`http://localhost:3001/users/${chat.users[1]}`);
+    const res = await fetch(
+      `http://localhost:3001/users/${
+        chat.users.filter(
+          (userId) => userId !== localStorage.getItem("userId")
+        )[0]
+      }`
+    );
     const user = await res.json();
     setFriend(user);
   };
-
+  useEffect(() => {}, [chatHistory]);
   return (
     <div className="mainappDisplayConversation">
       <div className="mainappDisplayConversation-header">
@@ -99,6 +114,11 @@ const MainappDisplayConversation = ({
           arrayOfMessagesBody.map((message, index) => (
             <SingleMessageDisplayed key={message._id} body={message} />
           ))}
+        {chatHistory &&
+          chatHistory.length >= 1 &&
+          chatHistory.map((message, index) => (
+            <div key={index}>{message.text}</div>
+          ))}
       </div>
       <div className="mainappDisplayConversation-footer">
         <div>
@@ -111,8 +131,10 @@ const MainappDisplayConversation = ({
           <input
             type="text"
             placeholder="Type a message"
+            onChange={(e) => setMessage(e.target.value)}
             onFocus={callHandleInputFocus}
             onBlur={callHandleInputBlur}
+            onKeyDown={(e) => handleKeydown(e)}
           />
         </div>
         <div>
