@@ -26,6 +26,7 @@ const MainappChatList = (
     grabListOfUsers,
     handleMyUserIsTyping,
     handleTheBeginningOfNewChat,
+    settingChatHistory,
   },
   ref
 ) => {
@@ -52,9 +53,10 @@ const MainappChatList = (
       console.log(error);
     }
   };
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, (e) => ({
     handleInputFocus,
     handleInputBlur,
+    setTheMessage,
   }));
   useEffect(() => {
     socket.on("welcome", (welcomeMessage) => {
@@ -81,6 +83,7 @@ const MainappChatList = (
     });
     socket.on("newMessage", (newMessage) => {
       setChatHistory([...chatHistory, newMessage.message]);
+      settingChatHistory([...chatHistory, newMessage.message]);
     });
   }, [chatHistory]);
   const submitUsername = (username) => {
@@ -91,6 +94,11 @@ const MainappChatList = (
   const handleInputFocus = () => {
     console.log("is typing");
     socket.emit("startTyping");
+  };
+  const setTheMessage = (e) => {
+    console.log(e);
+    setMessage(e);
+    sendMessage(e, userNameTry);
   };
 
   const handleInputBlur = () => {

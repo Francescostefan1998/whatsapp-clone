@@ -12,7 +12,7 @@ const MainappBackground = () => {
   const [beginANewChat, setBeginANewChat] = useState(false);
   const [userToStartChat, setUserToStartChat] = useState(null);
   const [nextChatSelected, setNexChatSelected] = useState(null);
-  console.log(nextChatSelected);
+  const [chatHistory, setChatHistory] = useState([]);
   const mainappChatListRef = useRef();
   const handleMyUserIsTyping = (typingBody) => {
     setMyUserIsTyping(typingBody);
@@ -20,7 +20,12 @@ const MainappBackground = () => {
   const callHandleInputFocus = () => {
     mainappChatListRef.current.handleInputFocus();
   };
-
+  const callHandleSetTheMessage = (e) => {
+    mainappChatListRef.current.setTheMessage(e);
+  };
+  const settingChatHistory = (chatLists) => {
+    setChatHistory(chatLists);
+  };
   const callHandleInputBlur = () => {
     mainappChatListRef.current.handleInputBlur();
   };
@@ -44,8 +49,6 @@ const MainappBackground = () => {
       }),
     });
     const chatData = await res.json();
-    console.log(chatData);
-    console.log(selectedChat);
     setNexChatSelected(chatData);
   };
   const fetchUserToStartChat = async (param) => {
@@ -60,10 +63,11 @@ const MainappBackground = () => {
   };
 
   const handleTheBeginningOfNewChat = (param) => {
-    console.log(param);
     setBeginANewChat(param);
     fetchUserToStartChat(param);
   };
+  useEffect(() => {}, [chatHistory]);
+
   useEffect(() => {}, [nextChatSelected]);
 
   useEffect(() => {}, [userToStartChat]);
@@ -85,16 +89,19 @@ const MainappBackground = () => {
           ref={mainappChatListRef}
           handleMyUserIsTyping={handleMyUserIsTyping}
           handleTheBeginningOfNewChat={handleTheBeginningOfNewChat}
+          settingChatHistory={settingChatHistory}
         />
         {selectedChat === null ? (
           <MainappEmptySpace />
         ) : (
           <MainappDisplayConversation
+            chatHistory={chatHistory}
             chat={selectedChat}
             listOfUsers={listOfUsers}
             callHandleInputFocus={callHandleInputFocus}
             callHandleInputBlur={callHandleInputBlur}
             myUserIsTyping={myUserIsTyping}
+            callHandleSetTheMessage={callHandleSetTheMessage}
           />
         )}
       </div>
