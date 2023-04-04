@@ -89,10 +89,13 @@ const MainappChatList = (
     }
   };
   const handleInputFocus = () => {
+    console.log("is typing");
     socket.emit("startTyping");
   };
 
   const handleInputBlur = () => {
+    console.log("stop typing");
+
     socket.emit("stopTyping");
   };
   const sendMessage = (messag, username) => {

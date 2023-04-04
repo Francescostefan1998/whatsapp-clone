@@ -52,7 +52,13 @@ const MainappDisplayConversation = ({
     setArrayOfMessagesBody(myArray);
   };
   const fetchUser = async () => {
-    const res = await fetch(`http://localhost:3001/users/${chat.users[1]}`);
+    const res = await fetch(
+      `http://localhost:3001/users/${
+        chat.users.filter(
+          (userId) => userId !== localStorage.getItem("userId")
+        )[0]
+      }`
+    );
     const user = await res.json();
     setFriend(user);
   };
