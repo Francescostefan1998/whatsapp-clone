@@ -21,7 +21,12 @@ import ShowFindFriends from "../../showFindFriends/ShowFindFriends";
 const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
 const MainappChatList = (
-  { fetchChatSelected, grabListOfUsers, handleMyUserIsTyping },
+  {
+    fetchChatSelected,
+    grabListOfUsers,
+    handleMyUserIsTyping,
+    handleTheBeginningOfNewChat,
+  },
   ref
 ) => {
   console.log(ref);
@@ -55,17 +60,12 @@ const MainappChatList = (
     socket.on("welcome", (welcomeMessage) => {
       console.log(welcomeMessage);
       socket.on("loggedIn", (onlineUsersList) => {
-        console.log("logged in", onlineUsersList);
-        console.log(onlineUsersList);
-
         setLogIn(true);
         setOnlineUsers(onlineUsersList);
         grabListOfUsers(onlineUsersList);
       });
-      console.log(onlineusers);
 
       socket.on("updateOnlineUsers", (onlineUsersList) => {
-        console.log("updateOnlineUsers a new user connectef");
         setOnlineUsers(onlineUsersList);
         grabListOfUsers(onlineUsersList);
       });
@@ -80,14 +80,12 @@ const MainappChatList = (
       handleMyUserIsTyping(" stopped typing.");
     });
     socket.on("newMessage", (newMessage) => {
-      console.log(newMessage);
       setChatHistory([...chatHistory, newMessage.message]);
     });
   }, [chatHistory]);
   const submitUsername = (username) => {
     if (username) {
       socket.emit("setUsername", { username });
-      console.log("socket after");
     }
   };
   const handleInputFocus = () => {
@@ -113,6 +111,12 @@ const MainappChatList = (
       return;
     }
   }, [closeAlert]);
+  const handleStartingChat = (secondParam) => {
+    console.log(secondParam);
+    setShowFindFriends(secondParam);
+    handleTheBeginningOfNewChat(secondParam);
+  };
+
   useEffect(() => {}, [showFindFriends]);
   return (
     <div className="mainappChatList">
@@ -126,12 +130,14 @@ const MainappChatList = (
         <ShowFindFriends
           update={"showProfileInfo"}
           closeFindFriendsSection={setShowFindFriends}
+          handleStartingChat={handleStartingChat}
         />
       )}
       <div>
         <MainappChatHeader
           setShowProfile={setShowProfile}
           setShowFindFriends={setShowFindFriends}
+          handleStartingChat={handleStartingChat}
         />
         <div className="mainappChatList-search">
           <div className="mainappChatList-search-inner">

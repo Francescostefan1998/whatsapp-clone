@@ -7,7 +7,11 @@ import { FaRegSmile } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
 import { HiUserGroup } from "react-icons/hi";
 import { MdGroup } from "react-icons/md";
-const ShowFindFriends = ({ update, closeFindFriendsSection }) => {
+const ShowFindFriends = ({
+  update,
+  closeFindFriendsSection,
+  handleStartingChat,
+}) => {
   const [renderCount, setRenderCount] = useState(0);
   const [expand, setExpand] = useState("");
   const [editName, setEditName] = useState(false);
@@ -109,7 +113,14 @@ const ShowFindFriends = ({ update, closeFindFriendsSection }) => {
         {listOfconstact &&
           listOfconstact.map((contact, i) =>
             contact._id !== localStorage.getItem("userId") ? (
-              <div key={contact._id}>
+              <div
+                key={contact._id}
+                className="start-a-new-chat-cursor-pointer"
+                onClick={(e) => {
+                  console.log(e);
+                  handleStartingChat(contact._id);
+                }}
+              >
                 <div className="find-friends-new-group-image">
                   <HiUserGroup />
                 </div>

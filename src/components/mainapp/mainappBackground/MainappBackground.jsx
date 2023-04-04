@@ -9,7 +9,10 @@ const MainappBackground = () => {
   const [selectedChat, setChat] = useState(null);
   const [listOfUsers, grabListOfUsers] = useState([]);
   const [myUserIsTyping, setMyUserIsTyping] = useState("");
-
+  const [beginANewChat, setBeginANewChat] = useState(false);
+  const [userToStartChat, setUserToStartChat] = useState(null);
+  const [nextChatSelected, setNexChatSelected] = useState(null);
+  console.log(nextChatSelected);
   const mainappChatListRef = useRef();
   const handleMyUserIsTyping = (typingBody) => {
     setMyUserIsTyping(typingBody);
@@ -31,6 +34,40 @@ const MainappBackground = () => {
       console.log(error);
     }
   };
+  const postANewChat = async (data) => {
+    const res = await fetch(`http://localhost:3001/chats`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: [],
+        users: [localStorage.getItem("userId"), data._id],
+      }),
+    });
+    const chatData = await res.json();
+    console.log(chatData);
+    console.log(selectedChat);
+    setNexChatSelected(chatData);
+  };
+  const fetchUserToStartChat = async (param) => {
+    try {
+      const res = await fetch(`http://localhost:3001/users/${param}`);
+      const data = await res.json();
+      setUserToStartChat(data);
+      postANewChat(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleTheBeginningOfNewChat = (param) => {
+    console.log(param);
+    setBeginANewChat(param);
+    fetchUserToStartChat(param);
+  };
+  useEffect(() => {}, [nextChatSelected]);
+
+  useEffect(() => {}, [userToStartChat]);
+  useEffect(() => {}, [beginANewChat]);
 
   useEffect(() => {}, [listOfUsers]);
 
@@ -47,6 +84,7 @@ const MainappBackground = () => {
           grabListOfUsers={grabListOfUsers}
           ref={mainappChatListRef}
           handleMyUserIsTyping={handleMyUserIsTyping}
+          handleTheBeginningOfNewChat={handleTheBeginningOfNewChat}
         />
         {selectedChat === null ? (
           <MainappEmptySpace />
