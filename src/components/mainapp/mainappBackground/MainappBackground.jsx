@@ -13,7 +13,10 @@ const MainappBackground = () => {
   const [userToStartChat, setUserToStartChat] = useState(null);
   const [nextChatSelected, setNexChatSelected] = useState(null);
   const [chatHistory, setChatHistory] = useState([]);
+  const [bigList, setBigListMessages] = useState([]);
   const mainappChatListRef = useRef();
+  const [refreshTheChatPage, setRefreshTheChatPage] = useState([]);
+  useEffect(() => {}, [refreshTheChatPage]);
   const handleMyUserIsTyping = (typingBody) => {
     setMyUserIsTyping(typingBody);
   };
@@ -22,6 +25,9 @@ const MainappBackground = () => {
   };
   const callHandleSetTheMessage = (e) => {
     mainappChatListRef.current.setTheMessage(e);
+  };
+  const concatenateTheMessage = (e) => {
+    setBigListMessages(e);
   };
   const settingChatHistory = (chatLists) => {
     setChatHistory(chatLists);
@@ -66,7 +72,12 @@ const MainappBackground = () => {
     setBeginANewChat(param);
     fetchUserToStartChat(param);
   };
-  useEffect(() => {}, [chatHistory]);
+  useEffect(() => {
+    console.log(chatHistory);
+  }, [chatHistory]);
+  useEffect(() => {
+    console.log(bigList);
+  }, [bigList]);
 
   useEffect(() => {}, [nextChatSelected]);
 
@@ -90,6 +101,8 @@ const MainappBackground = () => {
           handleMyUserIsTyping={handleMyUserIsTyping}
           handleTheBeginningOfNewChat={handleTheBeginningOfNewChat}
           settingChatHistory={settingChatHistory}
+          refreshTheChatPage={setRefreshTheChatPage}
+          concatenateTheMessage={concatenateTheMessage}
         />
         {selectedChat === null ? (
           <MainappEmptySpace />
@@ -102,6 +115,8 @@ const MainappBackground = () => {
             callHandleInputBlur={callHandleInputBlur}
             myUserIsTyping={myUserIsTyping}
             callHandleSetTheMessage={callHandleSetTheMessage}
+            refreshTheChatPage={refreshTheChatPage}
+            bigList={bigList}
           />
         )}
       </div>

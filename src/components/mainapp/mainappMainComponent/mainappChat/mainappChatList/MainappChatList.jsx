@@ -27,6 +27,9 @@ const MainappChatList = (
     handleMyUserIsTyping,
     handleTheBeginningOfNewChat,
     settingChatHistory,
+    refreshTheChatPage,
+    settingChatHistorySoket,
+    concatenateTheMessage,
   },
   ref
 ) => {
@@ -41,8 +44,18 @@ const MainappChatList = (
   const [onlineusers, setOnlineUsers] = useState([]);
   const [closeAlert, setCloseAlert] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
+  const [chatHistorySocket, setChatHistorySoket] = useState([]);
   console.log(chatHistory);
-  console.log(onlineusers);
+  console.log(chatHistorySocket);
+
+  useEffect(() => {
+    console.log([chatHistory + chatHistorySocket]);
+
+    setTimeout(() => {
+      concatenateTheMessage([chatHistorySocket, chatHistory]);
+      refreshTheChatPage(chatHistory);
+    }, 200);
+  }, [chatHistory, chatHistorySocket]);
   const fetchAndGetTheChatList = async (userId) => {
     try {
       const res = await fetch(`http://localhost:3001/users/${userId}`);
@@ -58,6 +71,7 @@ const MainappChatList = (
     handleInputBlur,
     setTheMessage,
   }));
+
   useEffect(() => {
     socket.on("welcome", (welcomeMessage) => {
       console.log(welcomeMessage);
@@ -82,28 +96,26 @@ const MainappChatList = (
       handleMyUserIsTyping(" stopped typing.");
     });
     socket.on("newMessage", (newMessage) => {
-      setChatHistory([...chatHistory, newMessage.message]);
-      settingChatHistory([...chatHistory, newMessage.message]);
+      setChatHistorySoket([...chatHistorySocket, newMessage.message]);
+      //settingChatHistorySoket([...chatHistorySocket, newMessage.message]);
     });
-  }, [chatHistory]);
+  }, [chatHistorySocket]);
   const submitUsername = (username) => {
     if (username) {
       socket.emit("setUsername", { username });
     }
   };
+
   const handleInputFocus = () => {
     console.log("is typing");
     socket.emit("startTyping");
   };
   const setTheMessage = (e) => {
-    console.log(e);
     setMessage(e);
     sendMessage(e, userNameTry);
   };
 
   const handleInputBlur = () => {
-    console.log("stop typing");
-
     socket.emit("stopTyping");
   };
   const sendMessage = (messag, username) => {
@@ -114,6 +126,7 @@ const MainappChatList = (
     };
     socket.emit("sendMessage", { message: newMessage });
     setChatHistory([...chatHistory, newMessage]);
+    settingChatHistory([...chatHistory, newMessage]);
   };
   useEffect(() => {
     if (localStorage.getItem("userId")) {
@@ -123,7 +136,6 @@ const MainappChatList = (
     }
   }, [closeAlert]);
   const handleStartingChat = (secondParam) => {
-    console.log(secondParam);
     setShowFindFriends(secondParam);
     handleTheBeginningOfNewChat(secondParam);
   };
