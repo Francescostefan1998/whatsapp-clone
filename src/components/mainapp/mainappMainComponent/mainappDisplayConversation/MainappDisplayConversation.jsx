@@ -16,6 +16,8 @@ const MainappDisplayConversation = ({
   myUserIsTyping,
   chatHistory,
   callHandleSetTheMessage,
+  refreshChatPage,
+  bigList,
 }) => {
   const [friend, setFriend] = useState(null);
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
@@ -31,6 +33,9 @@ const MainappDisplayConversation = ({
   useEffect(() => {
     console.log(listOfUsers);
   }, [listOfUsers]);
+  useEffect(() => {
+    console.log(bigList);
+  }, [bigList]);
   useEffect(() => {
     if (chat) {
       fetchUser();
@@ -72,6 +77,8 @@ const MainappDisplayConversation = ({
     setFriend(user);
   };
   useEffect(() => {}, [chatHistory]);
+  useEffect(() => {}, [refreshChatPage]);
+
   return (
     <div className="mainappDisplayConversation">
       <div className="mainappDisplayConversation-header">
@@ -112,12 +119,22 @@ const MainappDisplayConversation = ({
         {chat &&
           arrayOfMessagesBody.length >= 1 &&
           arrayOfMessagesBody.map((message, index) => (
-            <SingleMessageDisplayed key={message._id} body={message} />
+            <SingleMessageDisplayed
+              key={message._id}
+              body={message}
+              dateSplit={"short"}
+            />
           ))}
-        {chatHistory &&
-          chatHistory.length >= 1 &&
-          chatHistory.map((message, index) => (
-            <div key={index}>{message.text}</div>
+        {bigList &&
+          bigList.length >= 1 &&
+          bigList.map((message, index) => (
+            <SingleMessageDisplayed
+              key={message.createdAt}
+              body={message}
+              chatId={chat._id}
+              friendId={friend._id}
+              dateSplit={"long"}
+            />
           ))}
       </div>
       <div className="mainappDisplayConversation-footer">

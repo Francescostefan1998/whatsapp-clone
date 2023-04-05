@@ -18,7 +18,6 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { ListGroupItem } from "react-bootstrap";
 import ShowFindFriends from "../../showFindFriends/ShowFindFriends";
-const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
 const MainappChatList = (
   {
@@ -27,6 +26,10 @@ const MainappChatList = (
     handleMyUserIsTyping,
     handleTheBeginningOfNewChat,
     settingChatHistory,
+    refreshTheChatPage,
+    settingChatHistorySoket,
+    concatenateTheMessage,
+    socket,
   },
   ref
 ) => {
@@ -41,8 +44,18 @@ const MainappChatList = (
   const [onlineusers, setOnlineUsers] = useState([]);
   const [closeAlert, setCloseAlert] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
+  const [chatHistorySocket, setChatHistorySoket] = useState([]);
   console.log(chatHistory);
-  console.log(onlineusers);
+  console.log(chatHistorySocket);
+
+  useEffect(() => {
+    console.log([...chatHistory, ...chatHistorySocket]);
+
+    setTimeout(() => {
+      concatenateTheMessage([...chatHistorySocket, ...chatHistory]);
+      refreshTheChatPage(chatHistory);
+    }, 200);
+  }, [chatHistory, chatHistorySocket]);
   const fetchAndGetTheChatList = async (userId) => {
     try {
       const res = await fetch(`http://localhost:3001/users/${userId}`);
@@ -58,6 +71,7 @@ const MainappChatList = (
     handleInputBlur,
     setTheMessage,
   }));
+
   useEffect(() => {
     socket.on("welcome", (welcomeMessage) => {
       console.log(welcomeMessage);
@@ -82,38 +96,48 @@ const MainappChatList = (
       handleMyUserIsTyping(" stopped typing.");
     });
     socket.on("newMessage", (newMessage) => {
-      setChatHistory([...chatHistory, newMessage.message]);
-      settingChatHistory([...chatHistory, newMessage.message]);
+      setChatHistorySoket([...chatHistorySocket, newMessage.message]);
+      //settingChatHistorySoket([...chatHistorySocket, newMessage.message]);
     });
-  }, [chatHistory]);
+  }, [chatHistorySocket]);
   const submitUsername = (username) => {
     if (username) {
       socket.emit("setUsername", { username });
     }
   };
+
   const handleInputFocus = () => {
     console.log("is typing");
     socket.emit("startTyping");
   };
   const setTheMessage = (e) => {
-    console.log(e);
     setMessage(e);
-    sendMessage(e, userNameTry);
+    sendMessage(e, user ? user._id : userNameTry);
   };
 
   const handleInputBlur = () => {
-    console.log("stop typing");
-
     socket.emit("stopTyping");
   };
   const sendMessage = (messag, username) => {
+    const date = new Date();
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      fractionalSecondDigits: 3,
+      hour12: true,
+    };
     const newMessage = {
       sender: username,
       text: messag,
-      ceatedAt: new Date().toLocaleString("en-US"),
+      createdAt: date.toLocaleString("en-US", options),
     };
     socket.emit("sendMessage", { message: newMessage });
     setChatHistory([...chatHistory, newMessage]);
+    settingChatHistory([...chatHistory, newMessage]);
   };
   useEffect(() => {
     if (localStorage.getItem("userId")) {
@@ -123,7 +147,6 @@ const MainappChatList = (
     }
   }, [closeAlert]);
   const handleStartingChat = (secondParam) => {
-    console.log(secondParam);
     setShowFindFriends(secondParam);
     handleTheBeginningOfNewChat(secondParam);
   };
@@ -223,22 +246,6 @@ const MainappChatList = (
                     <div key={user.socketId}>{user.username}</div>
                   ))}
               </div>
-              <div className="mt-4">
-                {chatHistory &&
-                  chatHistory.map((message, index) => (
-                    <div key={message.createdAt}>
-                      {message.sender}: {message.text}
-                    </div>
-                  ))}
-              </div>
-              <input
-                type="text"
-                placeholder="write message"
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <button onClick={() => sendMessage(message, userNameTry)}>
-                send message
-              </button>
             </div>
           )}
         </div>
