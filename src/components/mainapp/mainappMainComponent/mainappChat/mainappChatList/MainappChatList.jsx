@@ -112,17 +112,28 @@ const MainappChatList = (
   };
   const setTheMessage = (e) => {
     setMessage(e);
-    sendMessage(e, userNameTry);
+    sendMessage(e, user ? user._id : userNameTry);
   };
 
   const handleInputBlur = () => {
     socket.emit("stopTyping");
   };
   const sendMessage = (messag, username) => {
+    const date = new Date();
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      fractionalSecondDigits: 3,
+      hour12: true,
+    };
     const newMessage = {
       sender: username,
       text: messag,
-      createdAt: new Date().toLocaleString("en-US"),
+      createdAt: date.toLocaleString("en-US", options),
     };
     socket.emit("sendMessage", { message: newMessage });
     setChatHistory([...chatHistory, newMessage]);
