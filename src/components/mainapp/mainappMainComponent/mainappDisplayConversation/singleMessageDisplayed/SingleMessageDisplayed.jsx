@@ -2,7 +2,7 @@ import "./singleMessageDisplayed.css";
 import { BsCheckAll } from "react-icons/bs";
 import { useEffect } from "react";
 
-const SingleMessageDisplayed = ({ body, chatId, friendId }) => {
+const SingleMessageDisplayed = ({ body, chatId, friendId, dateSplit }) => {
   useEffect(() => {
     checkAndUpdateMessages(body);
   }, [body]);
@@ -46,7 +46,7 @@ const SingleMessageDisplayed = ({ body, chatId, friendId }) => {
           <div className="singleMessageDisplay-container right">
             <div className="little-corner right"></div>
             <div className="display-date right">
-              {body.createdAt.substring(11, 17)}
+              {body.createdAt.substring(11, dateSplit === "short" ? 16 : 17)}
               <BsCheckAll className="display-date-icon" />
             </div>
 
@@ -58,7 +58,7 @@ const SingleMessageDisplayed = ({ body, chatId, friendId }) => {
           <div className="singleMessageDisplay-container left">
             <div className="little-corner left"></div>
             <div className="display-date left">
-              {body.createdAt.substring(11, 17)}
+              {body.createdAt.substring(11, dateSplit === "short" ? 16 : 17)}
             </div>
 
             {body.text}

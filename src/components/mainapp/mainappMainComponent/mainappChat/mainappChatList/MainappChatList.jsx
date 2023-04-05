@@ -18,7 +18,6 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { ListGroupItem } from "react-bootstrap";
 import ShowFindFriends from "../../showFindFriends/ShowFindFriends";
-const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
 const MainappChatList = (
   {
@@ -30,6 +29,7 @@ const MainappChatList = (
     refreshTheChatPage,
     settingChatHistorySoket,
     concatenateTheMessage,
+    socket,
   },
   ref
 ) => {

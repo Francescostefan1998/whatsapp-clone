@@ -119,7 +119,11 @@ const MainappDisplayConversation = ({
         {chat &&
           arrayOfMessagesBody.length >= 1 &&
           arrayOfMessagesBody.map((message, index) => (
-            <SingleMessageDisplayed key={message._id} body={message} />
+            <SingleMessageDisplayed
+              key={message._id}
+              body={message}
+              dateSplit={"short"}
+            />
           ))}
         {bigList &&
           bigList.length >= 1 &&
@@ -129,6 +133,7 @@ const MainappDisplayConversation = ({
               body={message}
               chatId={chat._id}
               friendId={friend._id}
+              dateSplit={"long"}
             />
           ))}
       </div>
