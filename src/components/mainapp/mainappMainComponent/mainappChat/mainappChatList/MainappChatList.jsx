@@ -122,7 +122,7 @@ const MainappChatList = (
     const newMessage = {
       sender: username,
       text: messag,
-      ceatedAt: new Date().toLocaleString("en-US"),
+      createdAt: new Date().toLocaleString("en-US"),
     };
     socket.emit("sendMessage", { message: newMessage });
     setChatHistory([...chatHistory, newMessage]);

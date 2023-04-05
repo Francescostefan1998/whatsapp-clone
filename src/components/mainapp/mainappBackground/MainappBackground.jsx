@@ -27,7 +27,9 @@ const MainappBackground = () => {
     mainappChatListRef.current.setTheMessage(e);
   };
   const concatenateTheMessage = (e) => {
-    setBigListMessages(e);
+    setBigListMessages(
+      e.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).reverse()
+    );
   };
   const settingChatHistory = (chatLists) => {
     setChatHistory(chatLists);
