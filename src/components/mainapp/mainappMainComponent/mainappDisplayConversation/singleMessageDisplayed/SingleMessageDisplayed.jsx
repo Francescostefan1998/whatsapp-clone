@@ -19,18 +19,20 @@ const SingleMessageDisplayed = ({ body, chatId, friendId }) => {
         if (findBody) {
           return;
         } else {
-          const res = await fetch(
-            `http://localhost:3001/messages/${localStorage.getItem(
-              "userId"
-            )}/${chatId}`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ ...body, user: friendId }),
-            }
-          );
+          if (body.sender === localStorage.getItem("userId")) {
+            const res = await fetch(
+              `http://localhost:3001/messages/${localStorage.getItem(
+                "userId"
+              )}/${chatId}`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...body, user: friendId }),
+              }
+            );
+          }
         }
       }
     } catch (error) {
