@@ -246,22 +246,6 @@ const MainappChatList = (
                     <div key={user.socketId}>{user.username}</div>
                   ))}
               </div>
-              <div className="mt-4">
-                {chatHistory &&
-                  chatHistory.map((message, index) => (
-                    <div key={message.createdAt}>
-                      {message.sender}: {message.text}
-                    </div>
-                  ))}
-              </div>
-              <input
-                type="text"
-                placeholder="write message"
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <button onClick={() => sendMessage(message, userNameTry)}>
-                send message
-              </button>
             </div>
           )}
         </div>

@@ -124,7 +124,12 @@ const MainappDisplayConversation = ({
         {bigList &&
           bigList.length >= 1 &&
           bigList.map((message, index) => (
-            <SingleMessageDisplayed key={message.createdAt} body={message} />
+            <SingleMessageDisplayed
+              key={message.createdAt}
+              body={message}
+              chatId={chat._id}
+              friendId={friend._id}
+            />
           ))}
       </div>
       <div className="mainappDisplayConversation-footer">
