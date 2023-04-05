@@ -49,10 +49,10 @@ const MainappChatList = (
   console.log(chatHistorySocket);
 
   useEffect(() => {
-    console.log([chatHistory + chatHistorySocket]);
+    console.log([...chatHistory, ...chatHistorySocket]);
 
     setTimeout(() => {
-      concatenateTheMessage([chatHistorySocket, chatHistory]);
+      concatenateTheMessage([...chatHistorySocket, ...chatHistory]);
       refreshTheChatPage(chatHistory);
     }, 200);
   }, [chatHistory, chatHistorySocket]);

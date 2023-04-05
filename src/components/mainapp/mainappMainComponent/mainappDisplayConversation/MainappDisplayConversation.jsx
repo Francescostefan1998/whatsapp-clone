@@ -121,11 +121,11 @@ const MainappDisplayConversation = ({
           arrayOfMessagesBody.map((message, index) => (
             <SingleMessageDisplayed key={message._id} body={message} />
           ))}
-        {/*bigList &&
+        {bigList &&
           bigList.length >= 1 &&
           bigList.map((message, index) => (
             <div key={index}>{message.text}</div>
-          ))*/}
+          ))}
       </div>
       <div className="mainappDisplayConversation-footer">
         <div>
