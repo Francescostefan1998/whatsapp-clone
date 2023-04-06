@@ -58,7 +58,12 @@ const MainappDisplayConversation = ({
         console.log(error);
       }
     }
-    setArrayOfMessagesBody(myArray);
+    setArrayOfMessagesBody(
+      myArray.filter(
+        (message) =>
+          !message.hiddenFrom.includes(localStorage.getItem("userId"))
+      )
+    );
   };
   const handleKeydown = (e) => {
     if (e.key === "Enter") {

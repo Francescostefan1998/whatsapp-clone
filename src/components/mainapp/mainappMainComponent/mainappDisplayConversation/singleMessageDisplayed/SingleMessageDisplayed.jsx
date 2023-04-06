@@ -26,7 +26,35 @@ const SingleMessageDisplayed = ({
   useEffect(() => {
     checkAndUpdateMessages(body);
   }, [body]);
+  const deleteForMe = async (messageId) => {
+    try {
+      const userId = localStorage.getItem("userId");
 
+      // Create an object with the updated hiddenFrom array
+
+      const response = await fetch(
+        `http://localhost:3001/messages/${messageId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            hiddenFrom: [...body.hiddenFrom, userId],
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const updatedMessage = await response.json();
+        console.log("Message updated:", updatedMessage);
+      } else {
+        console.error("Error updating message:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error updating message:", error);
+    }
+  };
   const showThisDropDown = () => {
     if (showDropDown) {
       setShowDropDown(false);
@@ -84,7 +112,7 @@ const SingleMessageDisplayed = ({
                     <div>Forward</div>
                     <div>Important</div>
                     <div>Pin</div>
-                    <div>Delete</div>
+                    <div onClick={() => deleteForMe(body._id)}>Delete</div>
                   </div>
                 )}
                 <div className="little-dropdown-absolute right">
@@ -117,7 +145,7 @@ const SingleMessageDisplayed = ({
                     <div>Forward</div>
                     <div>Important</div>
                     <div>Pin</div>
-                    <div>Delete</div>
+                    <div onClick={() => deleteForMe(body._id)}>Delete</div>
                   </div>
                 )}
                 <div className="little-dropdown-absolute right">
