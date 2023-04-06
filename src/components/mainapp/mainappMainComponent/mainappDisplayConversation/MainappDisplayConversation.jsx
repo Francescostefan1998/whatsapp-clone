@@ -58,7 +58,12 @@ const MainappDisplayConversation = ({
         console.log(error);
       }
     }
-    setArrayOfMessagesBody(myArray);
+    setArrayOfMessagesBody(
+      myArray.filter(
+        (message) =>
+          !message.hiddenFrom.includes(localStorage.getItem("userId"))
+      )
+    );
   };
   const handleKeydown = (e) => {
     if (e.key === "Enter") {
@@ -120,6 +125,7 @@ const MainappDisplayConversation = ({
           arrayOfMessagesBody.length >= 1 &&
           arrayOfMessagesBody.map((message, index) => (
             <SingleMessageDisplayed
+              classForTheDropDown={index >= 7 ? 20 : 50}
               key={message._id}
               body={message}
               dateSplit={"short"}
@@ -129,6 +135,13 @@ const MainappDisplayConversation = ({
           bigList.length >= 1 &&
           bigList.map((message, index) => (
             <SingleMessageDisplayed
+              classForTheDropDown={
+                chat && arrayOfMessagesBody.length >= 7
+                  ? 20
+                  : index >= 7
+                  ? 20
+                  : 50
+              }
               key={message.createdAt}
               body={message}
               chatId={chat._id}

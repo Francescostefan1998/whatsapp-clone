@@ -1,5 +1,6 @@
 .singleMessageDisplay {
   width: 100%;
+  position: relative;
 }
 .singleMessageDisplay-right {
   width: 100%;
@@ -8,6 +9,7 @@
   justify-content: end;
   padding: 1px;
   padding-inline: 4vh;
+  position: relative;
 }
 .singleMessageDisplay-left {
   width: 100%;
@@ -16,6 +18,42 @@
   justify-content: start;
   padding: 1px;
   padding-inline: 4vh;
+}
+
+.dropdown-setting-message {
+  position: absolute;
+  z-index: 5;
+  background-color: transparent;
+  font-size: 16px;
+  right: 10px;
+  bottom: 14px;
+  width: 190px;
+  height: 230px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding-block: 10px;
+  border-radius: 3px;
+  overflow-y: auto; /* add overflow-y property */
+}
+.dropdown-setting-message.left {
+  bottom: 14px;
+  left: 10px;
+}
+
+.dropdown-setting-message div {
+  width: 100%;
+  text-align: left;
+  padding-inline: 20px;
+  display: flex;
+  align-items: center;
+  color: black;
+  flex-grow: 1;
+}
+
+.dropdown-setting-message div:hover {
+  background-color: rgb(230, 230, 230);
 }
 .singleMessageDisplay-container {
   padding-top: 0.4vh;
@@ -69,6 +107,7 @@
 
   width: 20px;
   height: 20px;
+  overflow: hidden;
 }
 .singleMessageDisplay-container .display-date {
   position: absolute;
@@ -82,4 +121,91 @@
 .singleMessageDisplay-container .display-date.right {
   margin-bottom: -4px;
   margin-right: -2px;
+}
+.little-dropdown {
+  position: absolute;
+  z-index: 1;
+  background-color: transparent;
+  right: 2px;
+  cursor: pointer;
+  top: 0;
+  height: 28px;
+  width: 30px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: gray;
+  font-size: 20px;
+}
+
+.little-dropdown:hover {
+  overflow: visible;
+}
+
+.little-dropdown:hover .little-dropdown-relative .little-dropdown-absolute {
+  transition: transform 0s linear !important; /* add transition property */
+}
+.little-dropdown:hover .dropdown-setting-message {
+  background-color: white;
+  box-shadow: 0px 5px 10px black;
+}
+
+.little-dropdown.hidden {
+  display: none;
+}
+
+.singleMessageDisplay-right:hover
+  .little-dropdown
+  .little-dropdown-relative
+  .little-dropdown-absolute {
+  transform: translateX(0px);
+  display: flex;
+  background-color: rgb(135, 211, 152);
+}
+.singleMessageDisplay-right:hover .little-dropdown {
+  width: 40px;
+}
+.singleMessageDisplay-left:hover
+  .little-dropdown
+  .little-dropdown-relative
+  .little-dropdown-absolute {
+  transform: translateX(0px);
+  display: flex;
+  background-color: rgb(236, 223, 207);
+}
+
+.little-dropdown-relative {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.little-dropdown-absolute {
+  position: absolute;
+  z-index: 3;
+  right: 0px;
+  cursor: pointer;
+  top: 0;
+  height: 28px;
+  width: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  color: gray;
+  font-size: 20px;
+  transform: translateX(40px);
+  transition: transform 0.3s linear; /* add transition property */
+}
+
+.dropdown-setting-message.top {
+  top: 20px;
+}
+
+.dropdown-setting-message.bottom {
+  bottom: 20px;
 }
