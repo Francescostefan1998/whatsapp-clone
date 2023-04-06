@@ -5,12 +5,18 @@ import { IoIosArrowDown } from "react-icons/io";
 import { BsCheckAll } from "react-icons/bs";
 import { getSingleChat } from "../../../../../redux/actions";
 
-const MainappSingleChat = ({ small, chat, fetchChatSelected }) => {
+const MainappSingleChat = ({
+  small,
+  chat,
+  fetchChatSelected,
+  notifications,
+}) => {
   const [friend, setFriend] = useState(null);
+  const [numberToAppear, setNumberToAppear] = useState();
   const [chatBody, setChatBody] = useState(null);
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
   const dispatch = useDispatch();
-
+  console.log(notifications);
   useEffect(() => {
     if (chat) {
       console.log(chat);
@@ -19,7 +25,10 @@ const MainappSingleChat = ({ small, chat, fetchChatSelected }) => {
       return;
     }
   }, [chat]);
-
+  useEffect(() => {
+    setNumberToAppear(notifications);
+  }, [notifications]);
+  useEffect(() => {}, [numberToAppear]);
   const fetchSingleChat = async (chatId) => {
     try {
       const res = await fetch(`http://localhost:3001/chats/${chatId}`);
@@ -108,7 +117,16 @@ const MainappSingleChat = ({ small, chat, fetchChatSelected }) => {
             </div>
             <div className="mainappChatList-list-chats-single-informations-right">
               <div className="time">time</div>
-              <div className="messages">3</div>
+              <div
+                className="messages"
+                style={{
+                  backgroundColor: notifications
+                    ? "rgb(2, 228, 2)"
+                    : "transparent",
+                }}
+              >
+                {numberToAppear ? numberToAppear : ""}
+              </div>
               <div className="arrow-expand">
                 <IoIosArrowDown />
               </div>

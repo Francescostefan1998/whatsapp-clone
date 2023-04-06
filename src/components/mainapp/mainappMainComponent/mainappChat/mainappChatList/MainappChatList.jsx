@@ -30,6 +30,7 @@ const MainappChatList = (
     settingChatHistorySoket,
     concatenateTheMessage,
     socket,
+    bigList,
   },
   ref
 ) => {
@@ -43,10 +44,24 @@ const MainappChatList = (
   const [userNameTry, setUserNameTry] = useState("");
   const [onlineusers, setOnlineUsers] = useState([]);
   const [closeAlert, setCloseAlert] = useState(true);
+  const [notifications, setNotifications] = useState();
   const [chatHistory, setChatHistory] = useState([]);
   const [chatHistorySocket, setChatHistorySoket] = useState([]);
   console.log(chatHistory);
   console.log(chatHistorySocket);
+  let previousLength = bigList.length;
+  useEffect(() => {}, [notifications]);
+  useEffect(() => {
+    console.log("Big list length changed:", bigList.length);
+
+    // Check if the bigList is longer than before
+    const isLonger = bigList.length > previousLength;
+    console.log("Is the list longer than before?", isLonger);
+    setNotifications(bigList.length);
+    // Update the previousLength variable to the current length
+
+    // You can add your own logic here to re-render the component or perform other actions
+  }, [bigList.length]);
 
   useEffect(() => {
     console.log([...chatHistory, ...chatHistorySocket]);
@@ -219,6 +234,7 @@ const MainappChatList = (
           {user &&
             user.chats.map((chat, index) => (
               <MainappSingleChat
+                notifications={notifications}
                 fetchChatSelected={fetchChatSelected}
                 small={"mainappChatList-list-chats-single"}
                 chat={chat}

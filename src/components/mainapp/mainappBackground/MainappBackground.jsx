@@ -136,6 +136,7 @@ const MainappBackground = () => {
             refreshTheChatPage={setRefreshTheChatPage}
             concatenateTheMessage={concatenateTheMessage}
             socket={socket}
+            bigList={bigList}
           />
         )}
         {selectedChat === null ? (
