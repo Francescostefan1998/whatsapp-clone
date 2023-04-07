@@ -18,6 +18,7 @@ const MainappDisplayConversation = ({
   callHandleSetTheMessage,
   refreshChatPage,
   bigList,
+  refreshChatlistOnTheLeftSide,
 }) => {
   const [friend, setFriend] = useState(null);
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
@@ -69,6 +70,7 @@ const MainappDisplayConversation = ({
           );
 
           if (response.ok) {
+            refreshChatlistOnTheLeftSide(list[i]._id);
             const updatedMessage = await response.json();
           } else {
             console.error(response);
@@ -164,6 +166,7 @@ const MainappDisplayConversation = ({
               key={message._id}
               body={message}
               dateSplit={"short"}
+              refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
             />
           ))}
         {bigList &&
@@ -182,6 +185,7 @@ const MainappDisplayConversation = ({
               chatId={chat._id}
               friendId={friend._id}
               dateSplit={"long"}
+              refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
             />
           ))}
       </div>

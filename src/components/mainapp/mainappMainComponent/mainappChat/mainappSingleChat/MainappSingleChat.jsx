@@ -10,10 +10,12 @@ const MainappSingleChat = ({
   chat,
   fetchChatSelected,
   notifications,
+  refChatlistOnTheLeftSide,
 }) => {
   const [friend, setFriend] = useState(null);
   const [numberToAppear, setNumberToAppear] = useState();
   const [chatBody, setChatBody] = useState(null);
+  const [notCheckedMessages, setNotCheckedMessages] = useState();
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
   const dispatch = useDispatch();
   console.log(notifications);
@@ -24,7 +26,7 @@ const MainappSingleChat = ({
     } else {
       return;
     }
-  }, [chat]);
+  }, [chat, refChatlistOnTheLeftSide]);
   useEffect(() => {
     setNumberToAppear(notifications);
   }, [notifications]);
@@ -44,6 +46,7 @@ const MainappSingleChat = ({
       console.log(error);
     }
   };
+  useEffect(() => {}, [notCheckedMessages]);
   const fetchFriendBody = async (data) => {
     const friendId = await data.users.filter(
       (user) => user !== localStorage.getItem("userId")
@@ -68,6 +71,17 @@ const MainappSingleChat = ({
         })
       );
       setArrayOfMessagesBody(messagesData);
+      let listOfNotChecked = 0;
+      for (let i = 0; i < messagesData.length; i++) {
+        if (
+          messagesData[i]._id &&
+          messagesData[i].sender !== localStorage.getItem("userId") &&
+          messagesData[i].checked === false
+        ) {
+          listOfNotChecked = listOfNotChecked + 1;
+        }
+      }
+      setNotCheckedMessages(listOfNotChecked);
     } catch (error) {
       console.log(error);
     }
@@ -109,10 +123,7 @@ const MainappSingleChat = ({
                 </div>
               )}
               {arrayOfMessagesBody.length <= 0 && (
-                <div className="message">
-                  hello man ffffffffffffffffffffffffffffffffffffffffffffffff
-                  ddddddddddddddd
-                </div>
+                <div className="message">hello man</div>
               )}
             </div>
             <div className="mainappChatList-list-chats-single-informations-right">
@@ -120,12 +131,12 @@ const MainappSingleChat = ({
               <div
                 className="messages"
                 style={{
-                  backgroundColor: notifications
+                  backgroundColor: notCheckedMessages
                     ? "rgb(2, 228, 2)"
                     : "transparent",
                 }}
               >
-                {numberToAppear ? numberToAppear : ""}
+                {notCheckedMessages ? notCheckedMessages : ""}
               </div>
               <div className="arrow-expand">
                 <IoIosArrowDown />

@@ -9,6 +9,7 @@ const SingleMessageDisplayed = ({
   friendId,
   dateSplit,
   classForTheDropDown,
+  refreshChatlistOnTheLeftSide,
 }) => {
   const [showDropDown, setShowDropDown] = useState(false);
 
@@ -86,6 +87,7 @@ const SingleMessageDisplayed = ({
                 body: JSON.stringify({ ...body, user: friendId }),
               }
             );
+            refreshChatlistOnTheLeftSide(body.sender);
           }
         }
       }

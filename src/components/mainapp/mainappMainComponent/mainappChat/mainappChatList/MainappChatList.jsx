@@ -31,6 +31,8 @@ const MainappChatList = (
     concatenateTheMessage,
     socket,
     bigList,
+    refChatlistOnTheLeftSide,
+    refreshChatlistOnTheLeftSide,
   },
   ref
 ) => {
@@ -62,7 +64,7 @@ const MainappChatList = (
 
     // You can add your own logic here to re-render the component or perform other actions
   }, [bigList.length]);
-
+  useEffect(() => {}, [refChatlistOnTheLeftSide]);
   useEffect(() => {
     console.log([...chatHistory, ...chatHistorySocket]);
 
@@ -112,6 +114,7 @@ const MainappChatList = (
     });
     socket.on("newMessage", (newMessage) => {
       setChatHistorySoket([...chatHistorySocket, newMessage.message]);
+      refreshChatlistOnTheLeftSide(newMessage.message);
       //settingChatHistorySoket([...chatHistorySocket, newMessage.message]);
     });
   }, [chatHistorySocket]);
@@ -239,6 +242,7 @@ const MainappChatList = (
                 small={"mainappChatList-list-chats-single"}
                 chat={chat}
                 key={chat._id}
+                refChatlistOnTheLeftSide={refChatlistOnTheLeftSide}
               />
             ))}
           <div>
