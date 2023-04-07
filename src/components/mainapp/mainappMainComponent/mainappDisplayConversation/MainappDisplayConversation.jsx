@@ -8,6 +8,10 @@ import { useDispatch } from "react-redux";
 import { BsLink45Deg } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
 import SingleMessageDisplayed from "./singleMessageDisplayed/SingleMessageDisplayed";
+
+const webkitSpeechRecognition =
+  window.webkitSpeechRecognition || window.SpeechRecognition;
+
 const MainappDisplayConversation = ({
   chat,
   listOfUsers,
@@ -20,6 +24,7 @@ const MainappDisplayConversation = ({
   bigList,
   refreshChatlistOnTheLeftSide,
 }) => {
+  const [lastAudio, setLastAudion] = useState("");
   const [friend, setFriend] = useState(null);
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
   const [updateState, setUpdateState] = useState(null);
@@ -41,7 +46,33 @@ const MainappDisplayConversation = ({
       return;
     }
   }, [chat]);
+  const [recognition, setRecognition] = useState(null);
 
+  useEffect(() => {
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = "en-US";
+
+    setRecognition(recognition);
+  }, []);
+
+  function startRecognition() {
+    if (!recognition) return;
+
+    recognition.start();
+
+    recognition.onresult = function (event) {
+      const result = event.results[0][0].transcript;
+      setLastAudion(result);
+      console.log(result);
+    };
+  }
+
+  function speak(message) {
+    const audio = new SpeechSynthesisUtterance(message);
+    audio.voice = speechSynthesis.getVoices()[0];
+    speechSynthesis.speak(audio);
+  }
+  useEffect(() => {}, [lastAudio]);
   useEffect(() => {
     if (arrayOfMessagesBody.length >= 1) {
       updateVisualize(arrayOfMessagesBody);
@@ -171,22 +202,24 @@ const MainappDisplayConversation = ({
               "Friday",
               "Saturday",
             ][messageDate.getDay()];
-            console.log(
-              index - 1 !== -1
-                ? new Date(arrayOfMessagesBody[index - 1].createdAt).getDay()
-                : ""
-            );
+
             return (
               <>
-                <div>
-                  {index - 1 !== -1
-                    ? new Date(
-                        arrayOfMessagesBody[index - 1].createdAt
-                      ).getDay() ===
-                      new Date(arrayOfMessagesBody[index].createdAt).getDay()
-                      ? ""
-                      : dayOfWeek
-                    : dayOfWeek}
+                <div className="display-date-of-the-week-container">
+                  {index - 1 !== -1 ? (
+                    new Date(
+                      arrayOfMessagesBody[index - 1].createdAt
+                    ).getDay() ===
+                    new Date(arrayOfMessagesBody[index].createdAt).getDay() ? (
+                      ""
+                    ) : (
+                      <div className="display-date-of-the-week">
+                        {dayOfWeek}
+                      </div>
+                    )
+                  ) : (
+                    <div className="display-date-of-the-week">{dayOfWeek}</div>
+                  )}
                 </div>
                 <SingleMessageDisplayed
                   classForTheDropDown={index >= 7 ? 20 : 50}
@@ -237,7 +270,11 @@ const MainappDisplayConversation = ({
           />
         </div>
         <div>
-          <FaMicrophone className="mainappDisplayConversation-icons-icon ml-2" />
+          <button onClick={() => startRecognition()}>Start Recording</button>
+          <FaMicrophone
+            className="mainappDisplayConversation-icons-icon ml-2"
+            onClick={() => speak(lastAudio)}
+          />
         </div>
       </div>
     </div>
