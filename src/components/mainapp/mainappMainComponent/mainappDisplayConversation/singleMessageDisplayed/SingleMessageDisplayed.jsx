@@ -10,9 +10,10 @@ const SingleMessageDisplayed = ({
   dateSplit,
   classForTheDropDown,
   refreshChatlistOnTheLeftSide,
+  dayOftheWeek,
 }) => {
   const [showDropDown, setShowDropDown] = useState(false);
-
+  console.log(dayOftheWeek);
   const getDropDownClass = (query) => {
     const parentElement = document.querySelector(".mainappDisplayConversation");
     if (!parentElement) return "dropdown-setting-message";

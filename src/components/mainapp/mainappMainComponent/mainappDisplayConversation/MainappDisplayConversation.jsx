@@ -160,15 +160,45 @@ const MainappDisplayConversation = ({
       <div className="mainappDisplayConversation-text">
         {chat &&
           arrayOfMessagesBody.length >= 1 &&
-          arrayOfMessagesBody.map((message, index) => (
-            <SingleMessageDisplayed
-              classForTheDropDown={index >= 7 ? 20 : 50}
-              key={message._id}
-              body={message}
-              dateSplit={"short"}
-              refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
-            />
-          ))}
+          arrayOfMessagesBody.map((message, index) => {
+            const messageDate = new Date(message.createdAt);
+            const dayOfWeek = [
+              "Sunday",
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+            ][messageDate.getDay()];
+            console.log(
+              index - 1 !== -1
+                ? new Date(arrayOfMessagesBody[index - 1].createdAt).getDay()
+                : ""
+            );
+            return (
+              <>
+                <div>
+                  {index - 1 !== -1
+                    ? new Date(
+                        arrayOfMessagesBody[index - 1].createdAt
+                      ).getDay() ===
+                      new Date(arrayOfMessagesBody[index].createdAt).getDay()
+                      ? ""
+                      : dayOfWeek
+                    : dayOfWeek}
+                </div>
+                <SingleMessageDisplayed
+                  classForTheDropDown={index >= 7 ? 20 : 50}
+                  key={message._id}
+                  dayOftheWeek={`${dayOfWeek}`}
+                  body={message}
+                  dateSplit={"short"}
+                  refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
+                />
+              </>
+            );
+          })}
         {bigList &&
           bigList.length >= 1 &&
           bigList.map((message, index) => (
