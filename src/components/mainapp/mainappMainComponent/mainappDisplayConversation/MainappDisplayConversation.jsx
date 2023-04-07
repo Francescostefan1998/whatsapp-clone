@@ -23,8 +23,6 @@ const MainappDisplayConversation = ({
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
   const [updateState, setUpdateState] = useState(null);
   const [message, setMessage] = useState("");
-  console.log(arrayOfMessagesBody);
-  console.log(friend);
   const dispatch = useDispatch();
   useEffect(() => {
     setUpdateState(arrayOfMessagesBody[0]);
@@ -33,9 +31,7 @@ const MainappDisplayConversation = ({
   useEffect(() => {
     console.log(listOfUsers);
   }, [listOfUsers]);
-  useEffect(() => {
-    console.log(bigList);
-  }, [bigList]);
+  useEffect(() => {}, [bigList]);
   useEffect(() => {
     if (chat) {
       fetchUser();
@@ -44,6 +40,45 @@ const MainappDisplayConversation = ({
       return;
     }
   }, [chat]);
+
+  useEffect(() => {
+    if (arrayOfMessagesBody.length >= 1) {
+      updateVisualize(arrayOfMessagesBody);
+    }
+  }, [arrayOfMessagesBody, chat]);
+
+  const updateVisualize = async (list) => {
+    const userId = localStorage.getItem("userId");
+
+    for (let i = 0; i < list.length; i++) {
+      if (userId !== list[i].sender) {
+        try {
+          // Create an object with the updated hiddenFrom array
+
+          const response = await fetch(
+            `http://localhost:3001/messages/${list[i]._id}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                checked: true,
+              }),
+            }
+          );
+
+          if (response.ok) {
+            const updatedMessage = await response.json();
+          } else {
+            console.error(response);
+          }
+        } catch (error) {}
+      } else {
+      }
+    }
+  };
+
   useEffect(() => {}, [message]);
   const fetchAllMessages = async () => {
     let myArray = [];

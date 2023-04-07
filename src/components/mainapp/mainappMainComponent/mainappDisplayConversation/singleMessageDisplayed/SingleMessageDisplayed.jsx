@@ -16,8 +16,6 @@ const SingleMessageDisplayed = ({
     const parentElement = document.querySelector(".mainappDisplayConversation");
     if (!parentElement) return "dropdown-setting-message";
     const rect = parentElement.getBoundingClientRect();
-    console.log(rect.top);
-    console.log(window.innerHeight);
 
     return rect.top > classForTheDropDown / 2
       ? `dropdown-setting-message bottom ${query}`
