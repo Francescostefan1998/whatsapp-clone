@@ -16,7 +16,7 @@ const MainappBackground = () => {
   const [nextChatSelected, setNexChatSelected] = useState(null);
   const [chatHistory, setChatHistory] = useState([]);
   const [bigList, setBigListMessages] = useState([]);
-
+  const [refChatlistOnTheLeftSide, refreshChatlistOnTheLeftSide] = useState();
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -110,6 +110,8 @@ const MainappBackground = () => {
     console.log(bigList);
   }, [bigList]);
 
+  useEffect(() => {}, [refChatlistOnTheLeftSide]);
+
   useEffect(() => {}, [nextChatSelected]);
 
   useEffect(() => {}, [userToStartChat]);
@@ -137,6 +139,8 @@ const MainappBackground = () => {
             concatenateTheMessage={concatenateTheMessage}
             socket={socket}
             bigList={bigList}
+            refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
+            refChatlistOnTheLeftSide={refChatlistOnTheLeftSide}
           />
         )}
         {selectedChat === null ? (
@@ -152,6 +156,7 @@ const MainappBackground = () => {
             callHandleSetTheMessage={callHandleSetTheMessage}
             refreshTheChatPage={refreshTheChatPage}
             bigList={bigList}
+            refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
           />
         )}
       </div>

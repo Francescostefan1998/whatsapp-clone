@@ -8,6 +8,10 @@ import { useDispatch } from "react-redux";
 import { BsLink45Deg } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
 import SingleMessageDisplayed from "./singleMessageDisplayed/SingleMessageDisplayed";
+
+const webkitSpeechRecognition =
+  window.webkitSpeechRecognition || window.SpeechRecognition;
+
 const MainappDisplayConversation = ({
   chat,
   listOfUsers,
@@ -18,13 +22,13 @@ const MainappDisplayConversation = ({
   callHandleSetTheMessage,
   refreshChatPage,
   bigList,
+  refreshChatlistOnTheLeftSide,
 }) => {
+  const [lastAudio, setLastAudion] = useState("");
   const [friend, setFriend] = useState(null);
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
   const [updateState, setUpdateState] = useState(null);
   const [message, setMessage] = useState("");
-  console.log(arrayOfMessagesBody);
-  console.log(friend);
   const dispatch = useDispatch();
   useEffect(() => {
     setUpdateState(arrayOfMessagesBody[0]);
@@ -33,9 +37,7 @@ const MainappDisplayConversation = ({
   useEffect(() => {
     console.log(listOfUsers);
   }, [listOfUsers]);
-  useEffect(() => {
-    console.log(bigList);
-  }, [bigList]);
+  useEffect(() => {}, [bigList]);
   useEffect(() => {
     if (chat) {
       fetchUser();
@@ -44,6 +46,72 @@ const MainappDisplayConversation = ({
       return;
     }
   }, [chat]);
+  const [recognition, setRecognition] = useState(null);
+
+  useEffect(() => {
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = "en-US";
+
+    setRecognition(recognition);
+  }, []);
+
+  function startRecognition() {
+    if (!recognition) return;
+
+    recognition.start();
+
+    recognition.onresult = function (event) {
+      const result = event.results[0][0].transcript;
+      setLastAudion(result);
+      console.log(result);
+    };
+  }
+
+  function speak(message) {
+    const audio = new SpeechSynthesisUtterance(message);
+    audio.voice = speechSynthesis.getVoices()[0];
+    speechSynthesis.speak(audio);
+  }
+  useEffect(() => {}, [lastAudio]);
+  useEffect(() => {
+    if (arrayOfMessagesBody.length >= 1) {
+      updateVisualize(arrayOfMessagesBody);
+    }
+  }, [arrayOfMessagesBody, chat]);
+
+  const updateVisualize = async (list) => {
+    const userId = localStorage.getItem("userId");
+
+    for (let i = 0; i < list.length; i++) {
+      if (userId !== list[i].sender) {
+        try {
+          // Create an object with the updated hiddenFrom array
+
+          const response = await fetch(
+            `http://localhost:3001/messages/${list[i]._id}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                checked: true,
+              }),
+            }
+          );
+
+          if (response.ok) {
+            refreshChatlistOnTheLeftSide(list[i]._id);
+            const updatedMessage = await response.json();
+          } else {
+            console.error(response);
+          }
+        } catch (error) {}
+      } else {
+      }
+    }
+  };
+
   useEffect(() => {}, [message]);
   const fetchAllMessages = async () => {
     let myArray = [];
@@ -123,14 +191,47 @@ const MainappDisplayConversation = ({
       <div className="mainappDisplayConversation-text">
         {chat &&
           arrayOfMessagesBody.length >= 1 &&
-          arrayOfMessagesBody.map((message, index) => (
-            <SingleMessageDisplayed
-              classForTheDropDown={index >= 7 ? 20 : 50}
-              key={message._id}
-              body={message}
-              dateSplit={"short"}
-            />
-          ))}
+          arrayOfMessagesBody.map((message, index) => {
+            const messageDate = new Date(message.createdAt);
+            const dayOfWeek = [
+              "Sunday",
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+            ][messageDate.getDay()];
+
+            return (
+              <>
+                <div className="display-date-of-the-week-container">
+                  {index - 1 !== -1 ? (
+                    new Date(
+                      arrayOfMessagesBody[index - 1].createdAt
+                    ).getDay() ===
+                    new Date(arrayOfMessagesBody[index].createdAt).getDay() ? (
+                      ""
+                    ) : (
+                      <div className="display-date-of-the-week">
+                        {dayOfWeek}
+                      </div>
+                    )
+                  ) : (
+                    <div className="display-date-of-the-week">{dayOfWeek}</div>
+                  )}
+                </div>
+                <SingleMessageDisplayed
+                  classForTheDropDown={index >= 7 ? 20 : 50}
+                  key={message._id}
+                  dayOftheWeek={`${dayOfWeek}`}
+                  body={message}
+                  dateSplit={"short"}
+                  refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
+                />
+              </>
+            );
+          })}
         {bigList &&
           bigList.length >= 1 &&
           bigList.map((message, index) => (
@@ -147,6 +248,7 @@ const MainappDisplayConversation = ({
               chatId={chat._id}
               friendId={friend._id}
               dateSplit={"long"}
+              refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
             />
           ))}
       </div>
@@ -168,7 +270,11 @@ const MainappDisplayConversation = ({
           />
         </div>
         <div>
-          <FaMicrophone className="mainappDisplayConversation-icons-icon ml-2" />
+          <button onClick={() => startRecognition()}>Start Recording</button>
+          <FaMicrophone
+            className="mainappDisplayConversation-icons-icon ml-2"
+            onClick={() => speak(lastAudio)}
+          />
         </div>
       </div>
     </div>

@@ -9,15 +9,15 @@ const SingleMessageDisplayed = ({
   friendId,
   dateSplit,
   classForTheDropDown,
+  refreshChatlistOnTheLeftSide,
+  dayOftheWeek,
 }) => {
   const [showDropDown, setShowDropDown] = useState(false);
-
+  console.log(dayOftheWeek);
   const getDropDownClass = (query) => {
     const parentElement = document.querySelector(".mainappDisplayConversation");
     if (!parentElement) return "dropdown-setting-message";
     const rect = parentElement.getBoundingClientRect();
-    console.log(rect.top);
-    console.log(window.innerHeight);
 
     return rect.top > classForTheDropDown / 2
       ? `dropdown-setting-message bottom ${query}`
@@ -88,6 +88,7 @@ const SingleMessageDisplayed = ({
                 body: JSON.stringify({ ...body, user: friendId }),
               }
             );
+            refreshChatlistOnTheLeftSide(body.sender);
           }
         }
       }

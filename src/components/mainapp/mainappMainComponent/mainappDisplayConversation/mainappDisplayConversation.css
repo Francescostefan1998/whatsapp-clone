@@ -95,3 +95,18 @@
   background-color: transparent;
   border: 0px solid transparent;
 }
+.display-date-of-the-week-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.display-date-of-the-week {
+  margin-top: 2px;
+  padding: 0px;
+  padding-inline: 4px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: rgb(201, 213, 217);
+  width: fit-content;
+}
