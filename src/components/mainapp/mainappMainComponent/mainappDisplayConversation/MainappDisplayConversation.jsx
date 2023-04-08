@@ -10,6 +10,7 @@ import { FaMicrophone } from "react-icons/fa";
 import { BsFillTrashFill } from "react-icons/bs";
 import { FiPauseCircle } from "react-icons/fi";
 import { IoMdSend } from "react-icons/io";
+import { BsFillPlayFill } from "react-icons/bs";
 import SingleMessageDisplayed from "./singleMessageDisplayed/SingleMessageDisplayed";
 
 const webkitSpeechRecognition =
@@ -294,6 +295,26 @@ const MainappDisplayConversation = ({
               refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
             />
           ))}
+        <div className="audio-container-mmessage">
+          <div className="audio-container-mmessage-image-container">
+            <img
+              src="https://res.cloudinary.com/dkyzwols6/image/upload/v1679312571/beer-buzz-images-endpoint/rpp5jn3ccozhizwhuvzn.png"
+              alt="person-image"
+            />
+          </div>
+          <BsFillPlayFill
+            onClick={() => playAudio()}
+            className="mainappDisplayConversation-icons-icon ml-2"
+          />
+
+          <div className="progress-container">
+            <div
+              className={
+                audioStarted && !pauseIconDisplayed ? "progress" : "nonprogress"
+              }
+            />
+          </div>
+        </div>
       </div>
       {!audioStarted && (
         <div className="mainappDisplayConversation-footer">
@@ -314,7 +335,6 @@ const MainappDisplayConversation = ({
             />
           </div>
           <div>
-            <button onClick={() => playAudio()}>play</button>
             <FaMicrophone
               className="mainappDisplayConversation-icons-icon ml-2"
               onClick={() => {
@@ -334,18 +354,17 @@ const MainappDisplayConversation = ({
         <div className="mainappDisplayConversation-footer">
           <div></div>
           <div></div>
-          <div className="progress-container">
-            <div
-              className="progress"
-              style={{
-                animationPlayState: audioStarted ? "running" : "paused",
-              }}
-            />
-          </div>
+
           <div className="mainappDisplayConversation-footer-flex">
-            <button onClick={() => playAudio()}>play</button>
             <BsFillTrashFill className="mainappDisplayConversation-icons-icon ml-2" />
-            <div className="mainappDisplayConversation-input transparent"></div>
+            <div className="mainappDisplayConversation-input transparent">
+              <input></input>
+            </div>
+            {!pauseIconDisplayed && (
+              <div className="recording-container">
+                <div className="recording-progress" />
+              </div>
+            )}
             {pauseIconDisplayed && (
               <FaMicrophone
                 className="mainappDisplayConversation-icons-icon ml-2 red"

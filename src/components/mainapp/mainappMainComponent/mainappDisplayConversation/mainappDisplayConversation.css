@@ -133,16 +133,80 @@
   }
 }
 
-.progress-container {
+.mainappDisplayConversation .progress-container {
   position: relative;
-  width: 100%;
+  width: 200px;
   height: 5px;
   background-color: lightgray;
 }
 
-.progress {
+.mainappDisplayConversation .progress {
   position: absolute;
   height: 100%;
+  width: 200px;
+
   background-color: green;
   animation: widthAnimation 10s linear infinite;
+}
+.mainappDisplayConversation .nonprogress {
+  position: absolute;
+  height: 100%;
+  width: 200px;
+
+  background-color: lightgray;
+}
+
+.mainappDisplayConversation .recording-container {
+  position: relative;
+  width: 100px;
+  height: 3px;
+  background-color: rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.mainappDisplayConversation .recording-progress {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.5)
+  );
+  background-size: 50px 100%;
+  background-repeat: repeat;
+  animation: slide 2s linear infinite;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-50px);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.audio-container-mmessage {
+  display: flex;
+  align-items: center;
+  width: 300px;
+  padding: 1vh;
+  background-color: rgb(135, 211, 152);
+  box-shadow: 0px 2px 3px rgb(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.audio-container-mmessage-image-container {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.audio-container-mmessage-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
