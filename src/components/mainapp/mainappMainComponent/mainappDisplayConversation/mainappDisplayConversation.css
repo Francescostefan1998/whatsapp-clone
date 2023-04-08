@@ -110,3 +110,39 @@
   background-color: rgb(201, 213, 217);
   width: fit-content;
 }
+.mainappDisplayConversation-input.transparent {
+  background-color: transparent;
+}
+
+.mainappDisplayConversation-footer-flex {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.mainappDisplayConversation-icons-icon.ml-2.red {
+  color: red;
+}
+
+@keyframes widthAnimation {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.progress-container {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  background-color: lightgray;
+}
+
+.progress {
+  position: absolute;
+  height: 100%;
+  background-color: green;
+  animation: widthAnimation 10s linear infinite;
+}
