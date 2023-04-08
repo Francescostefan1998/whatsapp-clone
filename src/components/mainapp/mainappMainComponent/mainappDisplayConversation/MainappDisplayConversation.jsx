@@ -7,6 +7,10 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BsLink45Deg } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
+import { BsFillTrashFill } from "react-icons/bs";
+import { FiPauseCircle } from "react-icons/fi";
+import { IoMdSend } from "react-icons/io";
+import { BsFillPlayFill } from "react-icons/bs";
 import SingleMessageDisplayed from "./singleMessageDisplayed/SingleMessageDisplayed";
 
 const webkitSpeechRecognition =
@@ -29,6 +33,59 @@ const MainappDisplayConversation = ({
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
   const [updateState, setUpdateState] = useState(null);
   const [message, setMessage] = useState("");
+  const [audioStarted, setAudioStarted] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [recordedChunks, setRecordedChunks] = useState([]);
+  const [pauseIconDisplayed, setPausedIconDisplayed] = useState(false);
+
+  useEffect(() => {
+    downloadAudio();
+  }, [pauseIconDisplayed]);
+  useEffect(() => {
+    downloadAudio();
+  }, [recordedChunks]);
+  useEffect(() => {}, [audioStarted]);
+  async function startRecording() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      console.error("getUserMedia not supported on your browser!");
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const newMediaRecorder = new MediaRecorder(stream);
+      setMediaRecorder(newMediaRecorder);
+
+      newMediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          setRecordedChunks((prev) => [event.data]);
+        }
+      };
+
+      newMediaRecorder.start();
+    } catch (err) {
+      console.error("Error in startRecording:", err);
+    }
+  }
+
+  function stopRecording() {
+    if (mediaRecorder) {
+      mediaRecorder.stop();
+    }
+  }
+
+  function downloadAudio() {
+    if (recordedChunks.length > 0) {
+      const blob = new Blob(recordedChunks, { type: "audio/webm" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "audio.webm";
+      a.click();
+      URL.revokeObjectURL(url);
+      console.log(url);
+    }
+  }
   const dispatch = useDispatch();
   useEffect(() => {
     setUpdateState(arrayOfMessagesBody[0]);
@@ -46,32 +103,19 @@ const MainappDisplayConversation = ({
       return;
     }
   }, [chat]);
-  const [recognition, setRecognition] = useState(null);
 
-  useEffect(() => {
-    const recognition = new webkitSpeechRecognition();
-    recognition.lang = "en-US";
-
-    setRecognition(recognition);
-  }, []);
-
-  function startRecognition() {
-    if (!recognition) return;
-
-    recognition.start();
-
-    recognition.onresult = function (event) {
-      const result = event.results[0][0].transcript;
-      setLastAudion(result);
-      console.log(result);
-    };
+  function playAudio() {
+    if (recordedChunks.length > 0) {
+      const blob = new Blob(recordedChunks, { type: "audio/webm" });
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.addEventListener("ended", () => {
+        URL.revokeObjectURL(url);
+      });
+      audio.play();
+    }
   }
 
-  function speak(message) {
-    const audio = new SpeechSynthesisUtterance(message);
-    audio.voice = speechSynthesis.getVoices()[0];
-    speechSynthesis.speak(audio);
-  }
   useEffect(() => {}, [lastAudio]);
   useEffect(() => {
     if (arrayOfMessagesBody.length >= 1) {
@@ -251,32 +295,121 @@ const MainappDisplayConversation = ({
               refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
             />
           ))}
-      </div>
-      <div className="mainappDisplayConversation-footer">
-        <div>
-          <BsEmojiSmile className="mainappDisplayConversation-icons-icon ml-2" />
-        </div>
-        <div>
-          <BsLink45Deg className="mainappDisplayConversation-icons-icon ml-2" />
-        </div>
-        <div className="mainappDisplayConversation-input">
-          <input
-            type="text"
-            placeholder="Type a message"
-            onChange={(e) => setMessage(e.target.value)}
-            onFocus={callHandleInputFocus}
-            onBlur={callHandleInputBlur}
-            onKeyDown={(e) => handleKeydown(e)}
-          />
-        </div>
-        <div>
-          <button onClick={() => startRecognition()}>Start Recording</button>
-          <FaMicrophone
+        <div className="audio-container-mmessage">
+          <div className="audio-container-mmessage-image-container">
+            <img
+              src="https://res.cloudinary.com/dkyzwols6/image/upload/v1679312571/beer-buzz-images-endpoint/rpp5jn3ccozhizwhuvzn.png"
+              alt="person-image"
+            />
+          </div>
+          <BsFillPlayFill
+            onClick={() => playAudio()}
             className="mainappDisplayConversation-icons-icon ml-2"
-            onClick={() => speak(lastAudio)}
           />
+
+          <div className="progress-container">
+            <div
+              className={
+                audioStarted && !pauseIconDisplayed ? "progress" : "nonprogress"
+              }
+            />
+          </div>
         </div>
       </div>
+      {!audioStarted && (
+        <div className="mainappDisplayConversation-footer">
+          <div>
+            <BsEmojiSmile className="mainappDisplayConversation-icons-icon ml-2" />
+          </div>
+          <div>
+            <BsLink45Deg className="mainappDisplayConversation-icons-icon ml-2" />
+          </div>
+          <div className="mainappDisplayConversation-input">
+            <input
+              type="text"
+              placeholder="Type a message"
+              onChange={(e) => setMessage(e.target.value)}
+              onFocus={callHandleInputFocus}
+              onBlur={callHandleInputBlur}
+              onKeyDown={(e) => handleKeydown(e)}
+            />
+          </div>
+          <div>
+            <FaMicrophone
+              className="mainappDisplayConversation-icons-icon ml-2"
+              onClick={() => {
+                if (!audioStarted) {
+                  startRecording();
+                  setAudioStarted(true);
+                } else {
+                  stopRecording();
+                  setAudioStarted(false);
+                }
+              }}
+            />
+          </div>
+        </div>
+      )}
+      {audioStarted && (
+        <div className="mainappDisplayConversation-footer">
+          <div></div>
+          <div></div>
+
+          <div className="mainappDisplayConversation-footer-flex">
+            <BsFillTrashFill className="mainappDisplayConversation-icons-icon ml-2" />
+            <div className="mainappDisplayConversation-input transparent">
+              <input></input>
+            </div>
+            {!pauseIconDisplayed && (
+              <div className="recording-container">
+                <div className="recording-progress" />
+              </div>
+            )}
+            {pauseIconDisplayed && (
+              <FaMicrophone
+                className="mainappDisplayConversation-icons-icon ml-2 red"
+                onClick={() => {
+                  if (pauseIconDisplayed) {
+                    startRecording();
+                    setPausedIconDisplayed(false);
+                  } else {
+                    stopRecording();
+                    setPausedIconDisplayed(true);
+                  }
+                }}
+              />
+            )}
+            {!pauseIconDisplayed && (
+              <FiPauseCircle
+                className="mainappDisplayConversation-icons-icon ml-2 red"
+                onClick={() => {
+                  if (pauseIconDisplayed) {
+                    startRecording();
+                    setPausedIconDisplayed(false);
+                  } else {
+                    stopRecording();
+                    setPausedIconDisplayed(true);
+                  }
+                }}
+              />
+            )}
+            <IoMdSend
+              className="mainappDisplayConversation-icons-icon ml-2"
+              onClick={() => {
+                if (!audioStarted) {
+                  startRecording();
+                  setAudioStarted(true);
+                } else {
+                  if (!pauseIconDisplayed) {
+                    stopRecording();
+                  }
+                  setAudioStarted(false);
+                }
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
