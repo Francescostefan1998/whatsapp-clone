@@ -29,6 +29,7 @@ const MainappDisplayConversation = ({
   refreshChatlistOnTheLeftSide,
 }) => {
   const [lastAudio, setLastAudion] = useState("");
+  const [file, setFile] = useState(null);
   const [friend, setFriend] = useState(null);
   const [arrayOfMessagesBody, setArrayOfMessagesBody] = useState([]);
   const [updateState, setUpdateState] = useState(null);
@@ -37,14 +38,37 @@ const MainappDisplayConversation = ({
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [pauseIconDisplayed, setPausedIconDisplayed] = useState(false);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    downloadAudio();
-  }, [pauseIconDisplayed]);
-  useEffect(() => {
-    downloadAudio();
-  }, [recordedChunks]);
-  useEffect(() => {}, [audioStarted]);
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+  const handleSubmitAudio = async (blob) => {
+    // Replace with the correct chatId
+    const chatId = "your_chat_id";
+
+    try {
+      const formData = new FormData();
+      formData.append("audio", blob);
+
+      const response = await fetch(
+        `http://localhost:3001/audio/api/audio/${chat._id}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        alert("File uploaded successfully");
+      } else {
+        alert("Error uploading file");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error uploading file");
+    }
+  };
   async function startRecording() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       console.error("getUserMedia not supported on your browser!");
@@ -74,6 +98,13 @@ const MainappDisplayConversation = ({
     }
   }
 
+  function uploadAudio() {
+    if (recordedChunks.length > 0) {
+      const blob = new Blob(recordedChunks, { type: "audio/webm" });
+      handleSubmitAudio(blob);
+    }
+  }
+
   function downloadAudio() {
     if (recordedChunks.length > 0) {
       const blob = new Blob(recordedChunks, { type: "audio/webm" });
@@ -86,23 +117,6 @@ const MainappDisplayConversation = ({
       console.log(url);
     }
   }
-  const dispatch = useDispatch();
-  useEffect(() => {
-    setUpdateState(arrayOfMessagesBody[0]);
-  }, [arrayOfMessagesBody]);
-  useEffect(() => {}, [myUserIsTyping]);
-  useEffect(() => {
-    console.log(listOfUsers);
-  }, [listOfUsers]);
-  useEffect(() => {}, [bigList]);
-  useEffect(() => {
-    if (chat) {
-      fetchUser();
-      fetchAllMessages();
-    } else {
-      return;
-    }
-  }, [chat]);
 
   function playAudio() {
     if (recordedChunks.length > 0) {
@@ -115,13 +129,6 @@ const MainappDisplayConversation = ({
       audio.play();
     }
   }
-
-  useEffect(() => {}, [lastAudio]);
-  useEffect(() => {
-    if (arrayOfMessagesBody.length >= 1) {
-      updateVisualize(arrayOfMessagesBody);
-    }
-  }, [arrayOfMessagesBody, chat]);
 
   const updateVisualize = async (list) => {
     const userId = localStorage.getItem("userId");
@@ -156,7 +163,6 @@ const MainappDisplayConversation = ({
     }
   };
 
-  useEffect(() => {}, [message]);
   const fetchAllMessages = async () => {
     let myArray = [];
     for (let i = 0; i < chat.messages.length; i++) {
@@ -193,9 +199,47 @@ const MainappDisplayConversation = ({
     const user = await res.json();
     setFriend(user);
   };
+
+  useEffect(() => {}, [lastAudio]);
+  useEffect(() => {
+    if (arrayOfMessagesBody.length >= 1) {
+      updateVisualize(arrayOfMessagesBody);
+    }
+  }, [arrayOfMessagesBody, chat]);
+
+  useEffect(() => {}, [message]);
+  useEffect(() => {
+    setUpdateState(arrayOfMessagesBody[0]);
+  }, [arrayOfMessagesBody]);
+  useEffect(() => {}, [myUserIsTyping]);
+  useEffect(() => {
+    console.log(listOfUsers);
+  }, [listOfUsers]);
+  useEffect(() => {}, [bigList]);
+  useEffect(() => {
+    if (chat) {
+      fetchUser();
+      fetchAllMessages();
+    } else {
+      return;
+    }
+  }, [chat]);
+  useEffect(() => {
+    uploadAudio();
+  }, [pauseIconDisplayed]);
+
+  useEffect(() => {
+    uploadAudio();
+  }, [recordedChunks]);
   useEffect(() => {}, [chatHistory]);
   useEffect(() => {}, [refreshChatPage]);
-
+  useEffect(() => {
+    downloadAudio();
+  }, [pauseIconDisplayed]);
+  useEffect(() => {
+    downloadAudio();
+  }, [recordedChunks]);
+  useEffect(() => {}, [audioStarted]);
   return (
     <div className="mainappDisplayConversation">
       <div className="mainappDisplayConversation-header">
