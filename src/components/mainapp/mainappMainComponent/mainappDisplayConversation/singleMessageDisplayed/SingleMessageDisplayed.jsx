@@ -36,6 +36,7 @@ const SingleMessageDisplayed = ({
   const [audioStarted, setAudioStarted] = useState(false);
   const [pauseIconDisplayed, setPauseIconDisplayed] = useState(false);
   const [audioObj, setAudioObj] = useState(null);
+  console.log(audioObj);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(null);
   console.log(duration);
