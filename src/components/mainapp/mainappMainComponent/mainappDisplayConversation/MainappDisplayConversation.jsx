@@ -40,35 +40,6 @@ const MainappDisplayConversation = ({
   const [pauseIconDisplayed, setPausedIconDisplayed] = useState(false);
   const dispatch = useDispatch();
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-  const handleSubmitAudio = async (blob) => {
-    // Replace with the correct chatId
-    const chatId = "your_chat_id";
-
-    try {
-      const formData = new FormData();
-      formData.append("audio", blob);
-
-      const response = await fetch(
-        `http://localhost:3001/audio/api/audio/${chat._id}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (response.ok) {
-        alert("File uploaded successfully");
-      } else {
-        alert("Error uploading file");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Error uploading file");
-    }
-  };
   async function startRecording() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       console.error("getUserMedia not supported on your browser!");
@@ -95,29 +66,49 @@ const MainappDisplayConversation = ({
   function stopRecording() {
     if (mediaRecorder) {
       mediaRecorder.stop();
+      mediaRecorder.onstop = () => {
+        const recordedBlob = new Blob(recordedChunks, { type: "audio/webm" });
+        sendAudio(recordedBlob);
+      };
     }
   }
-
-  function uploadAudio() {
-    if (recordedChunks.length > 0) {
-      const blob = new Blob(recordedChunks, { type: "audio/webm" });
-      handleSubmitAudio(blob);
-    }
-  }
-
   function downloadAudio() {
     if (recordedChunks.length > 0) {
       const blob = new Blob(recordedChunks, { type: "audio/webm" });
-      const url = URL.createObjectURL(blob);
+      /*  const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
       a.download = "audio.webm";
       a.click();
       URL.revokeObjectURL(url);
-      console.log(url);
+      console.log(url);*/
     }
   }
+  async function sendAudio(audioBlob) {
+    try {
+      const formData = new FormData();
+      formData.append("audio", audioBlob, "recorded_audio.webm");
 
+      const response = await fetch("http://localhost:3001/audio/api/audio", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const audioUrl = await response.text();
+        console.log("Audio uploaded successfully. URL:", audioUrl);
+        callHandleSetTheMessage(audioUrl);
+      } else {
+        console.error(
+          "Error uploading audio:",
+          response.status,
+          response.statusText
+        );
+      }
+    } catch (err) {
+      console.error("Error in sendAudio:", err);
+    }
+  }
   function playAudio() {
     if (recordedChunks.length > 0) {
       const blob = new Blob(recordedChunks, { type: "audio/webm" });
@@ -224,13 +215,7 @@ const MainappDisplayConversation = ({
       return;
     }
   }, [chat]);
-  useEffect(() => {
-    uploadAudio();
-  }, [pauseIconDisplayed]);
 
-  useEffect(() => {
-    uploadAudio();
-  }, [recordedChunks]);
   useEffect(() => {}, [chatHistory]);
   useEffect(() => {}, [refreshChatPage]);
   useEffect(() => {
