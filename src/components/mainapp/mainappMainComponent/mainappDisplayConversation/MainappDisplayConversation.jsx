@@ -109,17 +109,6 @@ const MainappDisplayConversation = ({
       console.error("Error in sendAudio:", err);
     }
   }
-  function playAudio() {
-    if (recordedChunks.length > 0) {
-      const blob = new Blob(recordedChunks, { type: "audio/webm" });
-      const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      audio.addEventListener("ended", () => {
-        URL.revokeObjectURL(url);
-      });
-      audio.play();
-    }
-  }
 
   const updateVisualize = async (list) => {
     const userId = localStorage.getItem("userId");
@@ -324,26 +313,6 @@ const MainappDisplayConversation = ({
               refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
             />
           ))}
-        <div className="audio-container-mmessage">
-          <div className="audio-container-mmessage-image-container">
-            <img
-              src="https://res.cloudinary.com/dkyzwols6/image/upload/v1679312571/beer-buzz-images-endpoint/rpp5jn3ccozhizwhuvzn.png"
-              alt="person-image"
-            />
-          </div>
-          <BsFillPlayFill
-            onClick={() => playAudio()}
-            className="mainappDisplayConversation-icons-icon ml-2"
-          />
-
-          <div className="progress-container">
-            <div
-              className={
-                audioStarted && !pauseIconDisplayed ? "progress" : "nonprogress"
-              }
-            />
-          </div>
-        </div>
       </div>
       {!audioStarted && (
         <div className="mainappDisplayConversation-footer">

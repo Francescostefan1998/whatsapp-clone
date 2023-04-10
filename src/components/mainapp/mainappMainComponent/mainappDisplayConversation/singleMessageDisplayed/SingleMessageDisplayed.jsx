@@ -1,5 +1,6 @@
 import "./singleMessageDisplayed.css";
 import { BsCheckAll } from "react-icons/bs";
+import { BsFillPlayFill } from "react-icons/bs";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useEffect, useState } from "react";
 
@@ -13,6 +14,15 @@ const SingleMessageDisplayed = ({
   dayOftheWeek,
 }) => {
   const [showDropDown, setShowDropDown] = useState(false);
+  const [audioStarted, setAudioStarted] = useState(false);
+  const [pauseIconDisplayed, setPauseIconDisplayed] = useState(false);
+
+  const playAudio = (url) => {
+    const audio = new Audio(url);
+    audio.play();
+    setAudioStarted(true);
+    // You may want to add event listeners for 'pause' and 'ended' to update the pauseIconDisplayed state.
+  };
   console.log(dayOftheWeek);
   const getDropDownClass = (query) => {
     const parentElement = document.querySelector(".mainappDisplayConversation");
@@ -97,73 +107,104 @@ const SingleMessageDisplayed = ({
     }
   };
   return (
-    <div className="singleMessageDisplay">
-      {body.sender === localStorage.getItem("userId") ? (
-        <div className="singleMessageDisplay-right">
-          <div className="singleMessageDisplay-container right">
-            <div className="little-dropdown right">
-              <div
-                className="little-dropdown-relative right"
-                onClick={() => showThisDropDown()}
-              >
-                {showDropDown && (
-                  <div className={getDropDownClass()}>
-                    <div>Answer</div>
-                    <div>React</div>
-                    <div>Forward</div>
-                    <div>Important</div>
-                    <div>Pin</div>
-                    <div onClick={() => deleteForMe(body._id)}>Delete</div>
+    <>
+      {body && body.text && body.text.substring(0, 4) !== "http" ? (
+        <div className="singleMessageDisplay">
+          {body.sender === localStorage.getItem("userId") ? (
+            <div className="singleMessageDisplay-right">
+              <div className="singleMessageDisplay-container right">
+                <div className="little-dropdown right">
+                  <div
+                    className="little-dropdown-relative right"
+                    onClick={() => showThisDropDown()}
+                  >
+                    {showDropDown && (
+                      <div className={getDropDownClass()}>
+                        <div>Answer</div>
+                        <div>React</div>
+                        <div>Forward</div>
+                        <div>Important</div>
+                        <div>Pin</div>
+                        <div onClick={() => deleteForMe(body._id)}>Delete</div>
+                      </div>
+                    )}
+                    <div className="little-dropdown-absolute right">
+                      <MdKeyboardArrowDown />
+                    </div>
                   </div>
-                )}
-                <div className="little-dropdown-absolute right">
-                  <MdKeyboardArrowDown />
                 </div>
+
+                <div className="little-corner right"></div>
+                <div className="display-date right">
+                  {body.createdAt.substring(
+                    11,
+                    dateSplit === "short" ? 16 : 17
+                  )}
+                  <BsCheckAll className="display-date-icon" />
+                </div>
+
+                {body.text}
               </div>
             </div>
+          ) : (
+            <div className="singleMessageDisplay-left">
+              <div className="singleMessageDisplay-container left">
+                <div className="little-dropdown right">
+                  <div
+                    className="little-dropdown-relative right"
+                    onClick={() => showThisDropDown()}
+                  >
+                    {showDropDown && (
+                      <div className={getDropDownClass("left")}>
+                        <div>Answer</div>
+                        <div>React</div>
+                        <div>Forward</div>
+                        <div>Important</div>
+                        <div>Pin</div>
+                        <div onClick={() => deleteForMe(body._id)}>Delete</div>
+                      </div>
+                    )}
+                    <div className="little-dropdown-absolute right">
+                      <MdKeyboardArrowDown />
+                    </div>
+                  </div>
+                </div>
+                <div className="little-corner left"></div>
+                <div className="display-date left">
+                  {body.createdAt.substring(
+                    11,
+                    dateSplit === "short" ? 16 : 17
+                  )}
+                </div>
 
-            <div className="little-corner right"></div>
-            <div className="display-date right">
-              {body.createdAt.substring(11, dateSplit === "short" ? 16 : 17)}
-              <BsCheckAll className="display-date-icon" />
+                {body.text}
+              </div>
             </div>
-
-            {body.text}
-          </div>
+          )}
         </div>
       ) : (
-        <div className="singleMessageDisplay-left">
-          <div className="singleMessageDisplay-container left">
-            <div className="little-dropdown right">
-              <div
-                className="little-dropdown-relative right"
-                onClick={() => showThisDropDown()}
-              >
-                {showDropDown && (
-                  <div className={getDropDownClass("left")}>
-                    <div>Answer</div>
-                    <div>React</div>
-                    <div>Forward</div>
-                    <div>Important</div>
-                    <div>Pin</div>
-                    <div onClick={() => deleteForMe(body._id)}>Delete</div>
-                  </div>
-                )}
-                <div className="little-dropdown-absolute right">
-                  <MdKeyboardArrowDown />
-                </div>
-              </div>
-            </div>
-            <div className="little-corner left"></div>
-            <div className="display-date left">
-              {body.createdAt.substring(11, dateSplit === "short" ? 16 : 17)}
-            </div>
+        <div className="audio-container-mmessage">
+          <div className="audio-container-mmessage-image-container">
+            <img
+              src="https://res.cloudinary.com/dkyzwols6/image/upload/v1679312571/beer-buzz-images-endpoint/rpp5jn3ccozhizwhuvzn.png"
+              alt="person-image"
+            />
+          </div>
+          <BsFillPlayFill
+            onClick={() => playAudio(body.text)}
+            className="mainappDisplayConversation-icons-icon ml-2"
+          />
 
-            {body.text}
+          <div className="progress-container">
+            <div
+              className={
+                audioStarted && !pauseIconDisplayed ? "progress" : "nonprogress"
+              }
+            />
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
