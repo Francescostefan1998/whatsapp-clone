@@ -1,8 +1,27 @@
 import "./singleMessageDisplayed.css";
 import { BsCheckAll } from "react-icons/bs";
 import { BsFillPlayFill } from "react-icons/bs";
+import { BsFillPauseFill } from "react-icons/bs";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useEffect, useState } from "react";
+import { AdvancedImage } from "@cloudinary/react";
+import { Cloudinary } from "@cloudinary/url-gen";
+import axios from "axios";
+
+/*cloudinary.v2.config({
+  cloud_name: "dkyzwols6",
+  api_key: "111695657897147",
+  api_secret: "Y5-VvacsyzgCtmQz7L4eUFv7bv8",
+});*/
+
+const cloudinary = new Cloudinary({
+  cloud: {
+    cloudName: "dkyzwols6",
+  },
+  url: {
+    secure: true,
+  },
+});
 
 const SingleMessageDisplayed = ({
   body,
@@ -16,13 +35,29 @@ const SingleMessageDisplayed = ({
   const [showDropDown, setShowDropDown] = useState(false);
   const [audioStarted, setAudioStarted] = useState(false);
   const [pauseIconDisplayed, setPauseIconDisplayed] = useState(false);
+  const [audioObj, setAudioObj] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [duration, setDuration] = useState(null);
+  console.log(duration);
+  useEffect(() => {}, [duration]);
 
+  useEffect(() => {}, [pauseIconDisplayed, audioStarted]);
   const playAudio = (url) => {
-    const audio = new Audio(url);
-    audio.play();
-    setAudioStarted(true);
-    // You may want to add event listeners for 'pause' and 'ended' to update the pauseIconDisplayed state.
+    if (!audioObj) {
+      const audio = new Audio(url);
+      setAudioObj(audio);
+      audio.play();
+      setIsPlaying(true);
+      setAudioStarted(true);
+    } else if (!isPlaying) {
+      audioObj.play();
+      setIsPlaying(true);
+    } else {
+      audioObj.pause();
+      setIsPlaying(false);
+    }
   };
+
   console.log(dayOftheWeek);
   const getDropDownClass = (query) => {
     const parentElement = document.querySelector(".mainappDisplayConversation");
@@ -190,11 +225,24 @@ const SingleMessageDisplayed = ({
               alt="person-image"
             />
           </div>
-          <BsFillPlayFill
-            onClick={() => playAudio(body.text)}
-            className="mainappDisplayConversation-icons-icon ml-2"
-          />
 
+          {!isPlaying ? (
+            <BsFillPlayFill
+              onClick={() => {
+                playAudio(body.text);
+                setAudioStarted(true);
+              }}
+              className="mainappDisplayConversation-icons-icon ml-2"
+            />
+          ) : (
+            <BsFillPauseFill
+              onClick={() => {
+                playAudio(body.text);
+                setAudioStarted(false);
+              }}
+              className="mainappDisplayConversation-icons-icon ml-2"
+            />
+          )}
           <div className="progress-container">
             <div
               className={
