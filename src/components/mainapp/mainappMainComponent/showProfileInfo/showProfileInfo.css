@@ -6,8 +6,12 @@
   left: -102%;
   transform: translateX(100%);
   transition: transform 0.5s;
-  background-color: rgb(241, 241, 241);
+  background-color: rgb(241, 241, 241) !important;
   z-index: 4;
+  border-right: 1px solid rgb(215, 215, 215);
+}
+.expand-profile-picture {
+  background-color: rgb(241, 241, 241);
 }
 .showProfileclose {
   position: absolute;
@@ -64,8 +68,8 @@
 
 .expand-profile-picture.expand {
   transform: scale(1);
-  width: 240px;
-  height: 240px;
+  width: 200px;
+  height: 200px;
 }
 .expand-profile-picture img {
   width: 100%;
@@ -93,10 +97,10 @@
   padding-inline: 5vh;
 }
 .class-for-the-other-profile-section.name {
-  background-color: white;
+  background-color: white !important;
 }
 .class-for-the-other-profile-section.about {
-  background-color: white;
+  background-color: white !important;
 }
 .class-for-the-other-profile-section-inside {
   width: 100%;
@@ -150,7 +154,9 @@
   line-height: 2.4vh;
   font-size: 14px;
 }
-
+.class-for-the-other-profile-informations {
+  background-color: rgb(241, 241, 241);
+}
 .class-for-the-other-profile-section-inside input {
   text-align: left;
   outline: none;
