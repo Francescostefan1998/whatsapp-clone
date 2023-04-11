@@ -53,9 +53,14 @@ const MainappChatList = (
   console.log(chatHistorySocket);
   let previousLength = bigList.length;
   useEffect(() => {}, [notifications]);
+  useEffect(() => {}, [user]);
+
+  useEffect(() => {
+    fetchAndGetTheChatList(localStorage.getItem("userId"));
+  }, [showFindFriends]);
+
   useEffect(() => {
     console.log("Big list length changed:", bigList.length);
-
     // Check if the bigList is longer than before
     const isLonger = bigList.length > previousLength;
     console.log("Is the list longer than before?", isLonger);
@@ -167,6 +172,9 @@ const MainappChatList = (
   const handleStartingChat = (secondParam) => {
     setShowFindFriends(secondParam);
     handleTheBeginningOfNewChat(secondParam);
+    setTimeout(() => {
+      setShowFindFriends(false);
+    }, 300);
   };
 
   useEffect(() => {}, [showFindFriends]);

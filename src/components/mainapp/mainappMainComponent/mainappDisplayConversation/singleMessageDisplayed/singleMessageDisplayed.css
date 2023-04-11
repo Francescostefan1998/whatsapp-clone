@@ -74,6 +74,13 @@
   margin-bottom: 3px;
 }
 
+.display-date.right .display-date-icon {
+  font-size: 16px;
+  color: rgb(13, 116, 164);
+  transform: scaleY(1.2);
+  margin-bottom: 3px;
+}
+
 .singleMessageDisplay-container.right {
   background-color: rgb(135, 211, 152);
   padding-right: 7.2vh;
@@ -138,6 +145,12 @@
   align-items: center;
   color: gray;
   font-size: 20px;
+}
+.little-dropdown.bigger-size {
+  height: 38px;
+}
+.little-dropdown.bigger-size .little-dropdown-absolute {
+  height: 38px;
 }
 
 .little-dropdown:hover {

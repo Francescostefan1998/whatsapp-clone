@@ -218,38 +218,129 @@ const SingleMessageDisplayed = ({
             </div>
           )}
         </div>
-      ) : (
-        <div className="audio-container-mmessage">
-          <div className="audio-container-mmessage-image-container">
-            <img
-              src="https://res.cloudinary.com/dkyzwols6/image/upload/v1679312571/beer-buzz-images-endpoint/rpp5jn3ccozhizwhuvzn.png"
-              alt="person-image"
-            />
-          </div>
+      ) : body.sender === localStorage.getItem("userId") ? (
+        <div className="singleMessageDisplay-right ">
+          <div className="audio-container-mmessage singleMessageDisplay-container right">
+            <div className="little-corner right"></div>
+            <div className="little-dropdown right bigger-size">
+              <div
+                className="little-dropdown-relative right"
+                onClick={() => showThisDropDown()}
+              >
+                {showDropDown && (
+                  <div className={getDropDownClass()}>
+                    <div>Answer</div>
+                    <div>React</div>
+                    <div>Forward</div>
+                    <div>Important</div>
+                    <div>Pin</div>
+                    <div onClick={() => deleteForMe(body._id)}>Delete</div>
+                  </div>
+                )}
+                <div className="little-dropdown-absolute right">
+                  <MdKeyboardArrowDown />
+                </div>
+              </div>
+            </div>
+            <div className="display-date right">
+              {body.createdAt.substring(11, dateSplit === "short" ? 16 : 17)}
+              <BsCheckAll className="display-date-icon" />
+            </div>
+            <div className="audio-container-mmessage-image-container">
+              <img
+                src="https://res.cloudinary.com/dkyzwols6/image/upload/v1679312571/beer-buzz-images-endpoint/rpp5jn3ccozhizwhuvzn.png"
+                alt="person-image"
+              />
+            </div>
 
-          {!isPlaying ? (
-            <BsFillPlayFill
-              onClick={() => {
-                playAudio(body.text);
-                setAudioStarted(true);
-              }}
-              className="mainappDisplayConversation-icons-icon ml-2"
-            />
-          ) : (
-            <BsFillPauseFill
-              onClick={() => {
-                playAudio(body.text);
-                setAudioStarted(false);
-              }}
-              className="mainappDisplayConversation-icons-icon ml-2"
-            />
-          )}
-          <div className="progress-container">
-            <div
-              className={
-                audioStarted && !pauseIconDisplayed ? "progress" : "nonprogress"
-              }
-            />
+            {!isPlaying ? (
+              <BsFillPlayFill
+                onClick={() => {
+                  playAudio(body.text);
+                  setAudioStarted(true);
+                }}
+                className="mainappDisplayConversation-icons-icon ml-2"
+              />
+            ) : (
+              <BsFillPauseFill
+                onClick={() => {
+                  playAudio(body.text);
+                  setAudioStarted(false);
+                }}
+                className="mainappDisplayConversation-icons-icon ml-2"
+              />
+            )}
+            <div className="progress-container">
+              <div
+                className={
+                  audioStarted && !pauseIconDisplayed
+                    ? "progress"
+                    : "nonprogress"
+                }
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="singleMessageDisplay-left ">
+          <div className="audio-container-mmessage singleMessageDisplay-container left">
+            <div className="little-corner left"></div>
+            <div className="little-dropdown right bigger-size">
+              <div
+                className="little-dropdown-relative right"
+                onClick={() => showThisDropDown()}
+              >
+                {showDropDown && (
+                  <div className={getDropDownClass("left")}>
+                    <div>Answer</div>
+                    <div>React</div>
+                    <div>Forward</div>
+                    <div>Important</div>
+                    <div>Pin</div>
+                    <div onClick={() => deleteForMe(body._id)}>Delete</div>
+                  </div>
+                )}
+                <div className="little-dropdown-absolute right">
+                  <MdKeyboardArrowDown />
+                </div>
+              </div>
+            </div>
+            <div className="display-date left">
+              {body.createdAt.substring(11, dateSplit === "short" ? 16 : 17)}
+            </div>
+            <div className="audio-container-mmessage-image-container">
+              <img
+                src="https://res.cloudinary.com/dkyzwols6/image/upload/v1679312571/beer-buzz-images-endpoint/rpp5jn3ccozhizwhuvzn.png"
+                alt="person-image"
+              />
+            </div>
+
+            {!isPlaying ? (
+              <BsFillPlayFill
+                onClick={() => {
+                  playAudio(body.text);
+                  setAudioStarted(true);
+                }}
+                className="mainappDisplayConversation-icons-icon ml-2"
+              />
+            ) : (
+              <BsFillPauseFill
+                onClick={() => {
+                  playAudio(body.text);
+                  setAudioStarted(false);
+                }}
+                className="mainappDisplayConversation-icons-icon ml-2"
+              />
+            )}
+            <div className="progress-container">
+              <div
+                className={
+                  audioStarted && !pauseIconDisplayed
+                    ? "progress"
+                    : "nonprogress"
+                }
+              />
+            </div>
           </div>
         </div>
       )}

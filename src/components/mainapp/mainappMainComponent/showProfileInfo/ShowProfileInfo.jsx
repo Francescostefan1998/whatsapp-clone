@@ -5,6 +5,7 @@ import { BsCameraFill } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
 import { FaRegSmile } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
+import axios from "axios";
 const ShowProfileInfo = ({ update, closeProfileSection }) => {
   const [renderCount, setRenderCount] = useState(0);
   const [expand, setExpand] = useState("");
@@ -14,6 +15,7 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
   const [icon2, setIcon2] = useState("icon-2");
   const [icon4, setIcon4] = useState("icon-4");
   const [icon5, setIcon5] = useState("icon-5");
+  const [file, setFile] = useState(null);
 
   const [pictureClass, setClassForThePicture] = useState(
     "expand-profile-picture"
@@ -30,6 +32,30 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
       500
     );
   }, []);
+  useEffect(() => {}, [file]);
+
+  const handleFileChange = (e) => {
+    console.log(e.target.files[0]);
+    setFile(e.target.files[0]);
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    axios
+      .post(
+        `http://localhost:3001/images/${localStorage.getItem("userId")}`,
+        formData,
+        {
+          "Content-Type": "multipart/form-data",
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+      });
+  };
   const setExpandPrufile = (query) => {
     setExpand(query);
     setTimeout(() => closeProfileSection(false), 200);
@@ -55,6 +81,14 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
           <div>
             CHANGE <br></br>PROFILE PHOTO
           </div>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Select a Profile picture:{" "}
+              <input type="file" onChange={handleFileChange} />
+            </label>
+            <br />
+            <button type="submit">Upload</button>
+          </form>
         </div>
         <img
           src="https://pluspng.com/img-png/png-user-icon-icons-logos-emojis-users-2400.png"
