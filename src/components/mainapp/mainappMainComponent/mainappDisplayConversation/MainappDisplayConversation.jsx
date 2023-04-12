@@ -219,6 +219,14 @@ const MainappDisplayConversation = ({
       <div className="mainappDisplayConversation-header">
         <div className="flex">
           <div className="mainappDisplayConversation-image">
+            {friend && friend.image ? (
+              <img src={friend.image} alt="picture" />
+            ) : (
+              <img
+                src="https://th.bing.com/th/id/OIP.8Xj9CyAn1wTXOq-hlelEyQHaFm?pid=ImgDet&rs=1"
+                alt="picture"
+              />
+            )}
             <img
               src="https://th.bing.com/th/id/OIP.8Xj9CyAn1wTXOq-hlelEyQHaFm?pid=ImgDet&rs=1"
               alt="picture"

@@ -22,6 +22,8 @@ const ShowProfileInfo = ({
   const [icon4, setIcon4] = useState("icon-4");
   const [icon5, setIcon5] = useState("icon-5");
   const [file, setFile] = useState(null);
+  const [nameText, setNameText] = useState("");
+  const [aboutText, setAboutText] = useState("");
   const [showFormToChangeImage, setShowFormToChangeImage] = useState(false);
   const [pictureClass, setClassForThePicture] = useState(
     "expand-profile-picture"
@@ -39,6 +41,39 @@ const ShowProfileInfo = ({
       500
     );
   }, []);
+
+  const fetchTheNewDetailsUserAbout = async (aboutText) => {
+    const res = await fetch(
+      `http://localhost:3001/users/${localStorage.getItem("userId")}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          about: aboutText,
+        }),
+      }
+    );
+    setChangeOfTheUserProfile();
+
+    setAboutText("");
+  };
+  const fetchTheNewDetailsUserName = async (nameText) => {
+    const res = await fetch(
+      `http://localhost:3001/users/${localStorage.getItem("userId")}`,
+
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: nameText.split(" ")[0],
+          lastName: nameText.split(" ")[1],
+        }),
+      }
+    );
+    setChangeOfTheUserProfile();
+
+    setNameText("");
+  };
   useEffect(() => {}, [file]);
 
   const handleFileChange = (e) => {
@@ -130,7 +165,11 @@ const ShowProfileInfo = ({
           </div>
           {!editName && (
             <div className="class-for-the-other-profile-section-inside black">
-              <div>Francesco Stefan</div>
+              <div>
+                {user && user.firstName
+                  ? user.firstName + " " + user.lastName
+                  : "Hey there! I am using WhatsApp."}
+              </div>
               <div>
                 <RiPencilFill
                   className="icon"
@@ -147,7 +186,15 @@ const ShowProfileInfo = ({
           {editName && (
             <div className="class-for-the-other-profile-section-inside black borderbottom">
               <div>
-                <input type="text" value={"Francesco Stefan"} />
+                <input
+                  type="text"
+                  value={
+                    nameText && nameText !== ""
+                      ? nameText
+                      : user && user.firstName + " " + user.lastName
+                  }
+                  onChange={(e) => setNameText(e.target.value)}
+                />
               </div>
               <div className="appear-on-click">
                 <div className={icon3}>9</div>
@@ -159,6 +206,7 @@ const ShowProfileInfo = ({
                     setIcon2("icon-3");
 
                     setEditName(false);
+                    fetchTheNewDetailsUserName(nameText);
                   }}
                 />
               </div>
@@ -177,7 +225,11 @@ const ShowProfileInfo = ({
           </div>
           {!editAbout && (
             <div className="class-for-the-other-profile-section-inside black">
-              <div>Hey there! I am using WhatsApp.</div>
+              <div>
+                {user && user.about
+                  ? user.about
+                  : "Hey there! I am using WhatsApp."}
+              </div>
               <div>
                 <RiPencilFill
                   className="icon"
@@ -194,7 +246,15 @@ const ShowProfileInfo = ({
           {editAbout && (
             <div className="class-for-the-other-profile-section-inside black borderbottom">
               <div>
-                <input type="text" value={"Hey there, I am using WhatsApp"} />
+                <input
+                  type="text"
+                  value={
+                    aboutText && aboutText !== ""
+                      ? aboutText
+                      : user && user.about
+                  }
+                  onChange={(e) => setAboutText(e.target.value)}
+                />
               </div>
               <div className="appear-on-click">
                 <div className={icon4}>8</div>
@@ -206,6 +266,7 @@ const ShowProfileInfo = ({
                     setIcon5("icon-4");
 
                     setEditAbout(false);
+                    fetchTheNewDetailsUserAbout(aboutText);
                   }}
                 />
               </div>
