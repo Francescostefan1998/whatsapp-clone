@@ -6,7 +6,12 @@ import { AiOutlineCheck } from "react-icons/ai";
 import { FaRegSmile } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
 import axios from "axios";
-const ShowProfileInfo = ({ update, closeProfileSection }) => {
+const ShowProfileInfo = ({
+  update,
+  closeProfileSection,
+  user,
+  setChangeOfTheUserProfile,
+}) => {
   const [renderCount, setRenderCount] = useState(0);
   const [expand, setExpand] = useState("");
   const [editName, setEditName] = useState(false);
@@ -16,13 +21,14 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
   const [icon4, setIcon4] = useState("icon-4");
   const [icon5, setIcon5] = useState("icon-5");
   const [file, setFile] = useState(null);
-
+  const [showFormToChangeImage, setShowFormToChangeImage] = useState(false);
   const [pictureClass, setClassForThePicture] = useState(
     "expand-profile-picture"
   );
   const [classForTheOther, setClassForTheOther] = useState(
     "class-for-the-other-profile-informations"
   );
+  useEffect(() => {}, [user]);
   useEffect(() => {
     setExpand(update);
     setClassForThePicture("expand-profile-picture expand");
@@ -53,7 +59,9 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
         }
       )
       .then((response) => {
-        console.log(response.data);
+        console.log(response);
+        setChangeOfTheUserProfile(response);
+        setShowFormToChangeImage(false);
       });
   };
   const setExpandPrufile = (query) => {
@@ -75,25 +83,37 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
       </div>
       <div className={pictureClass}>
         <div className="edit-picture-profile-appear-on-hover">
-          <div>
-            <BsCameraFill />
-          </div>
-          <div>
-            CHANGE <br></br>PROFILE PHOTO
-          </div>
-          <form onSubmit={handleSubmit}>
-            <label>
-              Select a Profile picture:{" "}
-              <input type="file" onChange={handleFileChange} />
+          {!showFormToChangeImage && (
+            <>
+              <div onClick={() => setShowFormToChangeImage(true)}>
+                <BsCameraFill />
+              </div>
+              <div onClick={() => setShowFormToChangeImage(true)}>
+                CHANGE <br></br>PROFILE PHOTO
+              </div>
+            </>
+          )}
+        </div>
+        {showFormToChangeImage && (
+          <form className="form-picture-dropdown" onSubmit={handleSubmit}>
+            <div onClick={() => setShowFormToChangeImage(false)}>x</div>
+            <label className="label-picture-dropdown">
+              Select picture: <input type="file" onChange={handleFileChange} />
             </label>
             <br />
-            <button type="submit">Upload</button>
+            <button type="submit" className="button-picture-dropdown">
+              Upload
+            </button>
           </form>
-        </div>
-        <img
-          src="https://pluspng.com/img-png/png-user-icon-icons-logos-emojis-users-2400.png"
-          alt="pictureProfile"
-        />
+        )}
+        {user && user.image ? (
+          <img src={user.image} alt="image" />
+        ) : (
+          <img
+            src="https://pluspng.com/img-png/png-user-icon-icons-logos-emojis-users-2400.png"
+            alt="pictureProfile"
+          />
+        )}
       </div>
       <div className={classForTheOther}>
         <div className="class-for-the-other-profile-section name">
