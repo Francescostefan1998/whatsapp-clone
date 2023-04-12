@@ -62,7 +62,7 @@ const MainappDisplayConversation = ({
       console.error("Error in startRecording:", err);
     }
   }
-
+  useEffect(() => {}, [recordedChunks]);
   function stopRecording() {
     if (mediaRecorder) {
       mediaRecorder.stop();
@@ -85,6 +85,8 @@ const MainappDisplayConversation = ({
     }
   }
   async function sendAudio(audioBlob) {
+    console.log("send audio triggered");
+    console.log(audioBlob);
     try {
       const formData = new FormData();
       formData.append("audio", audioBlob, "recorded_audio.webm");
@@ -345,6 +347,7 @@ const MainappDisplayConversation = ({
               className="mainappDisplayConversation-icons-icon ml-2"
               onClick={() => {
                 if (!audioStarted) {
+                  setPausedIconDisplayed(false);
                   startRecording();
                   setAudioStarted(true);
                 } else {
@@ -375,13 +378,8 @@ const MainappDisplayConversation = ({
               <FaMicrophone
                 className="mainappDisplayConversation-icons-icon ml-2 red"
                 onClick={() => {
-                  if (pauseIconDisplayed) {
-                    startRecording();
-                    setPausedIconDisplayed(false);
-                  } else {
-                    stopRecording();
-                    setPausedIconDisplayed(true);
-                  }
+                  startRecording();
+                  setPausedIconDisplayed(false);
                 }}
               />
             )}
@@ -389,13 +387,8 @@ const MainappDisplayConversation = ({
               <FiPauseCircle
                 className="mainappDisplayConversation-icons-icon ml-2 red"
                 onClick={() => {
-                  if (pauseIconDisplayed) {
-                    startRecording();
-                    setPausedIconDisplayed(false);
-                  } else {
-                    stopRecording();
-                    setPausedIconDisplayed(true);
-                  }
+                  stopRecording();
+                  setPausedIconDisplayed(true);
                 }}
               />
             )}
