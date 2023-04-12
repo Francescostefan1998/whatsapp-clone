@@ -72,6 +72,7 @@
   height: 200px;
 }
 .expand-profile-picture img {
+  height: 100%;
   width: 100%;
   object-fit: cover;
 }
@@ -249,4 +250,18 @@
   border-radius: 4px;
   background-color: rgb(46, 106, 226);
   color: white;
+}
+
+.closing-dropdown-changing-image-relative {
+  width: 100%;
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 1vh;
+}
+
+.closing-dropdown-changing-image {
+  position: absolute;
+  right: 5px;
+  top: 0px;
+  cursor: pointer;
 }

@@ -4,6 +4,7 @@ import { RiPencilFill } from "react-icons/ri";
 import { BsCameraFill } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
 import { FaRegSmile } from "react-icons/fa";
+import { AiFillCloseCircle } from "react-icons/ai";
 import { FiArrowLeft } from "react-icons/fi";
 import axios from "axios";
 const ShowProfileInfo = ({
@@ -96,7 +97,14 @@ const ShowProfileInfo = ({
         </div>
         {showFormToChangeImage && (
           <form className="form-picture-dropdown" onSubmit={handleSubmit}>
-            <div onClick={() => setShowFormToChangeImage(false)}>x</div>
+            <div className="closing-dropdown-changing-image-relative">
+              <div
+                onClick={() => setShowFormToChangeImage(false)}
+                className="closing-dropdown-changing-image"
+              >
+                <AiFillCloseCircle />
+              </div>
+            </div>
             <label className="label-picture-dropdown">
               Select picture: <input type="file" onChange={handleFileChange} />
             </label>
