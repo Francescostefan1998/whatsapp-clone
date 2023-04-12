@@ -4,9 +4,15 @@ import { RiPencilFill } from "react-icons/ri";
 import { BsCameraFill } from "react-icons/bs";
 import { AiOutlineCheck } from "react-icons/ai";
 import { FaRegSmile } from "react-icons/fa";
+import { AiFillCloseCircle } from "react-icons/ai";
 import { FiArrowLeft } from "react-icons/fi";
 import axios from "axios";
-const ShowProfileInfo = ({ update, closeProfileSection }) => {
+const ShowProfileInfo = ({
+  update,
+  closeProfileSection,
+  user,
+  setChangeOfTheUserProfile,
+}) => {
   const [renderCount, setRenderCount] = useState(0);
   const [expand, setExpand] = useState("");
   const [editName, setEditName] = useState(false);
@@ -16,13 +22,16 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
   const [icon4, setIcon4] = useState("icon-4");
   const [icon5, setIcon5] = useState("icon-5");
   const [file, setFile] = useState(null);
-
+  const [nameText, setNameText] = useState("");
+  const [aboutText, setAboutText] = useState("");
+  const [showFormToChangeImage, setShowFormToChangeImage] = useState(false);
   const [pictureClass, setClassForThePicture] = useState(
     "expand-profile-picture"
   );
   const [classForTheOther, setClassForTheOther] = useState(
     "class-for-the-other-profile-informations"
   );
+  useEffect(() => {}, [user]);
   useEffect(() => {
     setExpand(update);
     setClassForThePicture("expand-profile-picture expand");
@@ -32,6 +41,39 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
       500
     );
   }, []);
+
+  const fetchTheNewDetailsUserAbout = async (aboutText) => {
+    const res = await fetch(
+      `http://localhost:3001/users/${localStorage.getItem("userId")}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          about: aboutText,
+        }),
+      }
+    );
+    setChangeOfTheUserProfile();
+
+    setAboutText("");
+  };
+  const fetchTheNewDetailsUserName = async (nameText) => {
+    const res = await fetch(
+      `http://localhost:3001/users/${localStorage.getItem("userId")}`,
+
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: nameText.split(" ")[0],
+          lastName: nameText.split(" ")[1],
+        }),
+      }
+    );
+    setChangeOfTheUserProfile();
+
+    setNameText("");
+  };
   useEffect(() => {}, [file]);
 
   const handleFileChange = (e) => {
@@ -53,7 +95,9 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
         }
       )
       .then((response) => {
-        console.log(response.data);
+        console.log(response);
+        setChangeOfTheUserProfile(response);
+        setShowFormToChangeImage(false);
       });
   };
   const setExpandPrufile = (query) => {
@@ -75,25 +119,44 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
       </div>
       <div className={pictureClass}>
         <div className="edit-picture-profile-appear-on-hover">
-          <div>
-            <BsCameraFill />
-          </div>
-          <div>
-            CHANGE <br></br>PROFILE PHOTO
-          </div>
-          <form onSubmit={handleSubmit}>
-            <label>
-              Select a Profile picture:{" "}
-              <input type="file" onChange={handleFileChange} />
+          {!showFormToChangeImage && (
+            <>
+              <div onClick={() => setShowFormToChangeImage(true)}>
+                <BsCameraFill />
+              </div>
+              <div onClick={() => setShowFormToChangeImage(true)}>
+                CHANGE <br></br>PROFILE PHOTO
+              </div>
+            </>
+          )}
+        </div>
+        {showFormToChangeImage && (
+          <form className="form-picture-dropdown" onSubmit={handleSubmit}>
+            <div className="closing-dropdown-changing-image-relative">
+              <div
+                onClick={() => setShowFormToChangeImage(false)}
+                className="closing-dropdown-changing-image"
+              >
+                <AiFillCloseCircle />
+              </div>
+            </div>
+            <label className="label-picture-dropdown">
+              Select picture: <input type="file" onChange={handleFileChange} />
             </label>
             <br />
-            <button type="submit">Upload</button>
+            <button type="submit" className="button-picture-dropdown">
+              Upload
+            </button>
           </form>
-        </div>
-        <img
-          src="https://pluspng.com/img-png/png-user-icon-icons-logos-emojis-users-2400.png"
-          alt="pictureProfile"
-        />
+        )}
+        {user && user.image ? (
+          <img src={user.image} alt="image" />
+        ) : (
+          <img
+            src="https://pluspng.com/img-png/png-user-icon-icons-logos-emojis-users-2400.png"
+            alt="pictureProfile"
+          />
+        )}
       </div>
       <div className={classForTheOther}>
         <div className="class-for-the-other-profile-section name">
@@ -102,7 +165,11 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
           </div>
           {!editName && (
             <div className="class-for-the-other-profile-section-inside black">
-              <div>Francesco Stefan</div>
+              <div>
+                {user && user.firstName
+                  ? user.firstName + " " + user.lastName
+                  : "Hey there! I am using WhatsApp."}
+              </div>
               <div>
                 <RiPencilFill
                   className="icon"
@@ -119,7 +186,15 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
           {editName && (
             <div className="class-for-the-other-profile-section-inside black borderbottom">
               <div>
-                <input type="text" value={"Francesco Stefan"} />
+                <input
+                  type="text"
+                  value={
+                    nameText && nameText !== ""
+                      ? nameText
+                      : user && user.firstName + " " + user.lastName
+                  }
+                  onChange={(e) => setNameText(e.target.value)}
+                />
               </div>
               <div className="appear-on-click">
                 <div className={icon3}>9</div>
@@ -131,6 +206,7 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
                     setIcon2("icon-3");
 
                     setEditName(false);
+                    fetchTheNewDetailsUserName(nameText);
                   }}
                 />
               </div>
@@ -149,7 +225,11 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
           </div>
           {!editAbout && (
             <div className="class-for-the-other-profile-section-inside black">
-              <div>Hey there! I am using WhatsApp.</div>
+              <div>
+                {user && user.about
+                  ? user.about
+                  : "Hey there! I am using WhatsApp."}
+              </div>
               <div>
                 <RiPencilFill
                   className="icon"
@@ -166,7 +246,15 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
           {editAbout && (
             <div className="class-for-the-other-profile-section-inside black borderbottom">
               <div>
-                <input type="text" value={"Hey there, I am using WhatsApp"} />
+                <input
+                  type="text"
+                  value={
+                    aboutText && aboutText !== ""
+                      ? aboutText
+                      : user && user.about
+                  }
+                  onChange={(e) => setAboutText(e.target.value)}
+                />
               </div>
               <div className="appear-on-click">
                 <div className={icon4}>8</div>
@@ -178,6 +266,7 @@ const ShowProfileInfo = ({ update, closeProfileSection }) => {
                     setIcon5("icon-4");
 
                     setEditAbout(false);
+                    fetchTheNewDetailsUserAbout(aboutText);
                   }}
                 />
               </div>

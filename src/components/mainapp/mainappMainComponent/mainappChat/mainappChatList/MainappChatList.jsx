@@ -176,12 +176,17 @@ const MainappChatList = (
       setShowFindFriends(false);
     }, 300);
   };
+  const setChangeOfTheUserProfile = (k) => {
+    fetchAndGetTheChatList(localStorage.getItem("userId"));
+  };
 
   useEffect(() => {}, [showFindFriends]);
   return (
     <div className="mainappChatList">
       {showProfile && (
         <ShowProfileInfo
+          user={user}
+          setChangeOfTheUserProfile={setChangeOfTheUserProfile}
           update={"showProfileInfo"}
           closeProfileSection={setShowProfile}
         />
@@ -195,6 +200,7 @@ const MainappChatList = (
       )}
       <div>
         <MainappChatHeader
+          user={user}
           setShowProfile={setShowProfile}
           setShowFindFriends={setShowFindFriends}
           handleStartingChat={handleStartingChat}

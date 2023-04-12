@@ -62,7 +62,7 @@ const MainappDisplayConversation = ({
       console.error("Error in startRecording:", err);
     }
   }
-
+  useEffect(() => {}, [recordedChunks]);
   function stopRecording() {
     if (mediaRecorder) {
       mediaRecorder.stop();
@@ -85,6 +85,8 @@ const MainappDisplayConversation = ({
     }
   }
   async function sendAudio(audioBlob) {
+    console.log("send audio triggered");
+    console.log(audioBlob);
     try {
       const formData = new FormData();
       formData.append("audio", audioBlob, "recorded_audio.webm");
@@ -219,6 +221,14 @@ const MainappDisplayConversation = ({
       <div className="mainappDisplayConversation-header">
         <div className="flex">
           <div className="mainappDisplayConversation-image">
+            {friend && friend.image ? (
+              <img src={friend.image} alt="picture" />
+            ) : (
+              <img
+                src="https://th.bing.com/th/id/OIP.8Xj9CyAn1wTXOq-hlelEyQHaFm?pid=ImgDet&rs=1"
+                alt="picture"
+              />
+            )}
             <img
               src="https://th.bing.com/th/id/OIP.8Xj9CyAn1wTXOq-hlelEyQHaFm?pid=ImgDet&rs=1"
               alt="picture"
@@ -337,6 +347,7 @@ const MainappDisplayConversation = ({
               className="mainappDisplayConversation-icons-icon ml-2"
               onClick={() => {
                 if (!audioStarted) {
+                  setPausedIconDisplayed(false);
                   startRecording();
                   setAudioStarted(true);
                 } else {
@@ -367,13 +378,8 @@ const MainappDisplayConversation = ({
               <FaMicrophone
                 className="mainappDisplayConversation-icons-icon ml-2 red"
                 onClick={() => {
-                  if (pauseIconDisplayed) {
-                    startRecording();
-                    setPausedIconDisplayed(false);
-                  } else {
-                    stopRecording();
-                    setPausedIconDisplayed(true);
-                  }
+                  startRecording();
+                  setPausedIconDisplayed(false);
                 }}
               />
             )}
@@ -381,13 +387,8 @@ const MainappDisplayConversation = ({
               <FiPauseCircle
                 className="mainappDisplayConversation-icons-icon ml-2 red"
                 onClick={() => {
-                  if (pauseIconDisplayed) {
-                    startRecording();
-                    setPausedIconDisplayed(false);
-                  } else {
-                    stopRecording();
-                    setPausedIconDisplayed(true);
-                  }
+                  stopRecording();
+                  setPausedIconDisplayed(true);
                 }}
               />
             )}

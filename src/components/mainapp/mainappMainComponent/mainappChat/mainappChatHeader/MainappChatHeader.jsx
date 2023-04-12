@@ -3,19 +3,26 @@ import { BsPeopleFill } from "react-icons/bs";
 import { TbCircleDashed } from "react-icons/tb";
 import { MdMessage } from "react-icons/md";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useEffect } from "react";
 import { useState } from "react";
 
-const MainappChatHeader = ({ setShowProfile, setShowFindFriends }) => {
+const MainappChatHeader = ({ setShowProfile, setShowFindFriends, user }) => {
+  useEffect(() => {}, [user]);
+
   return (
     <div className="mainappChatHeader">
       <div
         className="mainappChatHeader-image"
         onClick={() => setShowProfile(true)}
       >
-        <img
-          src="https://www.boetsch-gemuese.ch/sites/default/files/styles/personenfoto/public/default_images/avatar.png?itok=5X6VGIm2"
-          alt="profile"
-        />
+        {user && user.image ? (
+          <img src={user.image} alt="profile" />
+        ) : (
+          <img
+            src="https://www.boetsch-gemuese.ch/sites/default/files/styles/personenfoto/public/default_images/avatar.png?itok=5X6VGIm2"
+            alt="profile"
+          />
+        )}
       </div>
       <div className="mainappChatHeader-icons">
         <div>
