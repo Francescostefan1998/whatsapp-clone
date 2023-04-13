@@ -226,3 +226,9 @@
 .mainappDisplayConversation-icons-icon.icon-audio {
   font-size: 30px;
 }
+
+@media (max-width: 1124px) {
+  .singleMessageDisplay-container {
+    max-width: 85%;
+  }
+}
