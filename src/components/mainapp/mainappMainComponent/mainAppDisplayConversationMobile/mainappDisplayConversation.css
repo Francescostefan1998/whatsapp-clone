@@ -2,7 +2,7 @@
   --icons-color: rgb(86, 86, 86);
 }
 
-.mainappDisplayConversation {
+.mainappDisplayConversation-mobile {
   width: 100%;
   height: 100%;
   display: flex;
@@ -135,14 +135,14 @@
   }
 }
 
-.mainappDisplayConversation .progress-container {
+.mainappDisplayConversation-mobile .progress-container {
   position: relative;
   width: 200px;
   height: 5px;
   background-color: lightgray;
 }
 
-.mainappDisplayConversation .progress {
+.mainappDisplayConversation-mobile .progress {
   position: absolute;
   height: 100%;
   width: 200px;
@@ -150,7 +150,7 @@
   background-color: green;
   animation: widthAnimation 10s linear infinite;
 }
-.mainappDisplayConversation .nonprogress {
+.mainappDisplayConversation-mobile .nonprogress {
   position: absolute;
   height: 100%;
   width: 200px;
@@ -158,7 +158,7 @@
   background-color: lightgray;
 }
 
-.mainappDisplayConversation .recording-container {
+.mainappDisplayConversation-mobile .recording-container {
   position: relative;
   width: 100px;
   height: 3px;
@@ -166,7 +166,7 @@
   overflow: hidden;
 }
 
-.mainappDisplayConversation .recording-progress {
+.mainappDisplayConversation-mobile .recording-progress {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -246,7 +246,7 @@
 }
 
 @media (max-width: 1124px) {
-  .mainappDisplayConversation {
-    display: none;
+  .mainappDisplayConversation-mobile {
+    display: flex;
   }
 }

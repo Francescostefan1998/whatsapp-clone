@@ -16,7 +16,7 @@ import SingleMessageDisplayed from "./singleMessageDisplayed/SingleMessageDispla
 const webkitSpeechRecognition =
   window.webkitSpeechRecognition || window.SpeechRecognition;
 
-const MainappDisplayConversation = ({
+const MainappDisplayConversationMobile = ({
   chat,
   listOfUsers,
   callHandleInputFocus,
@@ -225,7 +225,7 @@ const MainappDisplayConversation = ({
   }, [recordedChunks]);
   useEffect(() => {}, [audioStarted]);
   return (
-    <div className="mainappDisplayConversation">
+    <div className="mainappDisplayConversation-mobile">
       <div className="mainappDisplayConversation-header">
         <div className="flex">
           <div className="mainappDisplayConversation-image">
@@ -425,4 +425,4 @@ const MainappDisplayConversation = ({
   );
 };
 
-export default MainappDisplayConversation;
+export default MainappDisplayConversationMobile;

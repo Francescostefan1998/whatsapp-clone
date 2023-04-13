@@ -164,3 +164,22 @@
 ::-webkit-scrollbar-track {
   background-color: #f9f9f9; /* Light gray color used in WhatsApp web */
 }
+.mainappChatList-list-chats.big-screen {
+  display: flex;
+}
+
+.mainappChatList-list-chats.small-screen {
+  display: none;
+}
+@media (max-width: 1124px) {
+  .mainappChatList {
+    width: 100%;
+    min-height: 100vh;
+  }
+  .mainappChatList-list-chats.big-screen {
+    display: none;
+  }
+  .mainappChatList-list-chats.small-screen {
+    display: flex;
+  }
+}

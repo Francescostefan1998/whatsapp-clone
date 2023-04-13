@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { IoIosArrowDown } from "react-icons/io";
 import { BsCheckAll } from "react-icons/bs";
 import { getSingleChat } from "../../../../../redux/actions";
+import { FaMicrophone } from "react-icons/fa";
 
 const MainappSingleChat = ({
   small,
@@ -11,6 +12,7 @@ const MainappSingleChat = ({
   fetchChatSelected,
   notifications,
   refChatlistOnTheLeftSide,
+  navigateIntoanotherPage,
 }) => {
   const [friend, setFriend] = useState(null);
   const [numberToAppear, setNumberToAppear] = useState();
@@ -21,12 +23,11 @@ const MainappSingleChat = ({
   console.log(notifications);
   useEffect(() => {
     if (chat) {
-      console.log(chat);
       fetchSingleChat(chat);
     } else {
       return;
     }
-  }, [chat, refChatlistOnTheLeftSide]);
+  }, [chat]);
   useEffect(() => {
     setNumberToAppear(notifications);
   }, [notifications]);
@@ -92,6 +93,7 @@ const MainappSingleChat = ({
       onClick={() => {
         dispatch(getSingleChat(chat));
         fetchChatSelected(chat);
+        navigateIntoanotherPage && navigateIntoanotherPage();
       }}
     >
       {small === "mainappChatList-list-chats-single" && (
@@ -123,11 +125,20 @@ const MainappSingleChat = ({
                   ) : (
                     <BsCheckAll />
                   )}
-                  {arrayOfMessagesBody[arrayOfMessagesBody.length - 1].text}
+                  {arrayOfMessagesBody[
+                    arrayOfMessagesBody.length - 1
+                  ].text.substring(0, 4) !== "http" ? (
+                    arrayOfMessagesBody[arrayOfMessagesBody.length - 1].text
+                  ) : (
+                    <>
+                      <FaMicrophone />
+                      audio message
+                    </>
+                  )}
                 </div>
               )}
               {arrayOfMessagesBody.length <= 0 && (
-                <div className="message">hello man</div>
+                <div className="message">-no text yet</div>
               )}
             </div>
             <div className="mainappChatList-list-chats-single-informations-right">

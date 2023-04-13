@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { forwardRef, useImperativeHandle } from "react";
 import { BsFillBellSlashFill } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import ShowProfileInfo from "../../showProfileInfo/ShowProfileInfo";
 import { IoIosArrowForward } from "react-icons/io";
 import { useEffect, useState } from "react";
@@ -33,10 +34,12 @@ const MainappChatList = (
     bigList,
     refChatlistOnTheLeftSide,
     refreshChatlistOnTheLeftSide,
+    changeTheClass,
   },
   ref
 ) => {
   console.log(ref);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
   const [showFindFriends, setShowFindFriends] = useState(false);
@@ -49,12 +52,26 @@ const MainappChatList = (
   const [notifications, setNotifications] = useState();
   const [chatHistory, setChatHistory] = useState([]);
   const [chatHistorySocket, setChatHistorySoket] = useState([]);
+  const [
+    theEntireSectionVisibleonNotSelected,
+    setTheEntireSectionVisibleonNotSelected,
+  ] = useState(true);
   console.log(chatHistory);
   console.log(chatHistorySocket);
   let previousLength = bigList.length;
   useEffect(() => {}, [notifications]);
   useEffect(() => {}, [user]);
-
+  useEffect(() => {
+    setTheEntireSectionVisibleonNotSelected(true);
+  }, []);
+  useEffect(() => {
+    const addVisibilityorRemove = document.querySelector(".mainappChatList");
+    if (!theEntireSectionVisibleonNotSelected) {
+      addVisibilityorRemove.classList.add("not-visimble-in-small-screen");
+    } else if (theEntireSectionVisibleonNotSelected) {
+      addVisibilityorRemove.classList.remove("not-visimble-in-small-screen");
+    }
+  }, [theEntireSectionVisibleonNotSelected]);
   useEffect(() => {
     fetchAndGetTheChatList(localStorage.getItem("userId"));
   }, [showFindFriends]);
@@ -93,7 +110,9 @@ const MainappChatList = (
     handleInputBlur,
     setTheMessage,
   }));
-
+  const navigateIntoanotherPage = () => {
+    changeTheClass(true);
+  };
   useEffect(() => {
     socket.on("welcome", (welcomeMessage) => {
       console.log(welcomeMessage);
@@ -246,7 +265,7 @@ const MainappChatList = (
           </div>
           <div>Archived</div>
         </div>
-        <div className="mainappChatList-list-chats">
+        <div className="mainappChatList-list-chats big-screen">
           {/*map */}
           {user &&
             user.chats.map((chat, index) => (
@@ -259,36 +278,30 @@ const MainappChatList = (
                 refChatlistOnTheLeftSide={refChatlistOnTheLeftSide}
               />
             ))}
-          <div>
-            <input
-              type="text"
-              onChange={(e) => setUserNameTry(e.target.value)}
-              disabled={login}
-            />
-          </div>
-          <div onClick={() => submitUsername(userNameTry)} disabled={login}>
-            connect
-          </div>
-          {login && (
-            <div>
-              {onlineusers && onlineusers.length === 0 && (
-                <div>Log in to check who is online</div>
-              )}
-              <div>
-                {onlineusers &&
-                  onlineusers.map((user) => (
-                    <div key={user.socketId}>{user.username}</div>
-                  ))}
-              </div>
-            </div>
-          )}
+          <div></div>
+        </div>
+        <div className="mainappChatList-list-chats small-screen">
+          {/*map */}
+          {user &&
+            user.chats.map((chat, index) => (
+              <MainappSingleChat
+                notifications={notifications}
+                fetchChatSelected={fetchChatSelected}
+                small={"mainappChatList-list-chats-single"}
+                chat={chat}
+                navigateIntoanotherPage={navigateIntoanotherPage}
+                key={chat._id}
+                refChatlistOnTheLeftSide={refChatlistOnTheLeftSide}
+              />
+            ))}
+          <div></div>
         </div>
         <div className="mainappChatList-list-footer">
           <HiLockClosed />
-          Your personal messages are{" "}
+          Your personal messages are:{" "}
           <a href="https://en.wikipedia.org/wiki/End-to-end_encryption">
             {" "}
-            end-to-end encripted
+            {"  "} end-to-end encripted
           </a>
         </div>
       </div>

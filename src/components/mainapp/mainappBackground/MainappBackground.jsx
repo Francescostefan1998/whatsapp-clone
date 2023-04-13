@@ -4,6 +4,7 @@ import MainappChatList from "../mainappMainComponent/mainappChat/mainappChatList
 import MainappEmptySpace from "../mainappMainComponent/mainappEmptySpace/MainappEmptySpace";
 import MainappDisplayConversation from "../mainappMainComponent/mainappDisplayConversation/MainappDisplayConversation";
 import { io } from "socket.io-client";
+import { useLocation } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -19,6 +20,7 @@ const MainappBackground = () => {
   const [refChatlistOnTheLeftSide, refreshChatlistOnTheLeftSide] = useState();
   const [socket, setSocket] = useState(null);
 
+  const location = useLocation();
   useEffect(() => {
     const newSocket = io("http://localhost:3001", {
       transports: ["websocket"],
@@ -98,7 +100,7 @@ const MainappBackground = () => {
       console.log(error);
     }
   };
-
+  const changeTheClass = () => {};
   const handleTheBeginningOfNewChat = (param) => {
     setBeginANewChat(param);
     fetchUserToStartChat(param);
@@ -129,6 +131,7 @@ const MainappBackground = () => {
       <div className="mainappBackground-middle">
         {socket && (
           <MainappChatList
+            changeTheClass={changeTheClass}
             fetchChatSelected={fetchChatSelected}
             grabListOfUsers={grabListOfUsers}
             ref={mainappChatListRef}
