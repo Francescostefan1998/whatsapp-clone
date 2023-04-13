@@ -38,6 +38,7 @@ const MainappDisplayConversation = ({
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [pauseIconDisplayed, setPausedIconDisplayed] = useState(false);
+  const [recordingCompleted, setRecordingCompleted] = useState(false);
   const dispatch = useDispatch();
 
   async function startRecording() {
@@ -62,14 +63,21 @@ const MainappDisplayConversation = ({
       console.error("Error in startRecording:", err);
     }
   }
+  useEffect(() => {
+    if (recordingCompleted) {
+      const recordedBlob = new Blob(recordedChunks, { type: "audio/webm" });
+      sendAudio(recordedBlob);
+      setRecordingCompleted(false);
+    }
+  }, [recordingCompleted, recordedChunks]);
   useEffect(() => {}, [recordedChunks]);
   function stopRecording() {
     if (mediaRecorder) {
-      mediaRecorder.stop();
       mediaRecorder.onstop = () => {
         const recordedBlob = new Blob(recordedChunks, { type: "audio/webm" });
-        sendAudio(recordedBlob);
+        setRecordingCompleted(true);
       };
+      mediaRecorder.stop();
     }
   }
   function downloadAudio() {
