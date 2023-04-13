@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WebLoginBackground from "./components/login/webLogin/webLoginBackground/WebLoginBackground";
 import MainappBackground from "./components/mainapp/mainappBackground/MainappBackground";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./App.css";

@@ -259,7 +259,7 @@ const SingleMessageDisplayed = ({
                   playAudio(body.text);
                   setAudioStarted(true);
                 }}
-                className="mainappDisplayConversation-icons-icon ml-2"
+                className="mainappDisplayConversation-icons-icon ml-2 icon-audio"
               />
             ) : (
               <BsFillPauseFill
@@ -267,7 +267,7 @@ const SingleMessageDisplayed = ({
                   playAudio(body.text);
                   setAudioStarted(false);
                 }}
-                className="mainappDisplayConversation-icons-icon ml-2"
+                className="mainappDisplayConversation-icons-icon ml-2 icon-audio"
               />
             )}
             <div className="progress-container">
@@ -321,7 +321,7 @@ const SingleMessageDisplayed = ({
                   playAudio(body.text);
                   setAudioStarted(true);
                 }}
-                className="mainappDisplayConversation-icons-icon ml-2"
+                className="mainappDisplayConversation-icons-icon ml-2 icon-audio"
               />
             ) : (
               <BsFillPauseFill
@@ -329,7 +329,7 @@ const SingleMessageDisplayed = ({
                   playAudio(body.text);
                   setAudioStarted(false);
                 }}
-                className="mainappDisplayConversation-icons-icon ml-2"
+                className="mainappDisplayConversation-icons-icon ml-2 icon-audio"
               />
             )}
             <div className="progress-container">

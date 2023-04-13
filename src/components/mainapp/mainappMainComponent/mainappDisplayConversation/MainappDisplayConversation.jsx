@@ -27,6 +27,7 @@ const MainappDisplayConversation = ({
   refreshChatPage,
   bigList,
   refreshChatlistOnTheLeftSide,
+  personalizedClassName,
 }) => {
   const [lastAudio, setLastAudion] = useState("");
   const [file, setFile] = useState(null);
@@ -38,6 +39,7 @@ const MainappDisplayConversation = ({
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [pauseIconDisplayed, setPausedIconDisplayed] = useState(false);
+  const [recordingCompleted, setRecordingCompleted] = useState(false);
   const dispatch = useDispatch();
 
   async function startRecording() {
@@ -62,14 +64,21 @@ const MainappDisplayConversation = ({
       console.error("Error in startRecording:", err);
     }
   }
+  useEffect(() => {
+    if (recordingCompleted) {
+      const recordedBlob = new Blob(recordedChunks, { type: "audio/webm" });
+      sendAudio(recordedBlob);
+      setRecordingCompleted(false);
+    }
+  }, [recordingCompleted, recordedChunks]);
   useEffect(() => {}, [recordedChunks]);
   function stopRecording() {
     if (mediaRecorder) {
-      mediaRecorder.stop();
       mediaRecorder.onstop = () => {
         const recordedBlob = new Blob(recordedChunks, { type: "audio/webm" });
-        sendAudio(recordedBlob);
+        setRecordingCompleted(true);
       };
+      mediaRecorder.stop();
     }
   }
   function downloadAudio() {
@@ -217,7 +226,7 @@ const MainappDisplayConversation = ({
   }, [recordedChunks]);
   useEffect(() => {}, [audioStarted]);
   return (
-    <div className="mainappDisplayConversation">
+    <div className={personalizedClassName}>
       <div className="mainappDisplayConversation-header">
         <div className="flex">
           <div className="mainappDisplayConversation-image">
@@ -236,20 +245,24 @@ const MainappDisplayConversation = ({
           </div>
           {friend !== null ? (
             <div>
-              {friend.firstName} {friend.lastName} <br />
+              <div>
+                {friend.firstName} {friend.lastName}{" "}
+              </div>
               {listOfUsers &&
               listOfUsers.find(
                 (user, i) =>
                   user.username === friend.firstName + friend.lastName
               ) &&
-              myUserIsTyping === friend.firstName + friend.lastName
-                ? "is typing.."
-                : listOfUsers.find(
-                    (user, i) =>
-                      user.username === friend.firstName + friend.lastName
-                  )
-                ? "online"
-                : "offline"}
+              myUserIsTyping === friend.firstName + friend.lastName ? (
+                <div className="is-typing-real-time">is typing..</div>
+              ) : listOfUsers.find(
+                  (user, i) =>
+                    user.username === friend.firstName + friend.lastName
+                ) ? (
+                <div className="is-typing-real-time">online</div>
+              ) : (
+                <div className="is-typing-real-time">offline</div>
+              )}
             </div>
           ) : (
             <div>Paul</div>

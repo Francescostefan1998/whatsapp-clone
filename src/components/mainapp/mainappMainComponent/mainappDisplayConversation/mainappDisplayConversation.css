@@ -71,6 +71,8 @@
 
 .mainappDisplayConversation-text {
   flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: scroll;
   background-image: url("https://i2.wp.com/www.techgrapple.com/wp-content/uploads/2016/07/WhatsApp-Chat-theme-iPhone-stock-744.jpg?fit=744%2C1392&ssl=1");
   background-size: cover;
 }
@@ -192,18 +194,24 @@
   display: flex;
   align-items: center;
   padding: 1vh;
+  padding-block: 0.8vh !important;
   background-color: rgb(135, 211, 152);
   box-shadow: 0px 2px 3px rgb(0, 0, 0, 0.2);
   border-radius: 4px;
 }
 
 .audio-container-mmessage-image-container {
-  width: 30px;
-  height: 30px;
-  border-radius: 15px;
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
   overflow: hidden;
 }
-
+.is-typing-real-time {
+  font-size: 14px;
+  color: rgb(99, 99, 99);
+  text-align: left;
+  font-weight: 200;
+}
 .audio-container-mmessage-image-container img {
   width: 100%;
   height: 100%;
@@ -211,4 +219,68 @@
 }
 .mbottom-2mm {
   margin-bottom: 1px !important;
+}
+
+.mainappDisplayConversation-text::-webkit-scrollbar {
+  width: 10px; /* Set scrollbar width */
+}
+
+.mainappDisplayConversation-text::-webkit-scrollbar-track {
+  background-color: #f0f0f0; /* Set the background color of the scrollbar track */
+  border-radius: 10px; /* Add rounded corners to the scrollbar track */
+}
+
+.mainappDisplayConversation-text::-webkit-scrollbar-thumb {
+  background-color: #bebebe; /* Set the background color of the scrollbar thumb */
+  border-radius: 10px; /* Add rounded corners to the scrollbar thumb */
+}
+
+.mainappDisplayConversation-text::-webkit-scrollbar-thumb:hover {
+  background-color: #999999; /* Change the background color of the scrollbar thumb when hovered */
+}
+
+/* Style the scrollbar for Firefox */
+.mainappDisplayConversation-text {
+  scrollbar-width: thin; /* Set the width of the scrollbar */
+  scrollbar-color: #bebebe #f0f0f0; /* Set the color of the scrollbar thumb and track */
+}
+
+@media (max-width: 1124px) {
+  .mainappDisplayConversation {
+    display: none;
+  }
+  .chatInvisibleInBigScreen {
+    display: flex;
+    max-height: 100vh;
+  }
+  .mainappDisplayConversation-text {
+    padding-bottom: 1vh;
+  }
+  .mainappDisplayConversation-text::-webkit-scrollbar {
+    width: 6px; /* Set scrollbar width */
+  }
+
+  .mainappDisplayConversation-text::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* Set the background color of the scrollbar track */
+    border-radius: 3px; /* Add rounded corners to the scrollbar track */
+  }
+
+  .mainappDisplayConversation-text::-webkit-scrollbar-thumb {
+    background-color: #bebebe; /* Set the background color of the scrollbar thumb */
+    border-radius: 3px; /* Add rounded corners to the scrollbar thumb */
+  }
+
+  .mainappDisplayConversation-text::-webkit-scrollbar-thumb:hover {
+    background-color: #999999; /* Change the background color of the scrollbar thumb when hovered */
+  }
+
+  /* Style the scrollbar for Firefox */
+  .mainappDisplayConversation-text {
+    scrollbar-width: thin; /* Set the width of the scrollbar */
+    scrollbar-color: #bebebe #f0f0f0; /* Set the color of the scrollbar thumb and track */
+  }
+  .mainappDisplayConversation-footer {
+    position: fixed;
+    bottom: 0;
+  }
 }

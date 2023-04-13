@@ -147,10 +147,10 @@
   font-size: 20px;
 }
 .little-dropdown.bigger-size {
-  height: 38px;
+  height: 54px;
 }
 .little-dropdown.bigger-size .little-dropdown-absolute {
-  height: 38px;
+  height: 54px;
 }
 
 .little-dropdown:hover {
@@ -221,4 +221,14 @@
 
 .dropdown-setting-message.bottom {
   bottom: 20px;
+}
+
+.mainappDisplayConversation-icons-icon.icon-audio {
+  font-size: 30px;
+}
+
+@media (max-width: 1124px) {
+  .singleMessageDisplay-container {
+    max-width: 85%;
+  }
 }
