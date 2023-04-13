@@ -171,6 +171,9 @@
 .mainappChatList-list-chats.small-screen {
   display: none;
 }
+.chatListInvisibleInBigScreen {
+  display: flex;
+}
 @media (max-width: 1124px) {
   .mainappChatList {
     width: 100%;
@@ -181,5 +184,8 @@
   }
   .mainappChatList-list-chats.small-screen {
     display: flex;
+  }
+  .chatListInvisibleInBigScreen {
+    display: none;
   }
 }

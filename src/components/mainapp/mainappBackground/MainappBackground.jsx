@@ -17,6 +17,13 @@ const MainappBackground = () => {
   const [nextChatSelected, setNexChatSelected] = useState(null);
   const [chatHistory, setChatHistory] = useState([]);
   const [bigList, setBigListMessages] = useState([]);
+  const [classNameToAssignAtTheList, setClassNameToAssignAtTheList] = useState(
+    "chatListInvisibleInBigScreen"
+  );
+  const [
+    classNameToAssignAtConversation,
+    setClassNameToAssignAtTheConversation,
+  ] = useState("chatInvisibleInBigScreen");
   const [refChatlistOnTheLeftSide, refreshChatlistOnTheLeftSide] = useState();
   const [socket, setSocket] = useState(null);
 
@@ -131,6 +138,9 @@ const MainappBackground = () => {
       <div className="mainappBackground-middle">
         {socket && (
           <MainappChatList
+            personalizedClassName={`mainappChatList ${
+              selectedChat && classNameToAssignAtTheList
+            }`}
             changeTheClass={changeTheClass}
             fetchChatSelected={fetchChatSelected}
             grabListOfUsers={grabListOfUsers}
@@ -150,6 +160,7 @@ const MainappBackground = () => {
           <MainappEmptySpace />
         ) : (
           <MainappDisplayConversation
+            personalizedClassName={`mainappDisplayConversation ${classNameToAssignAtConversation}`}
             chatHistory={chatHistory}
             chat={selectedChat}
             listOfUsers={listOfUsers}

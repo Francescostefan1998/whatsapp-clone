@@ -249,4 +249,7 @@
   .mainappDisplayConversation {
     display: none;
   }
+  .chatInvisibleInBigScreen {
+    display: flex;
+  }
 }

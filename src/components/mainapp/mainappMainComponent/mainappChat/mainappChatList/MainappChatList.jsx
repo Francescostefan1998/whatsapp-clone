@@ -35,6 +35,7 @@ const MainappChatList = (
     refChatlistOnTheLeftSide,
     refreshChatlistOnTheLeftSide,
     changeTheClass,
+    personalizedClassName,
   },
   ref
 ) => {
@@ -201,7 +202,7 @@ const MainappChatList = (
 
   useEffect(() => {}, [showFindFriends]);
   return (
-    <div className="mainappChatList">
+    <div className={personalizedClassName}>
       {showProfile && (
         <ShowProfileInfo
           user={user}

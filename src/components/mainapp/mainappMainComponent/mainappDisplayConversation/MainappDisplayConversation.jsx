@@ -27,6 +27,7 @@ const MainappDisplayConversation = ({
   refreshChatPage,
   bigList,
   refreshChatlistOnTheLeftSide,
+  personalizedClassName,
 }) => {
   const [lastAudio, setLastAudion] = useState("");
   const [file, setFile] = useState(null);
@@ -225,7 +226,7 @@ const MainappDisplayConversation = ({
   }, [recordedChunks]);
   useEffect(() => {}, [audioStarted]);
   return (
-    <div className="mainappDisplayConversation">
+    <div className={personalizedClassName}>
       <div className="mainappDisplayConversation-header">
         <div className="flex">
           <div className="mainappDisplayConversation-image">
