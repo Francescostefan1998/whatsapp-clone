@@ -10,6 +10,10 @@ import { FaMicrophone } from "react-icons/fa";
 import { BsFillTrashFill } from "react-icons/bs";
 import { FiPauseCircle } from "react-icons/fi";
 import { IoMdSend } from "react-icons/io";
+import { MdCall } from "react-icons/md";
+import { useRef } from "react";
+import { HiVideoCamera } from "react-icons/hi";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsFillPlayFill } from "react-icons/bs";
 import SingleMessageDisplayed from "./singleMessageDisplayed/SingleMessageDisplayed";
 
@@ -28,6 +32,7 @@ const MainappDisplayConversation = ({
   bigList,
   refreshChatlistOnTheLeftSide,
   personalizedClassName,
+  setChat,
 }) => {
   const [lastAudio, setLastAudion] = useState("");
   const [file, setFile] = useState(null);
@@ -40,7 +45,21 @@ const MainappDisplayConversation = ({
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [pauseIconDisplayed, setPausedIconDisplayed] = useState(false);
   const [recordingCompleted, setRecordingCompleted] = useState(false);
+
   const dispatch = useDispatch();
+  const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
+
+  const scrollToBottom = () => {
+    console.log("scrollToBottom");
+    if (messagesEndRef.current && chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = messagesEndRef.current.offsetTop;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [bigList]);
 
   async function startRecording() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -148,6 +167,7 @@ const MainappDisplayConversation = ({
           } else {
             console.error(response);
           }
+          scrollToBottom();
         } catch (error) {}
       } else {
       }
@@ -229,6 +249,10 @@ const MainappDisplayConversation = ({
     <div className={personalizedClassName}>
       <div className="mainappDisplayConversation-header">
         <div className="flex">
+          <div className="arrow-displayconversation-visible-just-in-small-screen">
+            {" "}
+            <AiOutlineArrowLeft onClick={() => setChat(null)} />
+          </div>
           <div className="mainappDisplayConversation-image">
             {friend && friend.image ? (
               <img src={friend.image} alt="picture" />
@@ -269,11 +293,15 @@ const MainappDisplayConversation = ({
           )}
         </div>
         <div className="flex">
-          <BiSearchAlt2 className="mainappDisplayConversation-icons-icon" />
-          <BsThreeDotsVertical className="mainappDisplayConversation-icons-icon" />
+          <HiVideoCamera className="mainappDisplayConversation-icons-icon visible-in-smallscreen" />
+          <MdCall className="mainappDisplayConversation-icons-icon visible-in-smallscreen" />
+
+          <BiSearchAlt2 className="mainappDisplayConversation-icons-icon invisible-in-smallscreen" />
+          <BsThreeDotsVertical className="mainappDisplayConversation-icons-icon invisible-in-smallscreen" />
+          <BsThreeDotsVertical className="mainappDisplayConversation-icons-icon visible-in-smallscreen" />
         </div>
       </div>
-      <div className="mainappDisplayConversation-text">
+      <div className="mainappDisplayConversation-text" ref={chatContainerRef}>
         {chat &&
           arrayOfMessagesBody.length >= 1 &&
           arrayOfMessagesBody.map((message, index) => {
@@ -336,6 +364,7 @@ const MainappDisplayConversation = ({
               refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
             />
           ))}
+        <div ref={messagesEndRef} />
       </div>
       {!audioStarted && (
         <div className="mainappDisplayConversation-footer">
