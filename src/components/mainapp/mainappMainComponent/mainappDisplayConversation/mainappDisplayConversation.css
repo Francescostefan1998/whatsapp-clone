@@ -244,8 +244,40 @@
   scrollbar-width: thin; /* Set the width of the scrollbar */
   scrollbar-color: #bebebe #f0f0f0; /* Set the color of the scrollbar thumb and track */
 }
-
+.arrow-displayconversation-visible-just-in-small-screen {
+  display: none;
+}
+.mainappDisplayConversation-icons-icon.visible-in-smallscreen {
+  display: none;
+}
+.mainappDisplayConversation-icons-icon.invisible-in-smallscreen {
+  display: flex;
+}
 @media (max-width: 1124px) {
+  .mainappDisplayConversation-header {
+    background-color: rgb(51, 170, 172);
+    color: white;
+  }
+  .is-typing-real-time {
+    color: white;
+  }
+  .mainappDisplayConversation-icons-icon.invisible-in-smallscreen {
+    display: none;
+  }
+  .mainappDisplayConversation-icons-icon.visible-in-smallscreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  .arrow-displayconversation-visible-just-in-small-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-inline: -6px;
+    margin-right: -10px;
+    font-size: 22px;
+  }
   .mainappDisplayConversation {
     display: none;
   }
@@ -254,7 +286,7 @@
     max-height: 100vh;
   }
   .mainappDisplayConversation-text {
-    padding-bottom: 1vh;
+    padding-bottom: 12vh;
   }
   .mainappDisplayConversation-text::-webkit-scrollbar {
     width: 6px; /* Set scrollbar width */
@@ -282,5 +314,15 @@
   .mainappDisplayConversation-footer {
     position: fixed;
     bottom: 0;
+    z-index: 3;
+    background-color: rgb(221, 221, 221);
+  }
+  .mainappDisplayConversation .nonprogress {
+    position: absolute;
+    height: 100%;
+    width: 188px;
+    border-radius: 2px;
+
+    background-color: lightgray;
   }
 }
