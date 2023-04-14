@@ -273,6 +273,7 @@
   .arrow-displayconversation-visible-just-in-small-screen {
     display: flex;
     align-items: center;
+    cursor: pointer;
     justify-content: center;
     margin-inline: -6px;
     margin-right: -10px;

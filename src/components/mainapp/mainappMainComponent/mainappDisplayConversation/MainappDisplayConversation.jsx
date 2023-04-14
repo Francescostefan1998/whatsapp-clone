@@ -32,6 +32,7 @@ const MainappDisplayConversation = ({
   bigList,
   refreshChatlistOnTheLeftSide,
   personalizedClassName,
+  setChat,
 }) => {
   const [lastAudio, setLastAudion] = useState("");
   const [file, setFile] = useState(null);
@@ -250,7 +251,7 @@ const MainappDisplayConversation = ({
         <div className="flex">
           <div className="arrow-displayconversation-visible-just-in-small-screen">
             {" "}
-            <AiOutlineArrowLeft />
+            <AiOutlineArrowLeft onClick={() => setChat(null)} />
           </div>
           <div className="mainappDisplayConversation-image">
             {friend && friend.image ? (

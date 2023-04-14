@@ -160,6 +160,7 @@ const MainappBackground = () => {
           <MainappEmptySpace />
         ) : (
           <MainappDisplayConversation
+            setChat={setChat}
             personalizedClassName={`mainappDisplayConversation ${classNameToAssignAtConversation}`}
             chatHistory={chatHistory}
             chat={selectedChat}
