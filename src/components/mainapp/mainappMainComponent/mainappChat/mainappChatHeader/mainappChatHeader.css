@@ -25,7 +25,13 @@
   color: var(--icons-color);
   cursor: pointer;
 }
-
+.mainappChatHeader-top-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+}
 .mainappChatHeader-image {
   height: 44px;
   width: 44px;
@@ -38,4 +44,105 @@
 .mainappChatHeader-image img {
   height: 100%;
   object-fit: cover;
+}
+
+.mainappChatHeader.small-screen {
+  display: none;
+}
+.mainappChatHeader-top-bar-left {
+  display: flex;
+  font-size: 20px;
+  gap: 20px;
+}
+.mainappChatHeader-top-bar-left .mainappChatHeader-icons-icon {
+  color: white;
+}
+.mainappChatHeader-small-screen-select-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+.inside-the-select-bar-absolute-container {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background-color: transparent;
+  bottom: 1px;
+  left: 0;
+}
+.inside-the-select-bar-absolute-container-line {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(130, 130, 130, 0.8);
+  bottom: 1px;
+  z-index: 2;
+  left: 0;
+  box-shadow: 0px 2px 3px rgb(9, 9, 9, 0.4);
+}
+.inside-the-select-bar-absolute-container-line
+  .inside-the-select-bar-absolute-container-little {
+  height: 2px;
+  background-color: rgb(211, 211, 211);
+  bottom: 0px;
+}
+.inside-the-select-bar-absolute-container-little {
+  height: 3px;
+  background-color: white;
+  bottom: -2px;
+  left: 0;
+  border-radius: 0px;
+  position: absolute;
+
+  transition: transform 0.3s;
+}
+.inside-the-select-bar-relative-container {
+  width: 100%;
+  height: 2px;
+  position: relative;
+  margin: 0;
+  right: 0;
+  bottom: 0;
+}
+.inside-the-select-bar {
+  flex-grow: 3;
+}
+.inside-the-select-bar.people {
+  flex-grow: 1;
+}
+.inside-the-select-bar {
+  text-align: center;
+}
+.mainappChatHeader.small-screen.padding-inline-0 {
+  padding-inline: 0;
+}
+.inside-the-select-bar-absolute-container-little.people {
+  width: 10%;
+  transform: translateX(0px);
+}
+.inside-the-select-bar-absolute-container-little.chats {
+  width: 30%;
+  transform: translateX(33%);
+}
+.inside-the-select-bar-absolute-container-little.status {
+  width: 30%;
+  transform: translateX(133%);
+}
+.inside-the-select-bar-absolute-container-little.calls {
+  width: 30%;
+  transform: translateX(233%);
+}
+@media (max-width: 1124px) {
+  .mainappChatHeader.small-screen {
+    display: flex;
+    background-color: rgb(51, 170, 172);
+    color: white;
+    position: relative;
+    margin-bottom: -1px;
+  }
+  .mainappChatHeader.big-screen {
+    display: none;
+  }
 }

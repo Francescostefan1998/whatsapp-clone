@@ -230,5 +230,8 @@
 @media (max-width: 1124px) {
   .singleMessageDisplay-container {
     max-width: 85%;
+    gap: 0px;
+  }
+  .audio-container-mmessage.singleMessageDisplay-container {
   }
 }

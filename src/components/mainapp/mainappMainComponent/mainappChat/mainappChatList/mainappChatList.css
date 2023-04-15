@@ -179,6 +179,12 @@
     width: 100%;
     min-height: 100vh;
   }
+  .mainpage-allert-message {
+    display: none;
+  }
+  .mainappChatList-search {
+    display: none;
+  }
   .mainappChatList-list-chats.big-screen {
     display: none;
   }
@@ -187,5 +193,8 @@
   }
   .chatListInvisibleInBigScreen {
     display: none;
+  }
+  .mainappChatList-list-footer {
+    margin-inline: 0px;
   }
 }
