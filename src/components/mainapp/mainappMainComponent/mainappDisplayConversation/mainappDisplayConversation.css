@@ -264,6 +264,7 @@
     background-color: rgb(51, 170, 172);
     color: white;
   }
+
   .is-typing-real-time {
     color: white;
   }
@@ -353,5 +354,13 @@
   .mainappDisplayConversation-input {
     border-radius: 22px;
     padding-inline: 10px;
+  }
+}
+@media (max-width: 468px) {
+  .audio-container-mmessage-image-container {
+    width: 58px;
+    height: 44px;
+    border-radius: 22px;
+    overflow: hidden;
   }
 }
