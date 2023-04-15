@@ -253,6 +253,12 @@
 .mainappDisplayConversation-icons-icon.invisible-in-smallscreen {
   display: flex;
 }
+.mainappDisplayConversation-footer.big-screen {
+  display: flex;
+}
+.mainappDisplayConversation-footer.small-screen {
+  display: none;
+}
 @media (max-width: 1124px) {
   .mainappDisplayConversation-header {
     background-color: rgb(51, 170, 172);
@@ -276,7 +282,7 @@
     cursor: pointer;
     justify-content: center;
     margin-inline: -6px;
-    margin-right: -10px;
+    margin-right: -4px;
     font-size: 22px;
   }
   .mainappDisplayConversation {
@@ -288,30 +294,48 @@
   }
   .mainappDisplayConversation-text {
     padding-bottom: 12vh;
+    height: 83vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
   .mainappDisplayConversation-text::-webkit-scrollbar {
-    width: 6px; /* Set scrollbar width */
+    width: 4px; /* Set scrollbar width */
   }
 
   .mainappDisplayConversation-text::-webkit-scrollbar-track {
     background-color: #f0f0f0; /* Set the background color of the scrollbar track */
-    border-radius: 3px; /* Add rounded corners to the scrollbar track */
+    border-radius: 2px; /* Add rounded corners to the scrollbar track */
   }
 
   .mainappDisplayConversation-text::-webkit-scrollbar-thumb {
     background-color: #bebebe; /* Set the background color of the scrollbar thumb */
-    border-radius: 3px; /* Add rounded corners to the scrollbar thumb */
+    border-radius: 2px; /* Add rounded corners to the scrollbar thumb */
   }
 
   .mainappDisplayConversation-text::-webkit-scrollbar-thumb:hover {
     background-color: #999999; /* Change the background color of the scrollbar thumb when hovered */
   }
-
+  .mainappDisplayConversation-footer.big-screen {
+    display: none;
+  }
+  .mainappDisplayConversation-footer.small-screen {
+    display: flex;
+    padding-inline: 6px;
+  }
   /* Style the scrollbar for Firefox */
   .mainappDisplayConversation-text {
     scrollbar-width: thin; /* Set the width of the scrollbar */
     scrollbar-color: #bebebe #f0f0f0; /* Set the color of the scrollbar thumb and track */
   }
+  .mainappDisplayConversation-header .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
   .mainappDisplayConversation-footer {
     position: fixed;
     bottom: 0;
@@ -325,5 +349,9 @@
     border-radius: 2px;
 
     background-color: lightgray;
+  }
+  .mainappDisplayConversation-input {
+    border-radius: 22px;
+    padding-inline: 10px;
   }
 }

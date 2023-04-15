@@ -367,7 +367,7 @@ const MainappDisplayConversation = ({
         <div ref={messagesEndRef} />
       </div>
       {!audioStarted && (
-        <div className="mainappDisplayConversation-footer">
+        <div className="mainappDisplayConversation-footer  big-screen">
           <div>
             <BsEmojiSmile className="mainappDisplayConversation-icons-icon ml-2" />
           </div>
@@ -402,7 +402,90 @@ const MainappDisplayConversation = ({
         </div>
       )}
       {audioStarted && (
-        <div className="mainappDisplayConversation-footer">
+        <div className="mainappDisplayConversation-footer big-screen">
+          <div></div>
+          <div></div>
+
+          <div className="mainappDisplayConversation-footer-flex">
+            <BsFillTrashFill className="mainappDisplayConversation-icons-icon ml-2" />
+            <div className="mainappDisplayConversation-input transparent">
+              <input></input>
+            </div>
+            {!pauseIconDisplayed && (
+              <div className="recording-container">
+                <div className="recording-progress" />
+              </div>
+            )}
+            {pauseIconDisplayed && (
+              <FaMicrophone
+                className="mainappDisplayConversation-icons-icon ml-2 red"
+                onClick={() => {
+                  startRecording();
+                  setPausedIconDisplayed(false);
+                }}
+              />
+            )}
+            {!pauseIconDisplayed && (
+              <FiPauseCircle
+                className="mainappDisplayConversation-icons-icon ml-2 red"
+                onClick={() => {
+                  stopRecording();
+                  setPausedIconDisplayed(true);
+                }}
+              />
+            )}
+            <IoMdSend
+              className="mainappDisplayConversation-icons-icon ml-2"
+              onClick={() => {
+                if (!audioStarted) {
+                  startRecording();
+                  setAudioStarted(true);
+                } else {
+                  if (!pauseIconDisplayed) {
+                    stopRecording();
+                  }
+                  setAudioStarted(false);
+                }
+              }}
+            />
+          </div>
+        </div>
+      )}
+      {!audioStarted && (
+        <div className="mainappDisplayConversation-footer  small-screen">
+          <div className="mainappDisplayConversation-input">
+            <div>
+              <BsEmojiSmile className="mainappDisplayConversation-icons-icon ml-2" />
+            </div>
+
+            <input
+              type="text"
+              placeholder="Type a message"
+              onChange={(e) => setMessage(e.target.value)}
+              onFocus={callHandleInputFocus}
+              onBlur={callHandleInputBlur}
+              onKeyDown={(e) => handleKeydown(e)}
+            />
+          </div>
+          <div>
+            <FaMicrophone
+              className="mainappDisplayConversation-icons-icon ml-2"
+              onClick={() => {
+                if (!audioStarted) {
+                  setPausedIconDisplayed(false);
+                  startRecording();
+                  setAudioStarted(true);
+                } else {
+                  stopRecording();
+                  setAudioStarted(false);
+                }
+              }}
+            />
+          </div>
+        </div>
+      )}
+      {audioStarted && (
+        <div className="mainappDisplayConversation-footer small-screen">
           <div></div>
           <div></div>
 
