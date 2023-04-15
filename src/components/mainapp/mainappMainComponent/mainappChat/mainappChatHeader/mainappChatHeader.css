@@ -140,6 +140,7 @@
     background-color: rgb(51, 170, 172);
     color: white;
     position: relative;
+    margin-bottom: -1px;
   }
   .mainappChatHeader.big-screen {
     display: none;

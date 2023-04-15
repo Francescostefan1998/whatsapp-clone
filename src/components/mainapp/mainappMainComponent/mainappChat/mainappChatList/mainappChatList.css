@@ -194,4 +194,7 @@
   .chatListInvisibleInBigScreen {
     display: none;
   }
+  .mainappChatList-list-footer {
+    margin-inline: 0px;
+  }
 }

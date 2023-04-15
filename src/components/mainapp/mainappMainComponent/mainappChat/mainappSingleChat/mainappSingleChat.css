@@ -93,3 +93,16 @@
   transform: translateX(50px);
   transition: transform 0.2s;
 }
+
+@media (max-width: 1124px) {
+  .mainappChatList-list-chats-single-informations {
+    flex-grow: 1;
+    border-top: 1px solid rgb(218, 218, 218);
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 4px;
+    padding-right: 8px;
+  }
+}
