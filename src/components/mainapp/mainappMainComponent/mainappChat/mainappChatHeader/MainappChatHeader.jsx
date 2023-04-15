@@ -87,18 +87,24 @@ const MainappChatHeader = ({ setShowProfile, setShowFindFriends, user }) => {
           </div>
         </div>*/}
       </div>
-      <div className="mainappChatHeader small-screen">
-        <div className="mainappChatHeader-small-screen-select-bar">
-          <div className="inside-the-select-bar-absolute-container">
-            <div className="inside-the-select-bar-relative-container">
-              <div
-                className={`inside-the-select-bar-absolute-container-little ${classSelected}`}
-              ></div>
-            </div>
+      <div className="mainappChatHeader small-screen padding-inline-0">
+        <div className="inside-the-select-bar-absolute-container">
+          <div className="inside-the-select-bar-relative-container">
+            <div
+              className={`inside-the-select-bar-absolute-container-little ${classSelected}`}
+            ></div>
           </div>
-
+        </div>
+        <div className="inside-the-select-bar-absolute-container-line">
+          <div className="inside-the-select-bar-relative-container">
+            <div
+              className={`inside-the-select-bar-absolute-container-little ${classSelected}`}
+            ></div>
+          </div>
+        </div>
+        <div className="mainappChatHeader-small-screen-select-bar">
           <div
-            className="inside-the-select-bar"
+            className="inside-the-select-bar people"
             onClick={() => setClassSelected("people")}
           >
             <HiUserGroup />
