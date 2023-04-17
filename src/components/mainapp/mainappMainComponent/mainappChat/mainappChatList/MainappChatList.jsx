@@ -70,7 +70,9 @@ const MainappChatList = (
   useEffect(() => {
     setTheEntireSectionVisibleonNotSelected(true);
   }, []);
-  useEffect(() => {}, [refChatlistOnTheLeftSideNumberUnchecked]);
+  useEffect(() => {
+    fetchAndGetTheChatList(localStorage.getItem("userId"));
+  }, [refChatlistOnTheLeftSideNumberUnchecked]);
   useEffect(() => {
     const addVisibilityorRemove = document.querySelector(".mainappChatList");
     if (!theEntireSectionVisibleonNotSelected) {
@@ -293,6 +295,9 @@ const MainappChatList = (
           {user &&
             user.chats.map((chat, index) => (
               <MainappSingleChat
+                refChatlistOnTheLeftSideNumberUnchecked={
+                  refChatlistOnTheLeftSideNumberUnchecked
+                }
                 notifications={notifications}
                 fetchChatSelected={fetchChatSelected}
                 small={"mainappChatList-list-chats-single"}
@@ -300,9 +305,6 @@ const MainappChatList = (
                 navigateIntoanotherPage={navigateIntoanotherPage}
                 key={chat._id}
                 refChatlistOnTheLeftSide={refChatlistOnTheLeftSide}
-                refChatlistOnTheLeftSideNumberUnchecked={
-                  refChatlistOnTheLeftSideNumberUnchecked
-                }
               />
             ))}
           <div></div>

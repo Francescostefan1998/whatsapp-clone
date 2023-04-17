@@ -11,6 +11,7 @@ const MainappSingleChat = ({
   chat,
   fetchChatSelected,
   notifications,
+
   refChatlistOnTheLeftSideNumberUnchecked,
   navigateIntoanotherPage,
 }) => {
@@ -24,6 +25,7 @@ const MainappSingleChat = ({
   useEffect(() => {
     if (chat) {
       fetchSingleChat(chat);
+      console.log("single chat fetched");
     } else {
       return;
     }
