@@ -11,7 +11,8 @@ const MainappSingleChat = ({
   chat,
   fetchChatSelected,
   notifications,
-  refChatlistOnTheLeftSide,
+
+  refChatlistOnTheLeftSideNumberUnchecked,
   navigateIntoanotherPage,
 }) => {
   const [friend, setFriend] = useState(null);
@@ -24,10 +25,12 @@ const MainappSingleChat = ({
   useEffect(() => {
     if (chat) {
       fetchSingleChat(chat);
+      console.log("single chat fetched");
     } else {
       return;
     }
-  }, [chat]);
+  }, [chat, refChatlistOnTheLeftSideNumberUnchecked]);
+
   useEffect(() => {
     setNumberToAppear(notifications);
   }, [notifications]);

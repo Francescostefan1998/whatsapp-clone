@@ -259,6 +259,11 @@
 .mainappDisplayConversation-footer.small-screen {
   display: none;
 }
+#input-inside-the-recording {
+  height: 4px !important;
+  border-radius: 2px !important;
+  background-color: #5c5c5c !important;
+}
 @media (max-width: 1124px) {
   .mainappDisplayConversation-header {
     background-color: rgb(51, 170, 172);

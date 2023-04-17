@@ -30,9 +30,11 @@ const MainappDisplayConversation = ({
   callHandleSetTheMessage,
   refreshChatPage,
   bigList,
+  setrefChatlistOnTheLeftSideNumberUnchecked,
   refreshChatlistOnTheLeftSide,
   personalizedClassName,
   setChat,
+  refChatlistOnTheLeftSide,
 }) => {
   const [lastAudio, setLastAudion] = useState("");
   const [file, setFile] = useState(null);
@@ -45,11 +47,11 @@ const MainappDisplayConversation = ({
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [pauseIconDisplayed, setPausedIconDisplayed] = useState(false);
   const [recordingCompleted, setRecordingCompleted] = useState(false);
-
+  console.log(message);
   const dispatch = useDispatch();
   const messagesEndRef = useRef(null);
   const chatContainerRef = useRef(null);
-
+  useEffect(() => {}, [message]);
   const scrollToBottom = () => {
     console.log("scrollToBottom");
     if (messagesEndRef.current && chatContainerRef.current) {
@@ -162,8 +164,9 @@ const MainappDisplayConversation = ({
           );
 
           if (response.ok) {
-            refreshChatlistOnTheLeftSide(list[i]._id);
+            // refreshChatlistOnTheLeftSide(list[i]._id);
             const updatedMessage = await response.json();
+            setrefChatlistOnTheLeftSideNumberUnchecked(list[i]._id);
           } else {
             console.error(response);
           }
@@ -234,8 +237,7 @@ const MainappDisplayConversation = ({
     } else {
       return;
     }
-  }, [chat]);
-
+  }, [chat, refChatlistOnTheLeftSide]);
   useEffect(() => {}, [chatHistory]);
   useEffect(() => {}, [refreshChatPage]);
   useEffect(() => {
@@ -340,6 +342,7 @@ const MainappDisplayConversation = ({
                   dayOftheWeek={`${dayOfWeek}`}
                   body={message}
                   dateSplit={"short"}
+                  refChatlistOnTheLeftSide={refChatlistOnTheLeftSide}
                   refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
                 />
               </>
@@ -358,8 +361,8 @@ const MainappDisplayConversation = ({
               }
               key={message.createdAt}
               body={message}
-              chatId={chat._id}
-              friendId={friend._id}
+              chatId={chat && chat._id}
+              friendId={friend && friend._id && friend._id}
               dateSplit={"long"}
               refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
             />
@@ -384,21 +387,30 @@ const MainappDisplayConversation = ({
               onKeyDown={(e) => handleKeydown(e)}
             />
           </div>
-          <div>
-            <FaMicrophone
-              className="mainappDisplayConversation-icons-icon ml-2"
-              onClick={() => {
-                if (!audioStarted) {
-                  setPausedIconDisplayed(false);
-                  startRecording();
-                  setAudioStarted(true);
-                } else {
-                  stopRecording();
-                  setAudioStarted(false);
-                }
-              }}
-            />
-          </div>
+          {message === "" ? (
+            <div>
+              <FaMicrophone
+                className="mainappDisplayConversation-icons-icon ml-2"
+                onClick={() => {
+                  if (!audioStarted) {
+                    setPausedIconDisplayed(false);
+                    startRecording();
+                    setAudioStarted(true);
+                  } else {
+                    stopRecording();
+                    setAudioStarted(false);
+                  }
+                }}
+              />
+            </div>
+          ) : (
+            <div>
+              <IoMdSend
+                className="mainappDisplayConversation-icons-icon ml-2"
+                onClick={(e) => callHandleSetTheMessage(message)}
+              />
+            </div>
+          )}
         </div>
       )}
       {audioStarted && (
@@ -499,6 +511,7 @@ const MainappDisplayConversation = ({
                 <div className="recording-progress" />
               </div>
             )}
+            {pauseIconDisplayed && <div className="recording-container"></div>}
             {pauseIconDisplayed && (
               <FaMicrophone
                 className="mainappDisplayConversation-icons-icon ml-2 red"

@@ -93,7 +93,9 @@
   transform: translateX(50px);
   transition: transform 0.2s;
 }
-
+.expand-searching-for-a-new-chat-small-screen {
+  display: none;
+}
 @media (max-width: 1124px) {
   .mainappChatList-list-chats-single-informations {
     flex-grow: 1;
@@ -104,5 +106,22 @@
     align-items: center;
     padding-inline: 4px;
     padding-right: 8px;
+  }
+  .expand-searching-for-a-new-chat-small-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-color: rgb(51, 170, 172);
+    border-radius: 30px;
+    overflow: hidden;
+    z-index: 4;
+    bottom: 4vh;
+    right: 3vh;
+    cursor: pointer;
+    color: white;
+    font-size: 26px;
   }
 }

@@ -31,6 +31,7 @@ const SingleMessageDisplayed = ({
   classForTheDropDown,
   refreshChatlistOnTheLeftSide,
   dayOftheWeek,
+  refChatlistOnTheLeftSide,
 }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [audioStarted, setAudioStarted] = useState(false);
@@ -41,7 +42,7 @@ const SingleMessageDisplayed = ({
   const [duration, setDuration] = useState(null);
   console.log(duration);
   useEffect(() => {}, [duration]);
-
+  useEffect(() => {}, [refChatlistOnTheLeftSide]);
   useEffect(() => {}, [pauseIconDisplayed, audioStarted]);
   const playAudio = (url) => {
     if (!audioObj) {
@@ -94,8 +95,10 @@ const SingleMessageDisplayed = ({
       if (response.ok) {
         const updatedMessage = await response.json();
         console.log("Message updated:", updatedMessage);
+        refreshChatlistOnTheLeftSide(messageId);
       } else {
         console.error("Error updating message:", response.statusText);
+        refreshChatlistOnTheLeftSide(messageId);
       }
     } catch (error) {
       console.error("Error updating message:", error);

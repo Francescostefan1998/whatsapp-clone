@@ -11,6 +11,7 @@ import { useState } from "react";
 
 const MainappChatHeader = ({ setShowProfile, setShowFindFriends, user }) => {
   const [classSelected, setClassSelected] = useState("chats");
+  const [showDropDown, setShowDropDown] = useState(false);
   useEffect(() => {}, [user]);
 
   return (
@@ -54,6 +55,16 @@ const MainappChatHeader = ({ setShowProfile, setShowFindFriends, user }) => {
             <HiOutlineCamera className="mainappChatHeader-icons-icon" />
             <AiOutlineSearch className="mainappChatHeader-icons-icon" />
             <BsThreeDotsVertical className="mainappChatHeader-icons-icon" />
+            {showDropDown && (
+              <div className={`dropdown-setting-message bottom right`}>
+                <div>Answer</div>
+                <div>React</div>
+                <div>Forward</div>
+                <div>Important</div>
+                <div>Pin</div>
+                <div>Delete</div>
+              </div>
+            )}
           </div>
         </div>
         {/*<div

@@ -16,6 +16,11 @@ const MainappBackground = () => {
   const [userToStartChat, setUserToStartChat] = useState(null);
   const [nextChatSelected, setNexChatSelected] = useState(null);
   const [chatHistory, setChatHistory] = useState([]);
+  const [
+    refChatlistOnTheLeftSideNumberUnchecked,
+    setrefChatlistOnTheLeftSideNumberUnchecked,
+  ] = useState("");
+  console.log(refChatlistOnTheLeftSideNumberUnchecked);
   const [bigList, setBigListMessages] = useState([]);
   const [classNameToAssignAtTheList, setClassNameToAssignAtTheList] = useState(
     "chatListInvisibleInBigScreen"
@@ -24,10 +29,11 @@ const MainappBackground = () => {
     classNameToAssignAtConversation,
     setClassNameToAssignAtTheConversation,
   ] = useState("chatInvisibleInBigScreen");
-  const [refChatlistOnTheLeftSide, refreshChatlistOnTheLeftSide] = useState();
+  const [refChatlistOnTheLeftSide, refreshChatlistOnTheLeftSide] = useState("");
   const [socket, setSocket] = useState(null);
 
   const location = useLocation();
+  useEffect(() => {}, [refChatlistOnTheLeftSideNumberUnchecked]);
   useEffect(() => {
     const newSocket = io("http://localhost:3001", {
       transports: ["websocket"],
@@ -152,14 +158,23 @@ const MainappBackground = () => {
             concatenateTheMessage={concatenateTheMessage}
             socket={socket}
             bigList={bigList}
+            refChatlistOnTheLeftSideNumberUnchecked={
+              refChatlistOnTheLeftSideNumberUnchecked
+            }
             refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
             refChatlistOnTheLeftSide={refChatlistOnTheLeftSide}
+            setrefChatlistOnTheLeftSideNumberUnchecked={
+              setrefChatlistOnTheLeftSideNumberUnchecked
+            }
           />
         )}
         {selectedChat === null ? (
           <MainappEmptySpace />
         ) : (
           <MainappDisplayConversation
+            setrefChatlistOnTheLeftSideNumberUnchecked={
+              setrefChatlistOnTheLeftSideNumberUnchecked
+            }
             setChat={setChat}
             personalizedClassName={`mainappDisplayConversation ${classNameToAssignAtConversation}`}
             chatHistory={chatHistory}
@@ -171,6 +186,7 @@ const MainappBackground = () => {
             callHandleSetTheMessage={callHandleSetTheMessage}
             refreshTheChatPage={refreshTheChatPage}
             bigList={bigList}
+            refChatlistOnTheLeftSide={refChatlistOnTheLeftSide}
             refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
           />
         )}
