@@ -36,6 +36,8 @@ const MainappChatList = (
     refreshChatlistOnTheLeftSide,
     changeTheClass,
     personalizedClassName,
+    refChatlistOnTheLeftSideNumberUnchecked,
+    setrefChatlistOnTheLeftSideNumberUnchecked,
   },
   ref
 ) => {
@@ -65,6 +67,7 @@ const MainappChatList = (
   useEffect(() => {
     setTheEntireSectionVisibleonNotSelected(true);
   }, []);
+  useEffect(() => {}, [refChatlistOnTheLeftSideNumberUnchecked]);
   useEffect(() => {
     const addVisibilityorRemove = document.querySelector(".mainappChatList");
     if (!theEntireSectionVisibleonNotSelected) {
@@ -140,6 +143,7 @@ const MainappChatList = (
     socket.on("newMessage", (newMessage) => {
       setChatHistorySoket([...chatHistorySocket, newMessage.message]);
       refreshChatlistOnTheLeftSide(newMessage.message);
+      setrefChatlistOnTheLeftSideNumberUnchecked(newMessage.message);
       //settingChatHistorySoket([...chatHistorySocket, newMessage.message]);
     });
   }, [chatHistorySocket]);
@@ -293,6 +297,9 @@ const MainappChatList = (
                 navigateIntoanotherPage={navigateIntoanotherPage}
                 key={chat._id}
                 refChatlistOnTheLeftSide={refChatlistOnTheLeftSide}
+                refChatlistOnTheLeftSideNumberUnchecked={
+                  refChatlistOnTheLeftSideNumberUnchecked
+                }
               />
             ))}
           <div></div>

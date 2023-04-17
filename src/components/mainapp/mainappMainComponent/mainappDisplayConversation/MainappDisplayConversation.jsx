@@ -30,6 +30,7 @@ const MainappDisplayConversation = ({
   callHandleSetTheMessage,
   refreshChatPage,
   bigList,
+  setrefChatlistOnTheLeftSideNumberUnchecked,
   refreshChatlistOnTheLeftSide,
   personalizedClassName,
   setChat,
@@ -163,8 +164,9 @@ const MainappDisplayConversation = ({
           );
 
           if (response.ok) {
-            refreshChatlistOnTheLeftSide(list[i]._id);
+            // refreshChatlistOnTheLeftSide(list[i]._id);
             const updatedMessage = await response.json();
+            setrefChatlistOnTheLeftSideNumberUnchecked(list[i]._id);
           } else {
             console.error(response);
           }
@@ -235,8 +237,7 @@ const MainappDisplayConversation = ({
     } else {
       return;
     }
-  }, [chat]);
-  useEffect(() => {}, [refChatlistOnTheLeftSide]);
+  }, [chat, refChatlistOnTheLeftSide]);
   useEffect(() => {}, [chatHistory]);
   useEffect(() => {}, [refreshChatPage]);
   useEffect(() => {
