@@ -9,9 +9,12 @@ import MainappSingleChat from "../mainappSingleChat/MainappSingleChat";
 import MainappChatHeader from "../mainappChatHeader/MainappChatHeader";
 import { getUserChats } from "../../../../../redux/actions";
 import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { forwardRef, useImperativeHandle } from "react";
 import { BsFillBellSlashFill } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
+import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import ShowProfileInfo from "../../showProfileInfo/ShowProfileInfo";
 import { IoIosArrowForward } from "react-icons/io";
@@ -316,7 +319,9 @@ const MainappChatList = (
       <div
         className="expand-searching-for-a-new-chat-small-screen"
         onClick={(e) => setShowFindFriends(true)}
-      ></div>
+      >
+        <FontAwesomeIcon icon={faCommentAlt} />
+      </div>
     </div>
   );
 };

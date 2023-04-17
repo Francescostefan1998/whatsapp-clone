@@ -121,5 +121,7 @@
     bottom: 4vh;
     right: 3vh;
     cursor: pointer;
+    color: white;
+    font-size: 26px;
   }
 }
