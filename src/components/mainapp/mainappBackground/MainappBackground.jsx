@@ -24,7 +24,7 @@ const MainappBackground = () => {
     classNameToAssignAtConversation,
     setClassNameToAssignAtTheConversation,
   ] = useState("chatInvisibleInBigScreen");
-  const [refChatlistOnTheLeftSide, refreshChatlistOnTheLeftSide] = useState();
+  const [refChatlistOnTheLeftSide, refreshChatlistOnTheLeftSide] = useState("");
   const [socket, setSocket] = useState(null);
 
   const location = useLocation();
@@ -171,6 +171,7 @@ const MainappBackground = () => {
             callHandleSetTheMessage={callHandleSetTheMessage}
             refreshTheChatPage={refreshTheChatPage}
             bigList={bigList}
+            refChatlistOnTheLeftSide={refChatlistOnTheLeftSide}
             refreshChatlistOnTheLeftSide={refreshChatlistOnTheLeftSide}
           />
         )}
