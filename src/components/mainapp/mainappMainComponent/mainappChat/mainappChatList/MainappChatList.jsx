@@ -313,6 +313,10 @@ const MainappChatList = (
           </a>
         </div>
       </div>
+      <div
+        className="expand-searching-for-a-new-chat-small-screen"
+        onClick={(e) => setShowFindFriends(true)}
+      ></div>
     </div>
   );
 };
