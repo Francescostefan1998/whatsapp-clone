@@ -87,6 +87,7 @@
 }
 .singleMessageDisplay-container.left {
   background-color: rgb(236, 223, 207);
+  padding-right: 34px;
 }
 .singleMessageDisplay-container .little-corner.right {
   position: absolute;
