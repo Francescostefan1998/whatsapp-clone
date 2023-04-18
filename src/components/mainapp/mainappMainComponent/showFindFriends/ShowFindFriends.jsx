@@ -6,6 +6,8 @@ import { AiOutlineCheck } from "react-icons/ai";
 import { FaRegSmile } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
 import { HiUserGroup } from "react-icons/hi";
+import { AiOutlineSearch } from "react-icons/ai";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdGroup } from "react-icons/md";
 const ShowFindFriends = ({
   update,
@@ -74,6 +76,22 @@ const ShowFindFriends = ({
             onClick={(e) => setExpandPrufile("showProfileclose")}
           />
           <div>New chat</div>
+        </div>
+      </div>
+      <div className="showProfileInfoHeader-small">
+        <div className="showProfileInfoHeader-back">
+          <FiArrowLeft
+            className="showProfileInfoHeader-back-icon"
+            onClick={(e) => setExpandPrufile("showProfileclose")}
+          />
+          <div>
+            <div>Select contact</div>
+            <div>112 contacts</div>
+          </div>
+          <div>
+            <AiOutlineSearch />
+            <BsThreeDotsVertical />
+          </div>
         </div>
       </div>
       <div className="showFriiends-search-bar">
