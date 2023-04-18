@@ -198,3 +198,10 @@
     margin-inline: 0px;
   }
 }
+
+@media (max-width: 400px) {
+  .mainappChatList-list-footer {
+    margin-inline: 0px;
+    font-size: 12px;
+  }
+}

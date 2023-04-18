@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: end;
   padding: 1px;
-  padding-inline: 4vh;
+  padding-inline: 30px; /* 4 * 800 / 100 */
   position: relative;
 }
 .singleMessageDisplay-left {
@@ -17,7 +17,7 @@
   align-items: center;
   justify-content: start;
   padding: 1px;
-  padding-inline: 4vh;
+  padding-inline: 30px; /* 4 * 800 / 100 */
 }
 
 .dropdown-setting-message {
@@ -56,11 +56,10 @@
   background-color: rgb(230, 230, 230);
 }
 .singleMessageDisplay-container {
-  padding-top: 0.4vh;
-  padding-bottom: 0.6vh;
-
-  padding-inline: 1.2vh;
-  padding-right: 5.2vh;
+  padding-top: 3.2px; /* 0.4 * 800 / 100 */
+  padding-bottom: 4.8px; /* 0.6 * 800 / 100 */
+  padding-inline: 9.6px; /* 1.2 * 800 / 100 */
+  padding-right: 41.6px; /* 5.2 * 800 / 100 */
   font-size: 14px;
   height: fit-content;
   max-width: 50%;
@@ -83,7 +82,7 @@
 
 .singleMessageDisplay-container.right {
   background-color: rgb(135, 211, 152);
-  padding-right: 7.2vh;
+  padding-right: 48px;
 }
 .singleMessageDisplay-container.left {
   background-color: rgb(236, 223, 207);

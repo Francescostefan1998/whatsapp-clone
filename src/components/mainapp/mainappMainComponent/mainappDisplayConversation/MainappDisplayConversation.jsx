@@ -483,19 +483,30 @@ const MainappDisplayConversation = ({
             />
           </div>
           <div>
-            <FaMicrophone
-              className="mainappDisplayConversation-icons-icon ml-2"
-              onClick={() => {
-                if (!audioStarted) {
-                  setPausedIconDisplayed(false);
-                  startRecording();
-                  setAudioStarted(true);
-                } else {
-                  stopRecording();
-                  setAudioStarted(false);
-                }
-              }}
-            />
+            {message === "" ? (
+              <div>
+                <FaMicrophone
+                  className="mainappDisplayConversation-icons-icon ml-2"
+                  onClick={() => {
+                    if (!audioStarted) {
+                      setPausedIconDisplayed(false);
+                      startRecording();
+                      setAudioStarted(true);
+                    } else {
+                      stopRecording();
+                      setAudioStarted(false);
+                    }
+                  }}
+                />
+              </div>
+            ) : (
+              <div>
+                <IoMdSend
+                  className="mainappDisplayConversation-icons-icon ml-2"
+                  onClick={(e) => callHandleSetTheMessage(message)}
+                />
+              </div>
+            )}
           </div>
         </div>
       )}

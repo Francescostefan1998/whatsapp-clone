@@ -193,8 +193,8 @@
 .audio-container-mmessage {
   display: flex;
   align-items: center;
-  padding: 1vh;
-  padding-block: 0.8vh !important;
+  padding: 8px; /* 1 * 800 / 100 */
+  padding-block: 6.4px !important;
   background-color: rgb(135, 211, 152);
   box-shadow: 0px 2px 3px rgb(0, 0, 0, 0.2);
   border-radius: 4px;

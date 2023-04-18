@@ -118,10 +118,21 @@
     border-radius: 30px;
     overflow: hidden;
     z-index: 4;
-    bottom: 4vh;
-    right: 3vh;
+    bottom: 60px;
+    right: 22px;
     cursor: pointer;
     color: white;
     font-size: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainappChatList-list-chats-single-informations-left .message {
+    font-size: 14px;
+    font-weight: 200;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

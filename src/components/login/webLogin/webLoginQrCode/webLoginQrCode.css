@@ -80,3 +80,31 @@
   padding-block: 10px;
   font-size: 18px;
 }
+
+@media (max-width: 1024px) {
+  .webLoginQrCode-left-title p {
+    font-size: 26px;
+    text-align: left;
+    padding-inline: 2%;
+    font-weight: 200;
+    color: var(--title-color);
+  }
+  .webLoginQrCode-left li {
+    color: var(--title-color);
+    text-align: left;
+    padding-block: 10px;
+    font-size: 16px;
+  }
+  .webLoginQrCode-right {
+    position: absolute;
+    top: 18vh;
+    margin-inline: auto;
+    width: 100%;
+    padding-right: 12vh;
+    padding-left: 10vh;
+  }
+  .webLoginQrCode-left {
+    width: 92%;
+    margin-top: 68%;
+  }
+}

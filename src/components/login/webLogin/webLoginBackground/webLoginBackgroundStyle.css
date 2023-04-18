@@ -47,3 +47,20 @@
   margin-bottom: 20%;
   overflow: hidden;
 }
+@media (max-width: 1024px) {
+  .webLoginBackground-middle-interface {
+    margin-inline: 0px;
+    background-color: white;
+    width: 100%;
+    border-radius: 0px;
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20%;
+    overflow: hidden;
+  }
+  .webLoginBackground-middle {
+    position: absolute;
+    margin-inline: 0%;
+    width: 100%;
+    top: 0;
+  }
+}
