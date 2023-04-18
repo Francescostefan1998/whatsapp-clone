@@ -23,7 +23,7 @@ const LoginModal = ({ setShowLogin }) => {
 
     try {
       const { data, _id } = await axios.post(
-        "http://localhost:3001/users/login",
+        "https://whatsapp-clone-backend-production-8895.up.railway.app/users/login",
         {
           email,
           password,
@@ -45,12 +45,15 @@ const LoginModal = ({ setShowLogin }) => {
     try {
       console.log("handleregister triggered");
       console.log(firstName, lastName, email, password);
-      const data = await axios.post("http://localhost:3001/users", {
-        firstName,
-        lastName,
-        email,
-        password,
-      });
+      const data = await axios.post(
+        "https://whatsapp-clone-backend-production-8895.up.railway.app/users",
+        {
+          firstName,
+          lastName,
+          email,
+          password,
+        }
+      );
       toast("Register successfull! 💪", { autoClose: 1000 });
       await handleSubmit();
     } catch (error) {}

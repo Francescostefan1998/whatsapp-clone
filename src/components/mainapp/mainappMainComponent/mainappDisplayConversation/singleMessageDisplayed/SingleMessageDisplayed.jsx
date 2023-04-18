@@ -80,7 +80,7 @@ const SingleMessageDisplayed = ({
       // Create an object with the updated hiddenFrom array
 
       const response = await fetch(
-        `http://localhost:3001/messages/${messageId}`,
+        `https://whatsapp-clone-backend-production-8895.up.railway.app/messages/${messageId}`,
         {
           method: "PUT",
           headers: {
@@ -116,7 +116,9 @@ const SingleMessageDisplayed = ({
       if (body && body._id) {
         return;
       } else {
-        const res = await fetch(`http://localhost:3001/messages`);
+        const res = await fetch(
+          `https://whatsapp-clone-backend-production-8895.up.railway.app/messages`
+        );
         const data = await res.json();
         const findBody = await data.find(
           (data, i) => data.createdAt === body.createdAt
@@ -126,7 +128,7 @@ const SingleMessageDisplayed = ({
         } else {
           if (body.sender === localStorage.getItem("userId")) {
             const res = await fetch(
-              `http://localhost:3001/messages/${localStorage.getItem(
+              `https://whatsapp-clone-backend-production-8895.up.railway.app/messages/${localStorage.getItem(
                 "userId"
               )}/${chatId}`,
               {

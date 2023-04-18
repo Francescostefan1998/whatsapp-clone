@@ -35,9 +35,12 @@ const MainappBackground = () => {
   const location = useLocation();
   useEffect(() => {}, [refChatlistOnTheLeftSideNumberUnchecked]);
   useEffect(() => {
-    const newSocket = io("http://localhost:3001", {
-      transports: ["websocket"],
-    });
+    const newSocket = io(
+      "https://whatsapp-clone-backend-production-8895.up.railway.app",
+      {
+        transports: ["websocket"],
+      }
+    );
     setSocket(newSocket);
 
     return () => {
@@ -70,7 +73,9 @@ const MainappBackground = () => {
   const fetchChatSelected = async (chatId) => {
     try {
       console.log(chatId);
-      const res = await fetch(`http://localhost:3001/chats/${chatId}`);
+      const res = await fetch(
+        `https://whatsapp-clone-backend-production-8895.up.railway.app/chats/${chatId}`
+      );
       const data = await res.json();
       setChat(data);
     } catch (error) {
@@ -78,7 +83,9 @@ const MainappBackground = () => {
     }
   };
   const postANewChat = async (data) => {
-    const getCahts = await fetch(`http://localhost:3001/chats`);
+    const getCahts = await fetch(
+      `https://whatsapp-clone-backend-production-8895.up.railway.app/chats`
+    );
     const getChatsJson = await getCahts.json();
     console.log(getChatsJson);
     const findchat = await getChatsJson.find(
@@ -91,21 +98,26 @@ const MainappBackground = () => {
     if (findchat) {
       return;
     } else {
-      const res = await fetch(`http://localhost:3001/chats`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [],
-          users: [localStorage.getItem("userId"), data._id],
-        }),
-      });
+      const res = await fetch(
+        `https://whatsapp-clone-backend-production-8895.up.railway.app/chats`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: [],
+            users: [localStorage.getItem("userId"), data._id],
+          }),
+        }
+      );
       const chatData = await res.json();
       setNexChatSelected(chatData);
     }
   };
   const fetchUserToStartChat = async (param) => {
     try {
-      const res = await fetch(`http://localhost:3001/users/${param}`);
+      const res = await fetch(
+        `https://whatsapp-clone-backend-production-8895.up.railway.app/users/${param}`
+      );
       const data = await res.json();
       setUserToStartChat(data);
       postANewChat(data);

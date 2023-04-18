@@ -6,7 +6,10 @@ export const getUserProfile = (token) => {
       },
     };
     console.log(token);
-    const res = await fetch(`http://localhost:3001/users/me`, options);
+    const res = await fetch(
+      `https://whatsapp-clone-backend-production-8895.up.railway.app/users/me`,
+      options
+    );
     const userData = await res.json();
     dispatch({
       type: "GET_USER_PROFILE",
@@ -19,7 +22,9 @@ export const getUserChats = (chatId) => {
   return async (dispatch, getState) => {
     let chats = [];
     for (let i = 0; i < chatId.length; i++) {
-      const res = await fetch(`http://localhost:3001/chats/${chatId[i]}`);
+      const res = await fetch(
+        `https://whatsapp-clone-backend-production-8895.up.railway.app/chats/${chatId[i]}`
+      );
       const userData = await res.json();
       chats = [...chats, userData];
     }
@@ -35,7 +40,9 @@ export const getUserChats = (chatId) => {
 export const getSingleChat = (chatId) => {
   console.log(chatId);
   return async (dispatch, getState) => {
-    const res = await fetch(`http://localhost:3001/chats/${chatId}`);
+    const res = await fetch(
+      `https://whatsapp-clone-backend-production-8895.up.railway.app/chats/${chatId}`
+    );
     const chat = await res.json();
 
     dispatch({

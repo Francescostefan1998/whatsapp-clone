@@ -44,7 +44,9 @@ const ShowProfileInfo = ({
 
   const fetchTheNewDetailsUserAbout = async (aboutText) => {
     const res = await fetch(
-      `http://localhost:3001/users/${localStorage.getItem("userId")}`,
+      `https://whatsapp-clone-backend-production-8895.up.railway.app/users/${localStorage.getItem(
+        "userId"
+      )}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -59,7 +61,9 @@ const ShowProfileInfo = ({
   };
   const fetchTheNewDetailsUserName = async (nameText) => {
     const res = await fetch(
-      `http://localhost:3001/users/${localStorage.getItem("userId")}`,
+      `https://whatsapp-clone-backend-production-8895.up.railway.app/users/${localStorage.getItem(
+        "userId"
+      )}`,
 
       {
         method: "PUT",
@@ -88,7 +92,9 @@ const ShowProfileInfo = ({
 
     axios
       .post(
-        `http://localhost:3001/images/${localStorage.getItem("userId")}`,
+        `https://whatsapp-clone-backend-production-8895.up.railway.app/images/${localStorage.getItem(
+          "userId"
+        )}`,
         formData,
         {
           "Content-Type": "multipart/form-data",

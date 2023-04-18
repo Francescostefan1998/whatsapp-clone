@@ -37,7 +37,9 @@ const MainappSingleChat = ({
   useEffect(() => {}, [numberToAppear]);
   const fetchSingleChat = async (chatId) => {
     try {
-      const res = await fetch(`http://localhost:3001/chats/${chatId}`);
+      const res = await fetch(
+        `https://whatsapp-clone-backend-production-8895.up.railway.app/chats/${chatId}`
+      );
       const data = await res.json();
       setChatBody(data);
       if (data) {
@@ -56,7 +58,9 @@ const MainappSingleChat = ({
       (user) => user !== localStorage.getItem("userId")
     );
     try {
-      const res = await fetch(`http://localhost:3001/users/${friendId[0]}`);
+      const res = await fetch(
+        `https://whatsapp-clone-backend-production-8895.up.railway.app/users/${friendId[0]}`
+      );
       const data = await res.json();
       setFriend(data);
     } catch (error) {
@@ -69,7 +73,7 @@ const MainappSingleChat = ({
       const messagesData = await Promise.all(
         mydata.map(async (messageId) => {
           const res = await fetch(
-            `http://localhost:3001/messages/${messageId}`
+            `https://whatsapp-clone-backend-production-8895.up.railway.app/messages/${messageId}`
           );
           return await res.json();
         })

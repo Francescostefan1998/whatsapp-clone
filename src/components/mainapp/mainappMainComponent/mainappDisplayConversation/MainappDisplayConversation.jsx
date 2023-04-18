@@ -121,10 +121,13 @@ const MainappDisplayConversation = ({
       const formData = new FormData();
       formData.append("audio", audioBlob, "recorded_audio.webm");
 
-      const response = await fetch("http://localhost:3001/audio/api/audio", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://whatsapp-clone-backend-production-8895.up.railway.app/audio/api/audio",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         const audioUrl = await response.text();
@@ -151,7 +154,7 @@ const MainappDisplayConversation = ({
           // Create an object with the updated hiddenFrom array
 
           const response = await fetch(
-            `http://localhost:3001/messages/${list[i]._id}`,
+            `https://whatsapp-clone-backend-production-8895.up.railway.app/messages/${list[i]._id}`,
             {
               method: "PUT",
               headers: {
@@ -182,7 +185,7 @@ const MainappDisplayConversation = ({
     for (let i = 0; i < chat.messages.length; i++) {
       try {
         const res = await fetch(
-          `http://localhost:3001/messages/${chat.messages[i]}`
+          `https://whatsapp-clone-backend-production-8895.up.railway.app/messages/${chat.messages[i]}`
         );
         const data = await res.json();
         myArray = [...myArray, data];
@@ -204,7 +207,7 @@ const MainappDisplayConversation = ({
   };
   const fetchUser = async () => {
     const res = await fetch(
-      `http://localhost:3001/users/${
+      `https://whatsapp-clone-backend-production-8895.up.railway.app/users/${
         chat.users.filter(
           (userId) => userId !== localStorage.getItem("userId")
         )[0]

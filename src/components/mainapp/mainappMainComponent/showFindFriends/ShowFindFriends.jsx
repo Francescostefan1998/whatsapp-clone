@@ -26,7 +26,9 @@ const ShowFindFriends = ({
   );
   const fetchAllUsers = async () => {
     try {
-      const res = await fetch("http://localhost:3001/users");
+      const res = await fetch(
+        "https://whatsapp-clone-backend-production-8895.up.railway.app/users"
+      );
       const data = await res.json();
       setListOfContact(data);
     } catch (error) {
@@ -36,7 +38,9 @@ const ShowFindFriends = ({
   const fetchMyself = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3001/users/${localStorage.getItem("userId")}`
+        `https://whatsapp-clone-backend-production-8895.up.railway.app/users/${localStorage.getItem(
+          "userId"
+        )}`
       );
       const data = await res.json();
       setMySelfProfile(data);

@@ -106,7 +106,9 @@ const MainappChatList = (
   }, [chatHistory, chatHistorySocket]);
   const fetchAndGetTheChatList = async (userId) => {
     try {
-      const res = await fetch(`http://localhost:3001/users/${userId}`);
+      const res = await fetch(
+        `https://whatsapp-clone-backend-production-8895.up.railway.app/users/${userId}`
+      );
       const data = await res.json();
       setMyUser(data);
       submitUsername(data.firstName + data.lastName);
